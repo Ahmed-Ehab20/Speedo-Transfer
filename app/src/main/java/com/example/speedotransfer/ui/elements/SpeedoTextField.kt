@@ -1,6 +1,7 @@
 package com.example.speedotransfer.ui.elements
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,8 +22,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -30,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.speedotransfer.R
+import com.example.speedotransfer.ui.theme.Danger300
 import com.example.speedotransfer.ui.theme.Gray70
 import com.example.speedotransfer.ui.theme.Gray700
 
@@ -39,7 +44,8 @@ fun SpeedoTextField(
     title: String, label: String, icon: Int=R.drawable.ic_launcher_background,
     textValue: String, onTextChange: (String) -> Unit,
     isPassword: Boolean = false,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    errorMessage:String?=null
 ) {
     var isShown by remember { mutableStateOf(false) }
     Column(modifier = modifier) {
@@ -48,29 +54,33 @@ fun SpeedoTextField(
             .fillMaxWidth(),color= Gray700)
         OutlinedTextField(
             value = textValue,
-            colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = Gray70, unfocusedBorderColor = Gray70),
+            colors = if(errorMessage==null) {OutlinedTextFieldDefaults.colors(focusedBorderColor = Gray700, unfocusedBorderColor = Gray70, focusedTextColor = Gray700, unfocusedTextColor = Gray700, focusedTrailingIconColor = Gray700, unfocusedTrailingIconColor = Gray70
+            )} else {OutlinedTextFieldDefaults.colors(focusedBorderColor = Danger300, unfocusedBorderColor = Danger300, focusedTextColor = Danger300, unfocusedTextColor = Gray700, focusedTrailingIconColor = Danger300, unfocusedTrailingIconColor = Danger300)},
+            textStyle = TextStyle(
+                fontSize = 18.sp,
+                color = Gray700
+            ),
             onValueChange = onTextChange,
             trailingIcon  = {
-                Box(modifier = modifier.padding(end=16.dp)) {
+                Box(modifier = Modifier.padding(end=16.dp)) {
                     if (isPassword) {
                         if (!isShown) {
                             Icon(
                                 painter = painterResource(id = R.drawable.visibility_off),
                                 contentDescription = title,
-                                modifier = modifier
+                                modifier = Modifier
                                     .size(24.dp)
                                     .clickable { isShown = !isShown }
                                     ,
-                                tint = Gray70
+
                             )
                         } else {
                             Icon(
                                 painter = painterResource(id = R.drawable.visibility_on),
                                 contentDescription = title,
-                                modifier = modifier
+                                modifier = Modifier
                                     .size(24.dp)
                                     .clickable { isShown = !isShown },
-                                tint = Gray70
                             )
                         }
 
@@ -78,14 +88,13 @@ fun SpeedoTextField(
                         Icon(
                             painter = painterResource(id = icon),
                             contentDescription = title,
-                            modifier = modifier.size(24.dp),
-                            tint = Gray70
+                            modifier = Modifier.size(24.dp),
                         )
                     }
                 }
             },
             placeholder = { Text(text = label, color = Gray70, fontSize = 14.sp) },
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done // Adjust as needed
             ),
@@ -93,7 +102,14 @@ fun SpeedoTextField(
             visualTransformation = if (isPassword && !isShown) {
                 PasswordVisualTransformation()
             } else VisualTransformation.None,
+
         )
+
+            Text(text = errorMessage ?: "", fontSize = 14.sp, modifier = Modifier
+                .padding(top = 8.dp)
+                .fillMaxWidth().alpha(if (errorMessage != null) 1f else 0f),color= Danger300)
+
+
     }
 }
 
@@ -101,6 +117,11 @@ fun SpeedoTextField(
 @Composable
 private fun SpeedoTextFieldPreview() {
     var textValue by remember { mutableStateOf("") }
-    SpeedoTextField(title = "Title", label = "Label",
-        icon = R.drawable.user, textValue = textValue, isPassword = true, onTextChange = {textValue=it})
+    Column (horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,modifier=Modifier.fillMaxSize()){
+        SpeedoTextField(title = "Title", label = "Label",
+            icon = R.drawable.user, textValue = textValue, isPassword = true, onTextChange = {textValue=it},modifier=Modifier.fillMaxWidth(0.9f))
+        SpeedoTextField(title = "Title", label = "Label",
+            icon = R.drawable.user, textValue = textValue, isPassword = true, onTextChange = {textValue=it},modifier=Modifier.fillMaxWidth(0.9f), errorMessage = "test")
+    }
+    TODO("Add ability to pass keyboardType of textfield")
 }
