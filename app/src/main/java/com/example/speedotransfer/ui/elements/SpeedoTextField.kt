@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,7 +46,8 @@ fun SpeedoTextField(
     textValue: String, onTextChange: (String) -> Unit,
     isPassword: Boolean = false,
     modifier: Modifier = Modifier,
-    errorMessage:String?=null
+    errorMessage:String?=null,
+    type: KeyboardType = KeyboardType.Text
 ) {
     var isShown by remember { mutableStateOf(false) }
     Column(modifier = modifier) {
@@ -59,7 +61,8 @@ fun SpeedoTextField(
             textStyle = TextStyle(
                 fontSize = 18.sp,
                 color = Gray700
-            ),
+            )
+            ,
             onValueChange = onTextChange,
             trailingIcon  = {
                 Box(modifier = Modifier.padding(end=16.dp)) {
@@ -96,7 +99,8 @@ fun SpeedoTextField(
             placeholder = { Text(text = label, color = Gray70, fontSize = 14.sp) },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done // Adjust as needed
+                imeAction = ImeAction.Done, // Adjust as needed
+                keyboardType = type
             ),
             singleLine = true,
             visualTransformation = if (isPassword && !isShown) {
@@ -104,7 +108,8 @@ fun SpeedoTextField(
             } else VisualTransformation.None,
 
         )
-
+        //TODO ensure how i should implement this, whether i should hide it or completely remove it
+            if(errorMessage!=null)
             Text(text = errorMessage ?: "", fontSize = 14.sp, modifier = Modifier
                 .padding(top = 8.dp)
                 .fillMaxWidth().alpha(if (errorMessage != null) 1f else 0f),color= Danger300)
@@ -119,9 +124,8 @@ private fun SpeedoTextFieldPreview() {
     var textValue by remember { mutableStateOf("") }
     Column (horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,modifier=Modifier.fillMaxSize()){
         SpeedoTextField(title = "Title", label = "Label",
-            icon = R.drawable.user, textValue = textValue, isPassword = true, onTextChange = {textValue=it},modifier=Modifier.fillMaxWidth(0.9f))
+            icon = R.drawable.user, textValue = textValue, isPassword = true, onTextChange = {textValue=it},modifier=Modifier.fillMaxWidth(0.9f), type = KeyboardType.Email)
         SpeedoTextField(title = "Title", label = "Label",
             icon = R.drawable.user, textValue = textValue, isPassword = true, onTextChange = {textValue=it},modifier=Modifier.fillMaxWidth(0.9f), errorMessage = "test")
     }
-    TODO("Add ability to pass keyboardType of textfield")
 }
