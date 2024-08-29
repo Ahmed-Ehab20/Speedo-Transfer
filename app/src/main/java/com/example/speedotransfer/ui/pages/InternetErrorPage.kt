@@ -34,9 +34,26 @@ fun InternetErrorPage(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
     ) {
-        Image(painter = painterResource(id = R.drawable.no_internet), contentDescription = "No internet",modifier=modifier.padding(bottom=54.dp))
-        Text(text="Internet connection \n disabled...",fontSize= 24.sp, fontWeight = FontWeight.W600, lineHeight = 36.sp, modifier = modifier.fillMaxWidth(0.9f).padding(bottom=32.dp), textAlign = TextAlign.Center)
-        SpeedoButton(label = "Update", onClick = { /*TODO*/ }, modifier = modifier.fillMaxWidth(0.9f))
+        Image(
+            painter = painterResource(id = R.drawable.no_internet),
+            contentDescription = "No internet",
+            modifier = modifier.padding(bottom = 54.dp)
+        )
+        Text(
+            text = "Internet connection \n disabled...",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.W600,
+            lineHeight = 36.sp,
+            modifier = modifier
+                .fillMaxWidth(0.9f)
+                .padding(bottom = 32.dp),
+            textAlign = TextAlign.Center
+        )
+        SpeedoButton(
+            label = "Update",
+            onClick = { /*TODO*/ },
+            modifier = modifier.fillMaxWidth(0.9f)
+        )
     }
 }
 
