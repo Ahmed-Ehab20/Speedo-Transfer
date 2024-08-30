@@ -38,13 +38,15 @@ fun BottomNavigationBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
     Surface(
         color = Color.White,
         elevation = 8.dp,
-        shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp)
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
     ) {
         BottomNavigation(
             backgroundColor = Color.Transparent,
             elevation = 0.dp
         ) {
             navItems.forEachIndexed { index, navItem ->
+                val itemWeight = if (navItem.label == "Transactions") 1.5f else if (navItem.label == "My cards"||navItem.label=="Transfer")  1.3f else 0.9f
+
                 BottomNavigationItem(
                     icon = {
                         Icon(
@@ -64,7 +66,8 @@ fun BottomNavigationBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
                     selected = selectedItem == index,
                     onClick = { onItemSelected(index) },
                     selectedContentColor = Primary300,
-                    unselectedContentColor = Color.Gray
+                    unselectedContentColor = Color.Gray,
+                    modifier = Modifier.weight(itemWeight)
                 )
             }
         }
