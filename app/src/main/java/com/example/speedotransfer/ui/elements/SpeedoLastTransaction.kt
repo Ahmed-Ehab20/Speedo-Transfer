@@ -109,6 +109,7 @@ fun SpeedoLastTransaction(
                         modifier = Modifier
                             .padding(top=8.dp),
                         fontWeight = FontWeight.W500,
+                        fontSize = 16.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
 
