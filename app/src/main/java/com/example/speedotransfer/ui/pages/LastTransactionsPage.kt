@@ -33,7 +33,7 @@ fun LastTransactionsPage(transactions:List<Transaction> = emptyList(),modifier: 
         .fillMaxSize()
         .background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)), horizontalAlignment = Alignment.CenterHorizontally) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(top=78.dp),
+            modifier = Modifier.fillMaxWidth(0.9f).padding(top=78.dp),
             verticalAlignment = Alignment.CenterVertically // Align items vertically center
         ) {
             Image(
@@ -45,7 +45,7 @@ fun LastTransactionsPage(transactions:List<Transaction> = emptyList(),modifier: 
                 text = "Transactions",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.W500,
-                modifier = Modifier.align(Alignment.CenterVertically) // Align text vertically center
+                modifier = Modifier.align(Alignment.CenterVertically).padding(end=24.dp) // Align text vertically center
             )
             Spacer(modifier = Modifier.weight(1f)) // Ensures the text remains centered
         }
