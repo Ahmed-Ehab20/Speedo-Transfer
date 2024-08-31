@@ -49,9 +49,8 @@ fun SignUp(modifier: Modifier = Modifier) {
 
         ) {
         Text(
-            text = "Sign Up", modifier = modifier.padding(top = 8.dp, bottom = 55.dp),
-            fontSize = 20.sp
-
+            text = "Sign Up", modifier = modifier.padding(top = 18.dp, bottom = 55.dp),
+            fontSize = 20.sp, fontWeight = FontWeight.W500, fontFamily = FontFamily.Serif
         )
         Text(
             text = "Speedo Transfer ",
