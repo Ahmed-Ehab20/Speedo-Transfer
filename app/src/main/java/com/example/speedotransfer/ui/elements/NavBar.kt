@@ -1,5 +1,6 @@
 package com.example.speedotransfer.ui.elements
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -18,7 +19,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.text.font.FontWeight
 import com.example.speedotransfer.R
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.speedotransfer.ui.theme.Primary300
@@ -38,13 +38,17 @@ fun BottomNavigationBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
     Surface(
         color = Color.White,
         elevation = 8.dp,
-        shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp)
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+        modifier = Modifier.height(80.dp) // Adjust the height here
     ) {
         BottomNavigation(
             backgroundColor = Color.Transparent,
-            elevation = 0.dp
+            elevation = 0.dp,
+            modifier = Modifier.height(80.dp) // Adjust the height here
         ) {
             navItems.forEachIndexed { index, navItem ->
+                val itemWeight = if (navItem.label == "Transactions") 1.5f else if (navItem.label == "My cards" || navItem.label == "Transfer") 1.3f else 0.9f
+
                 BottomNavigationItem(
                     icon = {
                         Icon(
@@ -64,7 +68,8 @@ fun BottomNavigationBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
                     selected = selectedItem == index,
                     onClick = { onItemSelected(index) },
                     selectedContentColor = Primary300,
-                    unselectedContentColor = Color.Gray
+                    unselectedContentColor = Color.Gray,
+                    modifier = Modifier.weight(itemWeight)
                 )
             }
         }

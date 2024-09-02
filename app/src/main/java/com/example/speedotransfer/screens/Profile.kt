@@ -3,13 +3,7 @@ package com.example.speedotransfer.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -20,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.speedotransfer.R
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -30,7 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.InformationItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen() {
     val gradientBrush = Brush.verticalGradient(
@@ -39,90 +32,100 @@ fun ProfileScreen() {
         endY = Float.POSITIVE_INFINITY
     )
 
+    var selectedIndex by remember { mutableStateOf(4) }
+
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        "Profile",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
-                            contentDescription = "Back"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent
-                )
-            )
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(brush = gradientBrush)
-                .padding(paddingValues)
-        ) {
-            Column(
+        content = { paddingValues ->
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 24.dp),
-                verticalArrangement = Arrangement.SpaceBetween
+                    .background(brush = gradientBrush)
+                    .padding(paddingValues)
             ) {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    UserProfileHeader(userName = "Ahmed Ehab")
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp, vertical = 24.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        IconButton(onClick = {}) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
+                                contentDescription = "Back"
+                            )
+                        }
+                        Text(
+                            "Profile",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = 42.dp)
+                        )
+                    }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+                        UserProfileHeader(userName = "Asmaa Dosuky")
 
-                    InformationItem(
-                        icon = ImageVector.vectorResource(id = R.drawable.person),
-                        title = "Personal information",
-                        subtitle = "Your information"
-                    )
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                        InformationItem(
+                            icon = ImageVector.vectorResource(id = R.drawable.person),
+                            title = "Personal information",
+                            subtitle = "Your information",
+                            modifier = Modifier.fillMaxWidth() // Pass the modifier here
+                        )
 
-                    InformationItem(
-                        icon = ImageVector.vectorResource(id = R.drawable.setting),
-                        title = "Setting",
-                        subtitle = "Change your settings"
-                    )
+                        Spacer(modifier = Modifier.height(8.dp))
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                        InformationItem(
+                            icon = ImageVector.vectorResource(id = R.drawable.setting),
+                            title = "Setting",
+                            subtitle = "Change your settings",
+                            modifier = Modifier.fillMaxWidth() // Pass the modifier here
+                        )
 
-                    InformationItem(
-                        icon = ImageVector.vectorResource(id = R.drawable.history),
-                        title = "Payment history",
-                        subtitle = "View your transactions"
-                    )
+                        Spacer(modifier = Modifier.height(8.dp))
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                        InformationItem(
+                            icon = ImageVector.vectorResource(id = R.drawable.history),
+                            title = "Payment history",
+                            subtitle = "View your transactions",
+                            modifier = Modifier.fillMaxWidth() // Pass the modifier here
+                        )
 
-                    InformationItem(
-                        icon = ImageVector.vectorResource(id = R.drawable.favorite),
-                        title = "My Favourite list",
-                        subtitle = "View your favourites"
-                    )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        InformationItem(
+                            icon = ImageVector.vectorResource(id = R.drawable.favorite),
+                            title = "My Favourite list",
+                            subtitle = "View your favourites",
+                            modifier = Modifier.fillMaxWidth() // Pass the modifier here
+                        )
+                    }
                 }
-
-                var selectedIndex by remember { mutableIntStateOf(0) }
-
-                BottomNavigationBar(
-                    selectedItem = selectedIndex,
-                    onItemSelected = { index -> selectedIndex = index }
-                )
             }
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                selectedItem = selectedIndex,
+                onItemSelected = { index -> selectedIndex = index }
+            )
         }
-    }
+    )
 }
+
 
 @Composable
 fun UserProfileHeader(userName: String) {
