@@ -35,7 +35,6 @@ import com.example.speedotransfer.ui.theme.Gray700
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.ui.theme.YellowGradientStart
-import com.google.android.ads.mediationtestsuite.dataobjects.Country
 import kotlinx.coroutines.launch
 
 
