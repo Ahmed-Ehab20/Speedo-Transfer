@@ -27,7 +27,7 @@ import com.example.speedotransfer.ui.elements.InformationItem
 @Composable
 fun ProfileScreen() {
     val gradientBrush = Brush.verticalGradient(
-        colors = listOf(Color(0xFFFFFFFF), Color(0xFFFFEAEE)),
+        colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
         endY = Float.POSITIVE_INFINITY
     )
