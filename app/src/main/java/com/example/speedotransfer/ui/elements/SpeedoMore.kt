@@ -23,8 +23,8 @@ import com.example.speedotransfer.ui.theme.Gray200
 import com.example.speedotransfer.ui.theme.Gray40
 
 @Composable
-fun SpeedoMore(icon:Int,text:String,isFinal:Boolean = false,onClick:()->Unit= {},modifier: Modifier = Modifier) {
-    Column(modifier=modifier.clickable { onClick }) {
+fun SpeedoMore(icon:Int,text:String,modifier: Modifier = Modifier,onClick:()->Unit= {},isFinal:Boolean = false) {
+    Column(modifier=modifier.clickable { onClick() }) {
         Row(verticalAlignment = Alignment.CenterVertically,modifier=Modifier.padding(vertical = 16.dp)) {
             //TODO add font Poppins
             Icon(painter = painterResource(id = icon), contentDescription = text,modifier=Modifier.size(24.dp), tint = Gray200)
