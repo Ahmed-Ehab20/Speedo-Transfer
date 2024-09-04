@@ -62,7 +62,7 @@ fun SpeedoTransaction(
                 verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .height(61.dp)
-                    .fillMaxWidth(0.65f)
+                    .fillMaxWidth(0.6f)
             ) {
                 Text(
                     text = name,
@@ -97,6 +97,7 @@ fun SpeedoTransaction(
                     .padding(start = 8.dp),
                 fontWeight = FontWeight.W500,
                 maxLines = 1,
+                fontSize = 16.sp,
                 overflow = TextOverflow.Ellipsis,
 
             )
@@ -114,7 +115,7 @@ fun SpeedoTransaction(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun SpeedoTransactionPreview() {
-SpeedoTransaction("Ahmed Mohamed Mohammed","50000","Today 11:00","Received","Visa . Mater Card . 1234",modifier=Modifier.fillMaxWidth(0.8f))
+SpeedoTransaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234",modifier=Modifier.fillMaxWidth(0.8f))
 }
 
 fun formatNumberWithCommas(numberString: String): String {
