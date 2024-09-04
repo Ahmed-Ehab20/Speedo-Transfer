@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.speedotransfer.R
 import com.example.speedotransfer.model.Transaction
 import com.example.speedotransfer.ui.elements.SpeedoLastTransaction
+import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.YellowGradientStart
 
@@ -32,25 +33,11 @@ fun LastTransactionsPage(transactions:List<Transaction> = emptyList(),modifier: 
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)), horizontalAlignment = Alignment.CenterHorizontally) {
-        Row(
-            modifier = Modifier.fillMaxWidth(0.9f).padding(top=78.dp),
-            verticalAlignment = Alignment.CenterVertically // Align items vertically center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.back_arrow),
-                contentDescription = "Back"
-            )
-            Spacer(modifier = Modifier.weight(1f)) // Pushes the text to the center
-            Text(
-                text = "Transactions",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W500,
-                modifier = Modifier.align(Alignment.CenterVertically).padding(end=24.dp) // Align text vertically center
-            )
-            Spacer(modifier = Modifier.weight(1f)) // Ensures the text remains centered
-        }
+        SpeedoTitleCard(title = "Transactions")
         Text(text = "Your Last Transactions", fontSize = 20.sp, fontWeight = FontWeight.W600,modifier=Modifier.padding(top=32.25.dp))
-        LazyColumn (modifier=Modifier.fillMaxWidth(0.9f).padding(top=16.dp)){
+        LazyColumn (modifier= Modifier
+            .fillMaxWidth(0.9f)
+            .padding(top = 16.dp)){
             items(transactions){
                 SpeedoLastTransaction(
                     name = it.name,

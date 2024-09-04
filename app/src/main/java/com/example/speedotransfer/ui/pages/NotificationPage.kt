@@ -23,30 +23,19 @@ import androidx.compose.ui.unit.sp
 import com.example.speedotransfer.R
 import com.example.speedotransfer.model.Notification
 import com.example.speedotransfer.ui.elements.SpeedoNotification
+import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.YellowGradientStart
 
 @Composable
 fun NotificationPage(notifications:List<Notification> = emptyList(), modifier: Modifier = Modifier) {
-    Column(modifier=modifier.background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)).fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Row(
-            modifier = Modifier.fillMaxWidth(0.9f).padding(top=78.dp),
-            verticalAlignment = Alignment.CenterVertically // Align items vertically center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.back_arrow),
-                contentDescription = "Back"
-            )
-            Spacer(modifier = Modifier.weight(1f)) // Pushes the text to the center
-            Text(
-                text = "Notifications",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W500,
-                modifier = Modifier.align(Alignment.CenterVertically).padding(end=24.dp) // Align text vertically center
-            )
-            Spacer(modifier = Modifier.weight(1f)) // Ensures the text remains centered
-        }
-        LazyColumn(modifier=Modifier.fillMaxWidth(0.9f).padding(top = 24.dp)) {
+    Column(modifier= modifier
+        .background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd))
+        .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        SpeedoTitleCard(title = "Notifications")
+        LazyColumn(modifier= Modifier
+            .fillMaxWidth(0.9f)
+            .padding(top = 24.dp)) {
             items(notifications){
                 SpeedoNotification(notificationTitle = it.notificationTitle, notificationBody = it.notificationBody, notificationDate = it.notificationDate, modifier=Modifier.padding(bottom=16.dp))
             }
