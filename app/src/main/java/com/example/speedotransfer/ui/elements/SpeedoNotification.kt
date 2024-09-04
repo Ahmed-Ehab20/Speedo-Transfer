@@ -29,15 +29,15 @@ import com.example.speedotransfer.ui.theme.Primary50
 
 @Composable
 fun SpeedoNotification(notificationTitle:String,notificationBody:String,notificationDate:String,modifier: Modifier = Modifier) {
-    Card(colors=CardDefaults.cardColors(containerColor = Primary50), elevation = CardDefaults.cardElevation(defaultElevation = 16.dp), modifier = modifier, shape = RoundedCornerShape(8.dp)) {
+    Card(colors=CardDefaults.cardColors(containerColor = Primary50), elevation = CardDefaults.cardElevation(defaultElevation = 2.dp), modifier = modifier, shape = RoundedCornerShape(8.dp)) {
         Row(modifier=Modifier.padding(vertical=16.dp,horizontal=8.dp)) {
             Card(colors=CardDefaults.cardColors(containerColor = Primary50), elevation = CardDefaults.cardElevation(defaultElevation = 4.dp), shape = RoundedCornerShape(8.dp)) {
                 Image(painter = painterResource(id = R.drawable.notification_icon), contentDescription = "Notification",modifier=Modifier.padding(12.dp))
             }
             Column(modifier=Modifier.padding(start=16.dp)) {
-                Text(text = notificationTitle, fontSize = 16.sp, fontWeight = FontWeight.W500,color= Gray900, modifier = Modifier.padding(bottom=4.dp))
-                Text(text = notificationBody, fontSize = 14.sp, fontWeight = FontWeight.W400,color= Gray700, modifier = Modifier.padding(bottom=4.dp))
-                Text(text = notificationDate, fontSize = 14.sp, fontWeight = FontWeight.W400,color= Gray100, modifier = Modifier.padding(bottom=4.dp))
+                Text(text = notificationTitle, fontSize = 16.sp, fontWeight = FontWeight.W500,color= Gray900)
+                Text(text = notificationBody, fontSize = 14.sp, fontWeight = FontWeight.W400,color= Gray700)
+                Text(text = notificationDate, fontSize = 14.sp, fontWeight = FontWeight.W400,color= Gray100)
             }
         }
     }
