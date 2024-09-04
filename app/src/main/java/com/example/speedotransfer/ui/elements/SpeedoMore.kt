@@ -1,5 +1,6 @@
 package com.example.speedotransfer.ui.elements
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,14 +23,15 @@ import com.example.speedotransfer.ui.theme.Gray200
 import com.example.speedotransfer.ui.theme.Gray40
 
 @Composable
-fun SpeedoMore(icon:Int,text:String,isFinal:Boolean = false,modifier: Modifier = Modifier) {
-    Column(modifier=modifier) {
+fun SpeedoMore(icon:Int,text:String,isFinal:Boolean = false,onClick:()->Unit= {},modifier: Modifier = Modifier) {
+    Column(modifier=modifier.clickable { onClick }) {
         Row(verticalAlignment = Alignment.CenterVertically,modifier=Modifier.padding(vertical = 16.dp)) {
             //TODO add font Poppins
             Icon(painter = painterResource(id = icon), contentDescription = text,modifier=Modifier.size(24.dp), tint = Gray200)
             Text(text = text,fontSize=16.sp,fontWeight= FontWeight.W500,modifier=Modifier.padding(start = 8.dp),color= Gray200)
             Spacer(modifier = Modifier.weight(1f))
-            Icon(painter = painterResource(id = R.drawable.next_arrow), contentDescription = "Next" , tint = Gray200)
+            if(!isFinal)
+                Icon(painter = painterResource(id = R.drawable.next_arrow), contentDescription = "Next" , tint = Gray200)
         }
         if (!isFinal)
             HorizontalDivider(color = Gray40 )
