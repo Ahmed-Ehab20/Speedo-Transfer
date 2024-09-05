@@ -1,3 +1,6 @@
+package com.example.speedotransfer.screens
+
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -12,12 +15,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
 @Composable
-fun ChangePasswordScreen() {
+fun ChangePasswordScreen(navController: NavController) {
     var currentPasswordVisible by remember { mutableStateOf(false) }
     var newPasswordVisible by remember { mutableStateOf(false) }
 
@@ -31,6 +36,12 @@ fun ChangePasswordScreen() {
     )
 
     Scaffold(
+        topBar = {
+            SpeedoTitleCard(
+                title = "Change Password",
+                navController = navController // Pass navController to enable back navigation
+            )
+        },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -43,8 +54,6 @@ fun ChangePasswordScreen() {
                         .fillMaxSize()
                         .padding(horizontal = 16.dp, vertical = 24.dp)
                 ) {
-                    SpeedoTitleCard(title = "Change Password")
-
                     Spacer(modifier = Modifier.height(24.dp))
 
                     OutlinedTextField(
@@ -122,5 +131,5 @@ fun ChangePasswordScreen() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ChangePasswordScreenPreview() {
-    ChangePasswordScreen()
+    ChangePasswordScreen(rememberNavController())
 }

@@ -1,3 +1,4 @@
+// ProfileInformationScreen.kt
 package com.example.speedotransfer.screens
 
 import androidx.compose.foundation.background
@@ -7,14 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
 @Composable
-fun ProfileInformationScreen() {
+fun ProfileInformationScreen(navController: NavController) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
@@ -22,6 +24,9 @@ fun ProfileInformationScreen() {
     )
 
     Scaffold(
+        topBar = {
+            SpeedoTitleCard(title = "Profile Information", navController = navController)
+        },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -34,9 +39,6 @@ fun ProfileInformationScreen() {
                         .fillMaxSize()
                         .padding(horizontal = 16.dp, vertical = 24.dp)
                 ) {
-                    // Use SpeedoTitleCard here for the title
-                    SpeedoTitleCard(title = "Profile information")
-
                     Spacer(modifier = Modifier.height(28.dp))
 
                     ProfileInfoItem(label = "Full Name", value = "Asmaa Dosuky")
@@ -72,5 +74,6 @@ fun ProfileInfoItem(label: String, value: String) {
 @Preview(showBackground = true)
 @Composable
 fun ProfileInformationScreenPreview() {
-    ProfileInformationScreen()
+    // Provide a mock NavController for preview
+    ProfileInformationScreen(navController = rememberNavController())
 }
