@@ -36,7 +36,6 @@ fun SettingsScreen() {
                         .fillMaxSize()
                         .padding(horizontal = 16.dp, vertical = 24.dp)
                 ) {
-                    // Use SpeedoTitleCard for the title
                     SpeedoTitleCard(title = "Setting")
 
                     Spacer(modifier = Modifier.height(28.dp))

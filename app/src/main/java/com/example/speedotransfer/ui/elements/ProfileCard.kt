@@ -24,12 +24,12 @@ fun InformationItem(
     icon: ImageVector,
     title: String,
     subtitle: String,
-    modifier: Modifier = Modifier // Add the modifier parameter
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 0.dp, vertical = 12.dp), // Apply modifier here
+            .padding(horizontal = 0.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

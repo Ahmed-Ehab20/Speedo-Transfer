@@ -1,6 +1,5 @@
 package com.example.speedotransfer.ui.elements
 
-import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,7 +17,7 @@ import com.example.speedotransfer.ui.theme.Primary300
 @Composable
 fun SpeedoButton(
     label:String,
-    onClick: () -> Unit, // Parameter to accept the click action
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Button(

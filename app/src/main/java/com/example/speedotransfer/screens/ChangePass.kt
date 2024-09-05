@@ -43,12 +43,10 @@ fun ChangePasswordScreen() {
                         .fillMaxSize()
                         .padding(horizontal = 16.dp, vertical = 24.dp)
                 ) {
-                    // SpeedoTitleCard for the title
                     SpeedoTitleCard(title = "Change Password")
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Current Password Field
                     OutlinedTextField(
                         value = currentPassword,
                         onValueChange = { currentPassword = it },
@@ -56,27 +54,30 @@ fun ChangePasswordScreen() {
                         placeholder = { Text("Enter your current password") },
                         visualTransformation = if (currentPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
-                            IconButton(onClick = { currentPasswordVisible = !currentPasswordVisible }) {
+                            IconButton(onClick = {
+                                currentPasswordVisible = !currentPasswordVisible
+                            }) {
                                 Icon(
-                                    imageVector = if (currentPasswordVisible) ImageVector.vectorResource(id = R.drawable.visibility_on) else ImageVector.vectorResource(id = R.drawable.visibility_off),
+                                    imageVector = if (currentPasswordVisible) ImageVector.vectorResource(
+                                        id = R.drawable.visibility_on
+                                    ) else ImageVector.vectorResource(id = R.drawable.visibility_off),
                                     contentDescription = if (currentPasswordVisible) "Hide Password" else "Show Password"
                                 )
                             }
                         },
                         colors = TextFieldDefaults.colors(
-                            focusedTextColor = Color.Black, // Text color
-                            unfocusedTextColor = Color.Black, // Text color
-                            focusedContainerColor = Color.White, // Background color for the focused state
-                            unfocusedContainerColor = Color.White // Background color for the unfocused state
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White) // Ensure the background color is applied
+                            .background(Color.White)
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // New Password Field
                     OutlinedTextField(
                         value = newPassword,
                         onValueChange = { newPassword = it },
@@ -86,29 +87,29 @@ fun ChangePasswordScreen() {
                         trailingIcon = {
                             IconButton(onClick = { newPasswordVisible = !newPasswordVisible }) {
                                 Icon(
-                                    imageVector = if (newPasswordVisible) ImageVector.vectorResource(id = R.drawable.visibility_on) else ImageVector.vectorResource(id = R.drawable.visibility_off),
+                                    imageVector = if (newPasswordVisible) ImageVector.vectorResource(
+                                        id = R.drawable.visibility_on
+                                    ) else ImageVector.vectorResource(id = R.drawable.visibility_off),
                                     contentDescription = if (newPasswordVisible) "Hide Password" else "Show Password"
                                 )
                             }
                         },
                         colors = TextFieldDefaults.colors(
-                            focusedTextColor = Color.Black, // Text color
-                            unfocusedTextColor = Color.Black, // Text color
-                            focusedContainerColor = Color.White, // Background color for the focused state
-                            unfocusedContainerColor = Color.White // Background color for the unfocused state
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White) // Ensure the background color is applied
+                            .background(Color.White)
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Save Button
                     SpeedoButton(
                         label = "Save",
                         onClick = {
-                            // Add save functionality here
                         },
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )

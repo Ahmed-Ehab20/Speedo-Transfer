@@ -18,20 +18,22 @@ import com.example.speedotransfer.R
 @Composable
 fun SpeedoTitleCard(title: String, modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier.fillMaxWidth(0.9f), // Removed the top padding
+        modifier = modifier.fillMaxWidth(0.9f),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(id = R.drawable.back_arrow),
             contentDescription = "Back"
         )
-        Spacer(modifier = Modifier.weight(1f)) // Pushes the text to the center
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = title,
             fontSize = 20.sp,
             fontWeight = FontWeight.W500,
-            modifier = Modifier.align(Alignment.CenterVertically).padding(end = 24.dp) // Align text vertically center
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(end = 24.dp)
         )
-        Spacer(modifier = Modifier.weight(1f)) // Ensures the text remains centered
+        Spacer(modifier = Modifier.weight(1f))
     }
 }
