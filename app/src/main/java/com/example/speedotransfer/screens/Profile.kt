@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.InformationItem
+import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
 @Composable
 fun ProfileScreen() {
@@ -47,29 +48,7 @@ fun ProfileScreen() {
                         .fillMaxSize()
                         .padding(horizontal = 16.dp, vertical = 24.dp)
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        IconButton(onClick = {}) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back),
-                                contentDescription = "Back"
-                            )
-                        }
-                        Text(
-                            "Profile",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(end = 42.dp)
-                        )
-                    }
+                    SpeedoTitleCard(title = "Profile", modifier = Modifier.padding(vertical = 16.dp))
 
                     Column(
                         modifier = Modifier
@@ -84,7 +63,7 @@ fun ProfileScreen() {
                             icon = ImageVector.vectorResource(id = R.drawable.person),
                             title = "Personal information",
                             subtitle = "Your information",
-                            modifier = Modifier.fillMaxWidth() // Pass the modifier here
+                            modifier = Modifier.fillMaxWidth()
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -93,7 +72,7 @@ fun ProfileScreen() {
                             icon = ImageVector.vectorResource(id = R.drawable.setting),
                             title = "Setting",
                             subtitle = "Change your settings",
-                            modifier = Modifier.fillMaxWidth() // Pass the modifier here
+                            modifier = Modifier.fillMaxWidth()
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -102,7 +81,7 @@ fun ProfileScreen() {
                             icon = ImageVector.vectorResource(id = R.drawable.history),
                             title = "Payment history",
                             subtitle = "View your transactions",
-                            modifier = Modifier.fillMaxWidth() // Pass the modifier here
+                            modifier = Modifier.fillMaxWidth()
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -111,7 +90,7 @@ fun ProfileScreen() {
                             icon = ImageVector.vectorResource(id = R.drawable.favorite),
                             title = "My Favourite list",
                             subtitle = "View your favourites",
-                            modifier = Modifier.fillMaxWidth() // Pass the modifier here
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                 }
