@@ -25,8 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SpeedoTransferTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                }
+
             }
         }
     }
