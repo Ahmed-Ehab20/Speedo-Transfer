@@ -62,7 +62,6 @@ fun TransferSuccessPage(
             // Stepper with 3 steps (Amount, Confirmation, Payment)
             Stepper(currentStep = 3)
 
-
             // Centered checkmark
             Column(
                 modifier = Modifier
@@ -91,6 +90,35 @@ fun TransferSuccessPage(
             // From & To card information
             TransactionCard(fromName, fromAccount, toName, toAccount)
 
+
+            // Transfer amount section (NEW SECTION)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Transfer amount",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Black
+                )
+                Text(
+                    text = "$amount $currency",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Gray
+                )
+            }
+
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(0.9f),
+                thickness = 1.dp,
+                color = Color.Gray.copy(alpha = 0.5f)
+            )
+
             Spacer(modifier = Modifier.height(24.dp))
 
             // Buttons in a column
@@ -98,33 +126,27 @@ fun TransferSuccessPage(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Buttons in a column
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    // "Back to Home" Button using SpeedoButton
-                    SpeedoButton(
-                        label = "Back to Home",
-                        onClick = { /* Navigate to Home Screen */ },
-                        backgroundColor = Primary300,
-                        textColor = Color.White,
-                        modifier = Modifier
-                            .fillMaxWidth(0.9f)
-                    )
+                // "Back to Home" Button using SpeedoButton
+                SpeedoButton(
+                    label = "Back to Home",
+                    onClick = { /* Navigate to Home Screen */ },
+                    backgroundColor = Primary300,
+                    textColor = Color.White,
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                )
 
-                    // "Add to Favorite" Button using SpeedoButton with Transparent Background
-                    SpeedoButton(
-                        label = "Add to Favorite",
-                        onClick = { /* Add to Favorite Logic */ },
-                        backgroundColor = Color.Transparent,
-                        textColor = Primary300,
-                        borderColor = Primary300,
-                        modifier = Modifier
-                            .fillMaxWidth(0.9f)
-                            .padding(vertical = 8.dp)
-                    )
-                }
+                // "Add to Favorite" Button using SpeedoButton with Transparent Background
+                SpeedoButton(
+                    label = "Add to Favorite",
+                    onClick = { /* Add to Favorite Logic */ },
+                    backgroundColor = Color.Transparent,
+                    textColor = Primary300,
+                    borderColor = Primary300,
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .padding(vertical = 8.dp)
+                )
             }
         }
     }
