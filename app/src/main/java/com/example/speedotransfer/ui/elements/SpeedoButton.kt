@@ -40,7 +40,7 @@ fun SpeedoButton(
             text = label,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = textColor // Explicitly set the text color here
+            color = textColor
         )
     }
 }

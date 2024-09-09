@@ -24,19 +24,17 @@ fun SpeedoTitleCard(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 16.dp), // Top padding
+            .padding(top = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        navController?.let {
-            Image(
-                painter = painterResource(id = R.drawable.back_arrow),
-                contentDescription = "Back",
-                modifier = Modifier
-                    .padding(start = 4.dp) // Small padding from the start
-                    .clickable { it.popBackStack() }
-                    .padding(end = 16.dp) // Padding between back button and text
-            )
-        }
+        Image(
+            painter = painterResource(id = R.drawable.back_arrow),
+            contentDescription = "Back",
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .clickable { navController?.popBackStack() }
+                .padding(end = 16.dp)
+        )
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -46,7 +44,7 @@ fun SpeedoTitleCard(
             fontWeight = FontWeight.W500,
             modifier = Modifier
                 .align(Alignment.CenterVertically)
-                .padding(end = 40.dp) // Padding from the end (right side)
+                .padding(end = 40.dp)
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -58,6 +56,3 @@ fun SpeedoTitleCard(
 private fun SpeedoTitleCardPreview() {
     SpeedoTitleCard(title = "Profile Information", navController = null)
 }
-
-
-

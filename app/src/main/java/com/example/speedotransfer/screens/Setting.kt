@@ -75,6 +75,5 @@ fun SettingsScreen(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun SettingsScreenPreview() {
-    // Provide a mock NavController for preview purposes
     SettingsScreen(navController = rememberNavController())
 }
