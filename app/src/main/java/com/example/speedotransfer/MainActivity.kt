@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.speedotransfer.navigation.AppNavigation
+import com.example.speedotransfer.ui.pages.SignInScreen
 import com.example.speedotransfer.ui.pages.SignUp
 import com.example.speedotransfer.ui.pages.SignUpCountryAndDate
 import com.example.speedotransfer.ui.theme.SpeedoTransferTheme
@@ -22,29 +24,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             SpeedoTransferTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-    SignUp()
+
+                    AppNavigation()
+
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SpeedoTransferTheme {
-        Greeting("Android")
-    }
-}

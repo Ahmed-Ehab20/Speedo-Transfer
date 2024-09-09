@@ -1,6 +1,7 @@
 package com.example.speedotransfer.ui.pages
 
 import android.graphics.fonts.Font
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +30,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.ViewModel.SignUpViewModel
+import com.example.speedotransfer.network.retrofit.login
+import com.example.speedotransfer.network.retrofit.register
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTextField
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
@@ -43,15 +50,14 @@ fun isEmailValid(email: String): Boolean {
 
 
 @Composable
-fun SignUp(modifier: Modifier = Modifier) {
+fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
+
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
 
 
-    val firstFieldFocusRequester = remember { FocusRequester() }
-    val secondFieldFocusRequester = remember { FocusRequester() }
 
 
 
@@ -139,7 +145,17 @@ fun SignUp(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(0.9f),
         )
         SpeedoButton(
-            label = "Sign up", onClick = { }, modifier = Modifier
+            label = "Sign up", onClick = {
+//                register(fullName, email,password,confirmPassword) { responseMessage ->
+//                    message = responseMessage
+//                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+//
+//                }
+                navController.navigate("SignUpCountryAndDate")
+
+
+
+                }, modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(top = 32.dp),
             enabled = isButtonEnabled
@@ -154,7 +170,7 @@ fun SignUp(modifier: Modifier = Modifier) {
             )
             Text(
                 text = " Sign In",
-                modifier = Modifier.clickable { },
+                modifier = Modifier.clickable { navController.navigate("SignIn") },
                 textDecoration = TextDecoration.Underline,
                 color = Primary300,
                 fontSize = 16.sp,
@@ -169,5 +185,5 @@ fun SignUp(modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SignUpPreview() {
-    SignUp()
+//    SignUp()
 }

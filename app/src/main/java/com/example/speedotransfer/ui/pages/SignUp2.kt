@@ -1,7 +1,9 @@
 package com.example.speedotransfer.ui.pages
 
 import android.icu.util.Calendar
+import android.util.Log
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -49,27 +51,35 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.ViewModel.SignUpViewModel
+import com.example.speedotransfer.network.datamodel.RegisterRequest
+import com.example.speedotransfer.network.retrofit.register
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.theme.Gray700
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.ui.theme.YellowGradientStart
+import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 
-fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
+fun SignUpCountryAndDate(modifier: Modifier = Modifier,navController: NavHostController) {
+    val viewModel: SignUpViewModel = viewModel()
 
 
-    var textValue by remember { mutableStateOf("") }
+    var textValue by remember { mutableStateOf(viewModel.selectedCountry?.name ?: "") }
     var selectedCountry by remember { mutableStateOf<CountryItem?>(null) }
     val scaffoldState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
 
-    var selectedDate by remember { mutableStateOf("") }
+    var selectedDate by remember { mutableStateOf(viewModel.selectedDate) }
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
 
@@ -80,6 +90,9 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
 
     val isButtonEnabled = textValue.isNotEmpty() && selectedDate.isNotEmpty()
 
+
+
+    var message by remember { mutableStateOf("") }
 
 
 
@@ -175,7 +188,7 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
                 ,
                 horizontalArrangement = Arrangement.Start
             ) {
-                IconButton(onClick = { },
+                IconButton(onClick = { navController.navigate("SignUp") },
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
@@ -330,7 +343,23 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
 
 
             SpeedoButton(
-                label = "Continue", onClick = { }, modifier = Modifier
+                label = "Continue", onClick = {
+
+                    val username = viewModel.username
+                    val email = viewModel.email
+                    val password = viewModel.password
+                    val confirmPassword = viewModel.confirmPassword
+                    val selectedCountry = viewModel.selectedCountry?.name ?: ""
+                    val dateOfBirth = viewModel.selectedDate
+
+                    // Call your API here with these values
+                    register(username, email, selectedCountry, password, confirmPassword, dateOfBirth) { responseMessage ->
+                        // Handle API response
+                        Toast.makeText(context, responseMessage, Toast.LENGTH_LONG).show()
+                    }
+
+
+                }, modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .padding(top = 32.dp),enabled = isButtonEnabled
             )
@@ -346,7 +375,7 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
                 )
                 Text(
                     text = " Sign In",
-                    modifier = Modifier.clickable { },
+                    modifier = Modifier.clickable { navController.navigate("SignIn") },
                     textDecoration = TextDecoration.Underline,
                     color = Primary300,
                     fontSize = 16.sp,
@@ -369,5 +398,5 @@ data class CountryItem(val name: String, val flagRes: Int)
 @Preview(showSystemUi = true)
 @Composable
 fun SignUpCountryAndDatePreview() {
-    SignUpCountryAndDate()
+//    SignUpCountryAndDate()
 }

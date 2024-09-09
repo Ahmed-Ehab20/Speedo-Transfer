@@ -6,6 +6,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
+import androidx.compose.ui.text.font.Font
+import com.example.speedotransfer.R
+
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
@@ -31,4 +35,10 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
+)
+
+val Inter = FontFamily(
+    Font(R.font.inter_18pt_bold, FontWeight.Bold),
+    Font(R.font.inter_24pt_bold, FontWeight.Bold),
+    Font(R.font.inter_18pt_light, FontWeight.Light),
 )
