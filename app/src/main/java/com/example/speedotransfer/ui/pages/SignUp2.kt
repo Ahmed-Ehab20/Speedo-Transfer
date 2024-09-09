@@ -2,23 +2,44 @@ package com.example.speedotransfer.ui.pages
 
 import android.icu.util.Calendar
 import android.widget.DatePicker
-import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -30,7 +51,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.speedotransfer.R
 import com.example.speedotransfer.ui.elements.SpeedoButton
-import com.example.speedotransfer.ui.elements.SpeedoTextField
 import com.example.speedotransfer.ui.theme.Gray700
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.Primary300
@@ -40,7 +60,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
 fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
+
+
     var textValue by remember { mutableStateOf("") }
     var selectedCountry by remember { mutableStateOf<CountryItem?>(null) }
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -54,23 +77,35 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
     var showDialog by remember { mutableStateOf(false) }
 
 
+
+    val isButtonEnabled = textValue.isNotEmpty() && selectedDate.isNotEmpty()
+
+
+
+
     val countries = listOf(
-        CountryItem("Egypt", R.drawable.ic_flag),
-        CountryItem("USA", R.drawable.ic_flag),
-        CountryItem("US", R.drawable.ic_flag),
-        CountryItem("Germany", R.drawable.ic_flag)
+        CountryItem("Egypt", R.drawable.usa),
+        CountryItem("USA", R.drawable.usa),
+        CountryItem("US", R.drawable.usa),
+        CountryItem("Germany", R.drawable.usa)
     )
 
 
+
     BottomSheetScaffold(
+
+        modifier = Modifier.background(color = Color.Transparent),
+
+
         scaffoldState = scaffoldState,
         sheetPeekHeight = 0.dp,
         sheetContent = {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp)
+                    .height(360.dp)
             ) {
+
                 items(countries) { country ->
                     Row(
                         modifier = Modifier
@@ -105,26 +140,28 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
                 }
             }
         },
-        modifier = Modifier.pointerInput(Unit) {
-            detectTapGestures {
-                if (scaffoldState.bottomSheetState.isVisible) {
-                    scope.launch {
-                        // todo
-                       // scaffoldState.bottomSheetState.hide()
-                    }
-                }
-            }
-        }
+//        modifier = Modifier.pointerInput(Unit) {
+//            detectTapGestures {
+//                if (scaffoldState.bottomSheetState.isVisible) {
+//                    scope.launch {
+//                        // todo
+//                       // scaffoldState.bottomSheetState.hide()
+//                    }
+//                }
+//            }
+//        }
     ) {
         Column(
             modifier = modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
                 .background(
                     Brush.linearGradient(
                         0.0f to YellowGradientStart,
                         1.0f to PinkGradientEnd
                     )
+
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -132,22 +169,34 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, top = 25.dp, bottom = 57.dp),
+                    .padding(start = 22.dp, top = 45.dp, bottom = 58.dp)
+                    .height(30.dp)
+                    .width(375.dp)
+                ,
                 horizontalArrangement = Arrangement.Start
             ) {
-                IconButton(onClick = { }) {
+                IconButton(onClick = { },
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = "back Screen"
+                        contentDescription = "back Screen",
+                        modifier = Modifier
+                            .width(24.dp)
+                            .height(24.dp)
                     )
                 }
             }
 
-            Text(text = "Speedo Transfer ", fontSize = 24.sp, fontWeight = FontWeight.W600)
+            Text(text = "Speedo Transfer ", fontSize = 24.sp, fontWeight = FontWeight.W600, lineHeight = 29.sp)
 
             Text(
                 text = "Welcome to Banque Misr!",
-                modifier = modifier.padding(top = 67.dp),
+                modifier = modifier
+                    .padding(top = 66.dp)
+//                    .width(330.dp)
+                    .height(36.dp),
+//                    .align(Alignment.End),
+//                Alignment = Alignment.Center,
                 fontWeight = FontWeight.W600,
                 fontSize = 24.sp
             )
@@ -164,19 +213,26 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
                 text = "Country",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W400,
+                lineHeight = 24.sp,
                 modifier = Modifier
                     .padding(top = 32.dp, bottom = 8.dp)
-                    .fillMaxWidth(0.9f),
+                    .fillMaxWidth(0.9f)
+                    .width(99.dp)
+                    .height(24.dp),
                 color = Gray700
             )
             OutlinedTextField(
+                shape = RoundedCornerShape(6.dp),
                 value = textValue,
                 onValueChange = { /* Handle value change */ },
-
                 placeholder = { Text("Select your country") },
                 enabled = false,
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
+                    .border(
+                        BorderStroke(1.5.dp, Color(0xFFB0AFAE)),
+                        RoundedCornerShape(6.dp)
+                    )
                     .clickable {
                         scope.launch {
                             scaffoldState.bottomSheetState.expand()
@@ -186,13 +242,17 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
                 trailingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.arrow_drop_down),
-                        contentDescription = "Dropdown Icon"
+                        contentDescription = "Dropdown Icon",
+                        Modifier
+                            .width(24.dp)
+                            .height(24.dp)
                     )
                 },
                 textStyle = TextStyle(
                     fontSize = 14.sp,
                     color = Color.Black,
-                    fontWeight = FontWeight.W400
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 21.sp
                 )
             )
 
@@ -220,10 +280,13 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
             Text(
                 text = "Date Of Brith",
                 fontSize = 16.sp,
+                lineHeight = 24.sp,
                 fontWeight = FontWeight.W400,
                 modifier = Modifier
                     .padding(top = 8.dp, bottom = 8.dp)
-                    .fillMaxWidth(0.9f),
+                    .fillMaxWidth(0.9f)
+                    .width(99.dp)
+                    .height(24.dp),
                 color = Gray700
             )
 
@@ -231,8 +294,13 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
                 value = selectedDate,
                 onValueChange = { },
                 placeholder = { Text("DD/MM/YYY") },
+                shape = RoundedCornerShape(6.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
+                    .border(
+                        BorderStroke(1.5.dp, Color(0xFFB0AFAE)),
+                        RoundedCornerShape(6.dp)
+                    )
                     .clickable {
                         showDialog = true // Trigger the dialog to show
                     },
@@ -242,15 +310,17 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_calendar),
                         contentDescription = "Select Date",
-                        modifier = Modifier.clickable {
-                            showDialog = true // Trigger the dialog to show
-                        }
+                        modifier = Modifier
+                            .clickable {
+                                showDialog = true // Trigger the dialog to show
+                            }
                     )
                 },
                 textStyle = TextStyle(
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     color = Color.Gray,
                     fontWeight = FontWeight.W400,
+                    lineHeight = 21.sp
 
                 )
             )
@@ -262,7 +332,7 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier) {
             SpeedoButton(
                 label = "Continue", onClick = { }, modifier = Modifier
                     .fillMaxWidth(0.9f)
-                    .padding(top = 32.dp)
+                    .padding(top = 32.dp),enabled = isButtonEnabled
             )
 
 

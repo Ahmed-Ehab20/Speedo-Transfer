@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
@@ -48,6 +49,12 @@ fun SignUp(modifier: Modifier = Modifier) {
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
 
+
+    val firstFieldFocusRequester = remember { FocusRequester() }
+    val secondFieldFocusRequester = remember { FocusRequester() }
+
+
+
     val isButtonEnabled =
         fullName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() &&
                 confirmPassword.isNotEmpty() && password.length >= 6 &&
@@ -69,12 +76,12 @@ fun SignUp(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ){
         Text(
-            text = "Sign Up", modifier = modifier.padding(top = 35.dp, bottom = 50.dp),
-            fontSize = 20.sp, fontWeight = FontWeight.W500, fontFamily = FontFamily.Serif, lineHeight = 30.sp
+            text = "Sign Up", modifier = modifier.padding(top = 8.dp, bottom = 55.dp),
+            fontSize = 20.sp, fontWeight = FontWeight.W500,  lineHeight = 30.sp
         )
         Text(
             text = "Speedo Transfer ",
-            modifier = modifier.padding(bottom = 65.dp),
+            modifier = modifier.padding(bottom = 41.dp),
             fontWeight = FontWeight.W500,
             fontSize = 30.sp
         )
@@ -90,6 +97,7 @@ fun SignUp(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(bottom = 8.dp),
+
         )
 
         
@@ -141,14 +149,16 @@ fun SignUp(modifier: Modifier = Modifier) {
             Text(
                 text = "Already have an account? ",
                 fontSize = 16.sp,
-                color = Color.Gray
+                color = Color.Gray,
+                lineHeight = 20.sp
             )
             Text(
                 text = " Sign In",
                 modifier = Modifier.clickable { },
                 textDecoration = TextDecoration.Underline,
                 color = Primary300,
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                lineHeight = 20.sp
             )
 
         }
