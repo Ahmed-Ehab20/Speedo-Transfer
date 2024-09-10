@@ -23,24 +23,25 @@ import com.example.speedotransfer.R
 fun InformationItem(
     icon: ImageVector,
     title: String,
-    subtitle: String
+    subtitle: String,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 0.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
-                .size(40.dp)
-                .background(Color(0xFFFFF4F0), shape = RoundedCornerShape(8.dp)),
+                .size(48.dp)
+                .background(Color(0xFFFFF4F0), shape = RoundedCornerShape(12.dp)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(30.dp),
+                modifier = Modifier.size(24.dp),
                 tint = Color(0xFF8B0E24)
             )
         }
@@ -50,21 +51,23 @@ fun InformationItem(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp),
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.Gray,
-                fontSize = 14.sp
+                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
+                color = Color.Gray
             )
         }
+
+        Spacer(modifier = Modifier.width(16.dp))
 
         Icon(
             painter = painterResource(id = R.drawable.ic_arrow_right),
             contentDescription = null,
-            tint = Color.Gray
+            tint = Color.Gray,
+            modifier = Modifier.size(24.dp)
         )
     }
 }

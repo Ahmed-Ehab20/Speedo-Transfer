@@ -51,13 +51,20 @@ android {
 
 dependencies {
 
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.navigation:navigation-compose:2.8.0")
     implementation("androidx.compose.material:material:1.6.8")
     implementation("androidx.compose.ui:ui:1.4.3")
-    implementation("androidx.compose.material:material:1.4.3")
     implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.compose.material3:material3:1.2.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
