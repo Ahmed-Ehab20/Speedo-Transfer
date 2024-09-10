@@ -181,7 +181,7 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
                 }, modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(top = 32.dp),
-//            enabled = isButtonEnabled
+            enabled = isButtonEnabled
         )
         Row(modifier = modifier.padding(all = 8.dp)) {
 

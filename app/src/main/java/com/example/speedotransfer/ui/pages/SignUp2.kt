@@ -374,6 +374,9 @@ fun SignUpCountryAndDate(
                         message = responseMessage
                         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 
+                        if (message == "register Successful"){
+                            navController.navigate("SignIn")
+                        }
 
                     }
 
