@@ -32,6 +32,7 @@ class SignUpViewModel : ViewModel() {
 //        fullName = newFullName
 //    }
 //
+    //
 
 
 }
