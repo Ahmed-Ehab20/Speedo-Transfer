@@ -1,5 +1,6 @@
 package com.example.speedotransfer.ui.elements
 
+import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,8 +19,10 @@ import com.example.speedotransfer.ui.theme.Primary300
 
 @Composable
 fun SpeedoButton(
-    label: String,
-    onClick: () -> Unit,
+    label:String,
+    onClick: () -> Unit, // Parameter to accept the click action
+    enabled: Boolean = true, // New parameter to control if the button is clickable or not
+
     backgroundColor: Color = Primary300,
     textColor: Color = Color.White,
     borderColor: Color = Color.Transparent,
@@ -34,7 +37,9 @@ fun SpeedoButton(
         modifier = modifier
             .fillMaxWidth()
             .border(1.dp, borderColor, RoundedCornerShape(6.dp)),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 15.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 15.dp),
+        enabled = enabled // Apply the enabled parameter to the Button
+
     ) {
         Text(
             text = label,

@@ -1,4 +1,6 @@
 package com.example.speedotransfer.ui.pages
+
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -6,10 +8,12 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -20,14 +24,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.R
+import com.example.speedotransfer.network.retrofit.login
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.SpeedoTextField
 import com.example.speedotransfer.ui.elements.SpeedoButton
 
 @Composable
 fun SignInScreen(navController: NavController) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+
+    var message by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
+
 
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFFFFF), Color(0xFFFFEAEE)),
@@ -50,7 +60,7 @@ fun SignInScreen(navController: NavController) {
             color = Color.Black,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 78.dp)
+                .padding(top = 32.dp)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -81,7 +91,7 @@ fun SignInScreen(navController: NavController) {
         SpeedoTextField(
             title = "Password",
             label = "Enter your password",
-            icon = R.drawable.ic_password,
+            icon = R.drawable.visibility_on,
             textValue = password,
             onTextChange = { password = it },
             isPassword = true,
@@ -92,11 +102,23 @@ fun SignInScreen(navController: NavController) {
 
         SpeedoButton(
             label = "Sign in",
-            onClick = { navController.navigate(Route.HOME) },
+            onClick = {
+                login(email, password) { responseMessage ->
+                    message = responseMessage
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+
+                    if (message == "login Successful"){
+                        navController.navigate("splash")
+                    }
+                }
+
+            },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+
+
 
         Row(
             horizontalArrangement = Arrangement.Center,
@@ -126,5 +148,5 @@ fun SignInScreen(navController: NavController) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-
+//    SignInScreen()
 }
