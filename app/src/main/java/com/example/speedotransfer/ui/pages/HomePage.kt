@@ -23,6 +23,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -33,8 +35,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.BalanceViewModel
 import com.example.speedotransfer.model.Transaction
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
@@ -53,13 +57,13 @@ import java.util.Locale
 fun HomePage(
     navController: NavController,
     name: String,
-    balance: String,
-    currency: String,
     recentTransactions: List<Transaction> = emptyList(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: BalanceViewModel = viewModel()
 ) {
     var selectedItem = 0
-
+    val balance by viewModel.balance.collectAsState()
+    val currency by viewModel.currency.collectAsState()
     Scaffold(
         content = { paddingValues ->
             Column(
@@ -126,7 +130,7 @@ fun HomePage(
                             color = Color.White
                         )
                         Text(
-                            text = formatNumberWithCommas(balance) + currency,
+                            text = formatNumberWithCommas(balance.toString()) + currency,
                             fontSize = 28.sp,
                             fontWeight = FontWeight.W600,
                             color = Color.White,
