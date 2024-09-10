@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -29,8 +30,8 @@ import com.example.speedotransfer.ui.elements.SpeedoButton
 
 @Composable
 fun SignInScreen(navController: NavController) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
 
     var message by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -105,7 +106,11 @@ fun SignInScreen(navController: NavController) {
                     message = responseMessage
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 
+                    if (message == "login Successful"){
+                        navController.navigate("splash")
+                    }
                 }
+
             },
             modifier = Modifier.fillMaxWidth()
         )

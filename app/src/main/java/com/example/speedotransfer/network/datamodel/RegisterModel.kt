@@ -16,6 +16,7 @@ data class RegisterResponse(
     val email:String,
     val createdAt:String,
     val updatedAt:String,
+    val message: String,
     val status:String
 )
 

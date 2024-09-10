@@ -17,7 +17,25 @@ fun AppNavigation(navController: NavHostController = rememberNavController()) {
         composable("splash") { SplashScreen(navController = navController) }
         composable("SignIn") { SignInScreen(navController = navController) }
         composable("signup") { SignUp(navController = navController) }
-        composable("SignUpCountryAndDate") { SignUpCountryAndDate(navController = navController) }
+//        composable("SignUpCountryAndDate") { SignUpCountryAndDate(navController = navController) }
 
-    }
+        composable("SignUpCountryAndDate/{fullName}/{email}/{password}/{confirmPassword}") { backStackEntry ->
+            val fullName = backStackEntry.arguments?.getString("fullName")
+            val email = backStackEntry.arguments?.getString("email")
+            val password = backStackEntry.arguments?.getString("password")
+            val confirmPassword = backStackEntry.arguments?.getString("confirmPassword")
+
+            SignUpCountryAndDate(
+                navController = navController,
+                fullName = fullName,
+                email = email,
+                password = password,
+                confirmPassword = confirmPassword
+            )
+
+
+
+        }
 }
+}
+

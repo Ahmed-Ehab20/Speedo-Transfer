@@ -15,7 +15,7 @@ fun login(email: String, password: String, onResult: (String) -> Unit) {
             if (response.isSuccessful) {
                 val loginResponse = response.body()
                 if (loginResponse?.status == "ACCEPTED") {
-                    onResult("login Successful ")
+                    onResult("login Successful")
                 } else {
                     onResult("Login failed: ${loginResponse?.message}")
                 }
@@ -27,5 +27,7 @@ fun login(email: String, password: String, onResult: (String) -> Unit) {
         override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
             onResult("Login failed: ${t.message}")
         }
-    })
+    }
+
+    )
 }

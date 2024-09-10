@@ -1,6 +1,7 @@
 package com.example.speedotransfer.ui.pages
 
 import android.graphics.fonts.Font
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -30,6 +32,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -44,18 +47,33 @@ import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.ui.theme.YellowGradientStart
 
 
+
 fun isEmailValid(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
 
+
 @Composable
 fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
 
-    var fullName by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
+    val viewModel: SignUpViewModel = viewModel()
+
+    var fullName by viewModel.fullName
+    var email by viewModel.email
+    var password by viewModel.password
+    var confirmPassword by viewModel.confirmPassword
+
+
+
+
+//    val fullName by remember { mutableStateOf(viewModel.fullName) }
+
+
+//    var fullName by rememberSaveable { mutableStateOf("") }
+//    var email by rememberSaveable { mutableStateOf("") }
+//    var password by rememberSaveable { mutableStateOf("") }
+//    var confirmPassword by rememberSaveable { mutableStateOf("") }
 
 
 
@@ -69,14 +87,19 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
 
 
 
+
+
+
     Column(
         modifier = modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Brush.linearGradient(
-                0.0f to YellowGradientStart,
-                1.0f to PinkGradientEnd
-            ))
+            .background(
+                Brush.linearGradient(
+                    0.0f to YellowGradientStart,
+                    1.0f to PinkGradientEnd
+                )
+            )
             .verticalScroll(rememberScrollState()), // Enable vertical scrolling
         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -99,7 +122,7 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
             icon = R.drawable.user,
             textValue = fullName,
             isPassword = false,
-            onTextChange = { fullName = it },
+            onTextChange = {viewModel.fullName.value = it},
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(bottom = 8.dp),
@@ -117,7 +140,7 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
             icon = R.drawable.email,
             textValue = email,
             isPassword = false,
-            onTextChange = { email = it },
+            onTextChange = { viewModel.email.value = it },
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(bottom = 8.dp),
@@ -129,7 +152,7 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
             icon = R.drawable.email,
             textValue = password,
             isPassword = true,
-            onTextChange = { password = it },
+            onTextChange = { viewModel.password.value = it },
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(bottom = 8.dp),
@@ -141,7 +164,7 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
             icon = R.drawable.email,
             textValue = confirmPassword,
             isPassword = true,
-            onTextChange = { confirmPassword = it },
+            onTextChange = { viewModel.confirmPassword.value = it },
             modifier = Modifier.fillMaxWidth(0.9f),
         )
         SpeedoButton(
@@ -151,14 +174,14 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
 //                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 //
 //                }
-                navController.navigate("SignUpCountryAndDate")
+                navController.navigate("SignUpCountryAndDate/$fullName/$email/$password/$confirmPassword")
 
 
 
                 }, modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(top = 32.dp),
-            enabled = isButtonEnabled
+//            enabled = isButtonEnabled
         )
         Row(modifier = modifier.padding(all = 8.dp)) {
 
@@ -178,8 +201,11 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
             )
 
         }
+        Log.d("Navigation", "Navigating to SignUp with: fullName=$fullName, email=$email, password=$password, confirmPassword=$confirmPassword")
 
     }
+
+
 }
 
 @Preview(showSystemUi = true, showBackground = true)

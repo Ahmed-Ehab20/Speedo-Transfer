@@ -24,20 +24,19 @@ fun register(
         override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
             if (response.isSuccessful) {
                 val registerResponse = response.body()
-                if (registerResponse != null && registerResponse.username == username) {
-                    onResult("Registration Successful ${registerResponse.status}")
+                if (registerResponse?.status == "ACCEPTED") {
+                    onResult("register Successful")
                 } else {
-                    val errorMessage = registerResponse?.status ?: "Unknown error"
-                    onResult("Registration failed: $errorMessage")
+                    onResult("register failed: ${registerResponse?.message}")
                 }
             } else {
-                val errorBody = response.errorBody()?.string() ?: "Unknown error"
-                onResult("Registration failed: $errorBody")
+                onResult("register failed: Unknown error")
             }
         }
 
         override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-            onResult("Registration failed: ${t.message}")
+            onResult("Login failed: ${t.message}")
         }
-    })
+    }
+    )
 }

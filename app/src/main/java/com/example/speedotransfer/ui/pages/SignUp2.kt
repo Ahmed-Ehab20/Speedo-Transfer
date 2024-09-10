@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,6 +58,7 @@ import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.ViewModel.SignUpViewModel
 import com.example.speedotransfer.network.datamodel.RegisterRequest
+import com.example.speedotransfer.network.retrofit.login
 import com.example.speedotransfer.network.retrofit.register
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.theme.Gray700
@@ -70,16 +72,28 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 
-fun SignUpCountryAndDate(modifier: Modifier = Modifier,navController: NavHostController) {
-    val viewModel: SignUpViewModel = viewModel()
+fun SignUpCountryAndDate(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    fullName: String?,
+    email: String?,
+    password: String?,
+    confirmPassword: String?
+) {
+//    val viewModel: SignUpViewModel = viewModel()
+
+//    val fullName by viewModel.fullName
+//    val email by viewModel.email
+//    val password by viewModel.password
+//    val confirmPassword by viewModel.confirmPassword
 
 
-    var textValue by remember { mutableStateOf(viewModel.selectedCountry?.name ?: "") }
+    var textValue by remember { mutableStateOf("") }
     var selectedCountry by remember { mutableStateOf<CountryItem?>(null) }
     val scaffoldState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
 
-    var selectedDate by remember { mutableStateOf(viewModel.selectedDate) }
+    var selectedDate by remember { mutableStateOf("") }
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
 
@@ -87,13 +101,10 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier,navController: NavHostCon
     var showDialog by remember { mutableStateOf(false) }
 
 
-
     val isButtonEnabled = textValue.isNotEmpty() && selectedDate.isNotEmpty()
 
 
-
     var message by remember { mutableStateOf("") }
-
 
 
     val countries = listOf(
@@ -184,11 +195,11 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier,navController: NavHostCon
                     .fillMaxWidth()
                     .padding(start = 22.dp, top = 45.dp, bottom = 58.dp)
                     .height(30.dp)
-                    .width(375.dp)
-                ,
+                    .width(375.dp),
                 horizontalArrangement = Arrangement.Start
             ) {
-                IconButton(onClick = { navController.navigate("SignUp") },
+                IconButton(
+                    onClick = { navController.navigate("SignUp") },
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
@@ -200,7 +211,12 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier,navController: NavHostCon
                 }
             }
 
-            Text(text = "Speedo Transfer ", fontSize = 24.sp, fontWeight = FontWeight.W600, lineHeight = 29.sp)
+            Text(
+                text = "Speedo Transfer ",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.W600,
+                lineHeight = 29.sp
+            )
 
             Text(
                 text = "Welcome to Banque Misr!",
@@ -345,23 +361,33 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier,navController: NavHostCon
             SpeedoButton(
                 label = "Continue", onClick = {
 
-                    val username = viewModel.username
-                    val email = viewModel.email
-                    val password = viewModel.password
-                    val confirmPassword = viewModel.confirmPassword
-                    val selectedCountry = viewModel.selectedCountry?.name ?: ""
-                    val dateOfBirth = viewModel.selectedDate
 
-                    // Call your API here with these values
-                    register(username, email, selectedCountry, password, confirmPassword, dateOfBirth) { responseMessage ->
-                        // Handle API response
-                        Toast.makeText(context, responseMessage, Toast.LENGTH_LONG).show()
+//
+                    register(
+                        "$fullName",
+                        "$email",
+                        "EGYPT",
+                        "$password",
+                        "$confirmPassword",
+                        "2024-09-09"
+                    ) { responseMessage ->
+                        message = responseMessage
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+
+
                     }
+
+//
+//                    // Call your API here with these values
+//                    register(viewModel.fullName , viewModel.email, "selectedCountry", viewModel.password, viewModel.confirmPassword, selectedDate) { responseMessage ->
+//                        // Handle API response
+//                        Toast.makeText(context, responseMessage, Toast.LENGTH_LONG).show()
+//                    }
 
 
                 }, modifier = Modifier
                     .fillMaxWidth(0.9f)
-                    .padding(top = 32.dp),enabled = isButtonEnabled
+                    .padding(top = 32.dp), enabled = isButtonEnabled
             )
 
 
@@ -390,6 +416,8 @@ fun SignUpCountryAndDate(modifier: Modifier = Modifier,navController: NavHostCon
 
 
     }
+    Log.d("Navigation", "Navigating to SignUpCountryAndDate with: fullName=$fullName, email=$email, password=$password, confirmPassword=$confirmPassword")
+
 }
 
 
