@@ -5,6 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -13,10 +17,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
 @Composable
 fun ProfileInformationScreen(navController: NavController) {
+    var selectedItem by remember { mutableStateOf(3) }
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
@@ -25,20 +31,21 @@ fun ProfileInformationScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            SpeedoTitleCard(title = "Profile Information", navController = navController)
         },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = gradientBrush)
-                    .padding(paddingValues)
+                    .background(brush = gradientBrush).padding(paddingValues)
             ) {
+
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 24.dp)
+                        .padding(horizontal = 16.dp)
                 ) {
+                    SpeedoTitleCard(title = "Profile Information", navController = navController)
+
                     Spacer(modifier = Modifier.height(28.dp))
 
                     ProfileInfoItem(label = "Full Name", value = "Asmaa Dosuky")
@@ -48,7 +55,7 @@ fun ProfileInformationScreen(navController: NavController) {
                     ProfileInfoItem(label = "Bank Account", value = "1234xxxx")
                 }
             }
-        }
+        }, bottomBar = { BottomNavigationBar(navController,selectedItem = selectedItem, onItemSelected = { index -> selectedItem = index }) }
     )
 }
 

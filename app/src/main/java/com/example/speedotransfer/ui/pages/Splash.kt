@@ -22,8 +22,8 @@ fun SplashScreen(navController: NavController) {
     val backgroundColor = Color(0xFF871E35)
 
     LaunchedEffect(Unit) {
-        delay(2000L)
-        navController.navigate("SignIn")
+        delay(500L)
+        navController.navigate("sign_in")
     }
 
     Box(

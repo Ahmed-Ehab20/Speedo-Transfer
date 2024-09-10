@@ -17,13 +17,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.SpeedoTextField
 import com.example.speedotransfer.ui.elements.SpeedoButton
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -48,7 +50,7 @@ fun SignInScreen() {
             color = Color.Black,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 32.dp)
+                .padding(top = 78.dp)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -90,7 +92,7 @@ fun SignInScreen() {
 
         SpeedoButton(
             label = "Sign in",
-            onClick = { },
+            onClick = { navController.navigate(Route.HOME) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -109,7 +111,7 @@ fun SignInScreen() {
 
             ClickableText(
                 text = AnnotatedString("Sign Up"),
-                onClick = {  },
+                onClick = { navController.navigate(Route.SIGN_UP) },
                 style = TextStyle(
                     color = Primary300,
                     fontSize = 14.sp,
@@ -124,5 +126,5 @@ fun SignInScreen() {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-    SignInScreen()
+
 }

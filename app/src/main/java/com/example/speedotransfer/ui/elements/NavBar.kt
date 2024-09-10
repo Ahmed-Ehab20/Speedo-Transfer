@@ -21,18 +21,27 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import com.example.speedotransfer.R
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.Primary300
 
 data class NavItem(val label: String, val iconRes: Int)
 
 @Composable
-fun BottomNavigationBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
+fun BottomNavigationBar(navController: NavController,selectedItem: Int, onItemSelected: (Int) -> Unit) {
     val navItems = listOf(
         NavItem("Home", R.drawable.home),
         NavItem("Transfer", R.drawable.transfer),
         NavItem("Transactions", R.drawable.history1),
         NavItem("My cards", R.drawable.cards),
         NavItem("More", R.drawable.more)
+    )
+    val navLocations= listOf(
+        Route.HOME,
+        Route.TRANSFER_SCREEN,
+        Route.TRANSACTIONS,
+        Route.PROFILE_INFO,
+        Route.MORE
     )
 
     Surface(
@@ -66,7 +75,8 @@ fun BottomNavigationBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
                         )
                     },
                     selected = selectedItem == index,
-                    onClick = { onItemSelected(index) },
+                    onClick = { onItemSelected(index)
+                        navController.navigate(navLocations[index]) },
                     selectedContentColor = Primary300,
                     unselectedContentColor = Color.Gray,
                     modifier = Modifier.weight(itemWeight)
@@ -81,8 +91,8 @@ fun BottomNavigationBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
 fun BottomNavigationBarPreview() {
     var selectedIndex by remember { mutableStateOf(0) }
 
-    BottomNavigationBar(
-        selectedItem = selectedIndex,
-        onItemSelected = { index -> selectedIndex = index }
-    )
+//    BottomNavigationBar(
+//        selectedItem = selectedIndex,
+//        onItemSelected = { index -> selectedIndex = index }
+//    )
 }

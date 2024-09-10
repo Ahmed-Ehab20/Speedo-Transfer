@@ -3,18 +3,23 @@ package com.example.speedotransfer.ui.pages
 import android.graphics.Paint.Align
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,8 +33,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.model.Transaction
+import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoTransaction
 import com.example.speedotransfer.ui.elements.formatNumberWithCommas
 import com.example.speedotransfer.ui.theme.Gray100
@@ -42,16 +50,18 @@ import com.example.speedotransfer.ui.theme.YellowGradientStart
 import java.util.Locale
 
 @Composable
-fun HomePage(name: String, balance: String, currency: String,recentTransactions:List<Transaction> = emptyList(), modifier: Modifier = Modifier) {
-    Column(
+fun HomePage(navController: NavController,name: String, balance: String, currency: String,recentTransactions:List<Transaction> = emptyList(), modifier: Modifier = Modifier) {
+    var selectedItem=0
+
+    Scaffold(content={paddingValues-> Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)),
+            .background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)).padding( paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-                .padding(top = 78.dp)
+                .padding(top = 16.dp)
                 .fillMaxWidth(0.9f)
         ) {
             Surface(
@@ -80,7 +90,8 @@ fun HomePage(name: String, balance: String, currency: String,recentTransactions:
             Spacer(modifier = Modifier.weight(1f))
             Image(
                 painter = painterResource(id = R.drawable.bell),
-                contentDescription = "Notification Bell"
+                contentDescription = "Notification Bell",
+                Modifier.clickable { navController.navigate(Route.NOTIFICATIONS) }
             )
         }
         Surface(color = Primary300, shape = RoundedCornerShape(8.dp),modifier=Modifier.padding(vertical = 16.dp)) {
@@ -96,32 +107,26 @@ fun HomePage(name: String, balance: String, currency: String,recentTransactions:
         Row (modifier=Modifier.fillMaxWidth(0.9f)){
             Text(text = "Recent transactions", fontSize = 16.sp, fontWeight = FontWeight.W500, color = Gray900)
             Spacer(modifier = Modifier.weight(1f))
-            Text(text = "View all", fontSize = 16.sp, fontWeight = FontWeight.W500, color = Gray200)
+            Text(text = "View all", fontSize = 16.sp, fontWeight = FontWeight.W500, color = Gray200,modifier=Modifier.clickable { navController.navigate(Route.TRANSACTIONS) })
         }
-        Surface(color = Color.White, shape = RoundedCornerShape(8.dp),modifier=Modifier.fillMaxWidth(0.9f).padding(vertical = 8.dp)) {
+        Surface(color = Color.White, shape = RoundedCornerShape(8.dp),modifier= Modifier
+            .fillMaxWidth(0.9f)
+            .padding(vertical = 8.dp)) {
             LazyColumn {
                 items(recentTransactions){
-                    SpeedoTransaction(name = it.name, amount = it.amount, date = it.date, type = it.type, cardDetails = it.cardDetails,currency=it.currency,modifier=Modifier.padding(8.dp))
+                    SpeedoTransaction(name = it.name, amount = it.amount, date = it.date, type = it.type, cardDetails = it.cardDetails,currency=it.currency,modifier=Modifier.padding(8.dp).clickable { navController.navigate(Route.VIEW_TRANSACTION) })
                 }
             }
         }
-    }
+    }}, bottomBar = { BottomNavigationBar(navController,selectedItem = selectedItem, onItemSelected = { index -> selectedItem = index }) })
+
 
 }
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun HomePagePreview() {
-    val t1 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t2 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t3 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t4 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t5 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t6 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t7 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t8 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val transactions= listOf(t1,t2,t3,t4,t5,t6,t7,t8)
-    HomePage(name = "Kirollos Luka", "10000", "EGP",transactions)
+
 }
 
 fun extractInitials(fullName: String): String {

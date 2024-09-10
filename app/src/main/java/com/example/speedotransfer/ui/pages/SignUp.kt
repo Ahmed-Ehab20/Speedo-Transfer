@@ -26,7 +26,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTextField
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
@@ -34,7 +36,7 @@ import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.ui.theme.YellowGradientStart
 
 @Composable
-fun SignUp(modifier: Modifier = Modifier) {
+fun SignUp(navController: NavController,modifier: Modifier = Modifier) {
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -44,13 +46,13 @@ fun SignUp(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)),
+            .background(Brush.linearGradient(0.0f to Color.White, 1.0f to PinkGradientEnd)),
         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
 
         ) {
         Text(
-            text = "Sign Up", modifier = modifier.padding(top = 18.dp, bottom = 55.dp),
-            fontSize = 20.sp, fontWeight = FontWeight.W500, fontFamily = FontFamily.Serif
+            text = "Sign Up", modifier = modifier.padding(top = 78.dp, bottom = 55.dp),
+            fontSize = 20.sp, fontWeight = FontWeight.W500
         )
         Text(
             text = "Speedo Transfer ",
@@ -106,7 +108,7 @@ fun SignUp(modifier: Modifier = Modifier) {
                 )
             Text(
                 text = " Sign In",
-                modifier = Modifier.clickable {  },
+                modifier = Modifier.clickable { navController.navigate(Route.SIGN_IN) },
                 textDecoration = TextDecoration.Underline,
                 color = Primary300,
                 fontSize = 16.sp
@@ -120,5 +122,5 @@ fun SignUp(modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SignUpPreview() {
-    SignUp()
+
 }

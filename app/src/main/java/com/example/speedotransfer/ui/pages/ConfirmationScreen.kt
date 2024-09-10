@@ -2,7 +2,10 @@ package com.example.speedotransfer.ui.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
@@ -30,7 +34,7 @@ import com.example.speedotransfer.ui.theme.Primary50
 
 @Composable
 fun ConfirmationScreen(
-    navController: NavController? = null,
+    navController: NavController,
     amount: String,
     fromName: String = "Asmaa Desouky",
     fromAccount: String = "xxxx1234",
@@ -46,6 +50,7 @@ fun ConfirmationScreen(
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
+                navController = navController,
                 selectedItem = 1,
                 onItemSelected = {}
             )
@@ -54,9 +59,9 @@ fun ConfirmationScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .background(gradientBrush)
                 .padding(16.dp)
+                .padding(innerPadding).verticalScroll(rememberScrollState())
         ) {
             Column(
                 modifier = Modifier
@@ -228,14 +233,14 @@ fun ConfirmationScreen(
                 ) {
                     SpeedoButton(
                         label = "Confirm",
-                        onClick = { },
+                        onClick = { navController.navigate(Route.TRANSFER_SUCCESS) },
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
 
                     SpeedoButton(
                         label = "Previous",
                         onClick = {
-                            navController?.popBackStack()
+                            navController.popBackStack()
                         },
                         backgroundColor = Color.Transparent,
                         textColor = Primary300,
@@ -255,9 +260,9 @@ fun ConfirmationScreen(
 @Preview(showBackground = true)
 @Composable
 fun ConfirmationScreenPreview() {
-    ConfirmationScreen(
-        amount = "1000",
-        recipientName = "Jonathon Smith",
-        recipientAccount = "xxxx7890"
-    )
+//    ConfirmationScreen(
+//        amount = "1000",
+//        recipientName = "Jonathon Smith",
+//        recipientAccount = "xxxx7890"
+//    )
 }
