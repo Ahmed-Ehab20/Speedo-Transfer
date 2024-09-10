@@ -1,4 +1,4 @@
-package com.example.speedotransfer.api
+package com.example.speedotransfer.network.api
 
 import kotlinx.coroutines.delay
 

@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.speedotransfer.model.Favourite
-import com.example.speedotransfer.model.Notification
-import com.example.speedotransfer.model.Transaction
+import com.example.speedotransfer.network.datamodel.Favourite
+import com.example.speedotransfer.network.datamodel.Notification
+import com.example.speedotransfer.network.datamodel.Transaction
 import com.example.speedotransfer.ui.pages.ChangePasswordScreen
 import com.example.speedotransfer.ui.pages.ConfirmationScreen
 import com.example.speedotransfer.ui.pages.EditProfileScreen
@@ -20,6 +20,7 @@ import com.example.speedotransfer.ui.pages.ProfileInformationScreen
 import com.example.speedotransfer.ui.pages.SettingsScreen
 import com.example.speedotransfer.ui.pages.SignInScreen
 import com.example.speedotransfer.ui.pages.SignUp
+import com.example.speedotransfer.ui.pages.SignUpCountryAndDate
 import com.example.speedotransfer.ui.pages.SplashScreen
 import com.example.speedotransfer.ui.pages.TransferScreen
 import com.example.speedotransfer.ui.pages.TransferSuccessPage
@@ -48,9 +49,6 @@ object Route {
 @Composable
 fun NavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "splash") {
-        composable(Route.SPLASH) { SplashScreen(navController) }
-        composable(Route.SIGN_IN) { SignInScreen(navController) }
-        composable(Route.SIGN_UP) { SignUp(navController) }
         composable(Route.HOME) {
             val t1 = Transaction(
                 "Ahmed Mohamed",
@@ -275,5 +273,27 @@ fun NavGraph(navController: NavHostController) {
         composable(Route.SETTINGS) { SettingsScreen(navController) }
         composable(Route.CHANGE_PASSWORD) { ChangePasswordScreen(navController) }
         composable(Route.EDIT_PROFILE) { EditProfileScreen(navController) }
+        composable(Route.SPLASH) { SplashScreen(navController = navController) }
+        composable(Route.SIGN_IN) { SignInScreen(navController = navController) }
+        composable(Route.SIGN_UP) { SignUp(navController = navController) }
+//        composable("SignUpCountryAndDate") { SignUpCountryAndDate(navController = navController) }
+
+        composable("SignUpCountryAndDate/{fullName}/{email}/{password}/{confirmPassword}") { backStackEntry ->
+            val fullName = backStackEntry.arguments?.getString("fullName")
+            val email = backStackEntry.arguments?.getString("email")
+            val password = backStackEntry.arguments?.getString("password")
+            val confirmPassword = backStackEntry.arguments?.getString("confirmPassword")
+
+            SignUpCountryAndDate(
+                navController = navController,
+                fullName = fullName,
+                email = email,
+                password = password,
+                confirmPassword = confirmPassword
+            )
+
+
+
+        }
     }
 }

@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
-import com.example.speedotransfer.model.ProfileViewModel
+import com.example.speedotransfer.network.datamodel.ProfileViewModel
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.InformationItem

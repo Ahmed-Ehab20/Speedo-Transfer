@@ -38,6 +38,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.ViewModel.SignUpViewModel
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.network.retrofit.login
 import com.example.speedotransfer.network.retrofit.register
 import com.example.speedotransfer.ui.elements.SpeedoButton
@@ -193,7 +194,7 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
             )
             Text(
                 text = " Sign In",
-                modifier = Modifier.clickable { navController.navigate("SignIn") },
+                modifier = Modifier.clickable { navController.navigate(Route.SIGN_IN) },
                 textDecoration = TextDecoration.Underline,
                 color = Primary300,
                 fontSize = 16.sp,

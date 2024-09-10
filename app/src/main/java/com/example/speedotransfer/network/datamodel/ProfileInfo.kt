@@ -1,4 +1,4 @@
-package com.example.speedotransfer.model
+package com.example.speedotransfer.network.datamodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -108,7 +108,7 @@ fun SignInScreen(navController: NavController) {
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 
                     if (message == "login Successful"){
-                        navController.navigate("splash")
+                        navController.navigate(Route.SPLASH)
                     }
                 }
 

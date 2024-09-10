@@ -1,8 +1,8 @@
-package com.example.speedotransfer.model
+package com.example.speedotransfer.network.datamodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.speedotransfer.api.MockApiImpl
+import com.example.speedotransfer.network.api.MockApiImpl
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

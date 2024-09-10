@@ -57,6 +57,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.ViewModel.SignUpViewModel
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.network.datamodel.RegisterRequest
 import com.example.speedotransfer.network.retrofit.login
 import com.example.speedotransfer.network.retrofit.register
@@ -199,7 +200,7 @@ fun SignUpCountryAndDate(
                 horizontalArrangement = Arrangement.Start
             ) {
                 IconButton(
-                    onClick = { navController.navigate("SignUp") },
+                    onClick = { navController.navigate(Route.SIGN_UP) },
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
@@ -375,7 +376,7 @@ fun SignUpCountryAndDate(
                         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 
                         if (message == "register Successful"){
-                            navController.navigate("SignIn")
+                            navController.navigate(Route.SIGN_IN)
                         }
 
                     }
@@ -404,7 +405,7 @@ fun SignUpCountryAndDate(
                 )
                 Text(
                     text = " Sign In",
-                    modifier = Modifier.clickable { navController.navigate("SignIn") },
+                    modifier = Modifier.clickable { navController.navigate(Route.SIGN_IN) },
                     textDecoration = TextDecoration.Underline,
                     color = Primary300,
                     fontSize = 16.sp,

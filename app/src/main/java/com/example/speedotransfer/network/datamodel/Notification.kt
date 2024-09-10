@@ -1,4 +1,4 @@
-package com.example.speedotransfer.model
+package com.example.speedotransfer.network.datamodel
 
 class Notification (
     val notificationTitle:String,
