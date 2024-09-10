@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -13,15 +15,24 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.speedotransfer.model.ProfileInformationViewModel
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 @Composable
-fun ProfileInformationScreen(navController: NavController) {
+fun ProfileInformationScreen(
+    navController: NavController,
+    viewModel: ProfileInformationViewModel = viewModel()
+) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
         endY = Float.POSITIVE_INFINITY
     )
+
+    // Collect profile information from the ViewModel
+    val profileInfo by viewModel.profileInfo.collectAsState()
 
     Scaffold(
         topBar = {
@@ -41,11 +52,12 @@ fun ProfileInformationScreen(navController: NavController) {
                 ) {
                     Spacer(modifier = Modifier.height(28.dp))
 
-                    ProfileInfoItem(label = "Full Name", value = "Asmaa Dosuky")
-                    ProfileInfoItem(label = "Email", value = "Asmaa@gmail.com")
-                    ProfileInfoItem(label = "Date Of Birth", value = "12/01/2000")
-                    ProfileInfoItem(label = "Country", value = "Egypt")
-                    ProfileInfoItem(label = "Bank Account", value = "1234xxxx")
+                    // Dynamically show the profile information
+                    ProfileInfoItem(label = "Full Name", value = profileInfo.fullName)
+                    ProfileInfoItem(label = "Email", value = profileInfo.email)
+                    ProfileInfoItem(label = "Date Of Birth", value = profileInfo.dateOfBirth)
+                    ProfileInfoItem(label = "Country", value = profileInfo.country)
+                    ProfileInfoItem(label = "Bank Account", value = profileInfo.bankAccount)
                 }
             }
         }
@@ -54,7 +66,9 @@ fun ProfileInformationScreen(navController: NavController) {
 
 @Composable
 fun ProfileInfoItem(label: String, value: String) {
-    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp)) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 12.dp)) {
         Text(
             text = label,
             fontSize = 16.sp,

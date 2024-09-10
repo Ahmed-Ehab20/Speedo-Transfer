@@ -35,7 +35,6 @@ fun SplashScreen(navController: NavController) {
         Text(
             text = "Speedo Transfer",
             fontSize = 24.sp,
-            fontFamily = FontFamily(Font(R.font.inter_24pt_bold)),
             color = Color.White,
         )
     }

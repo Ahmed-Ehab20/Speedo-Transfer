@@ -20,12 +20,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.ProfileViewModel
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.InformationItem
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
@@ -33,6 +34,7 @@ fun ProfileScreen(navController: NavController) {
     )
 
     var selectedIndex by remember { mutableIntStateOf(4) }
+    val username by viewModel.username.collectAsState()
 
     Scaffold(
         content = { paddingValues ->
@@ -47,17 +49,23 @@ fun ProfileScreen(navController: NavController) {
                         .fillMaxSize()
                         .padding(horizontal = 16.dp, vertical = 24.dp)
                 ) {
-                    SpeedoTitleCard(title = "Profile",navController = navController)
+                    SpeedoTitleCard(title = "Profile", navController = navController)
 
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
                     ) {
-                        UserProfileHeader(userName = "Asmaa Dosuky")
+                        // Show username when available
+                        if (username != null) {
+                            UserProfileHeader(userName = username!!)
+                        } else {
+                            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                        }
 
                         Spacer(modifier = Modifier.height(4.dp))
 
+                        // Personal Information - Navigates to profile_info
                         InformationItem(
                             icon = ImageVector.vectorResource(id = R.drawable.person),
                             title = "Personal information",
@@ -71,6 +79,7 @@ fun ProfileScreen(navController: NavController) {
 
                         Spacer(modifier = Modifier.height(8.dp))
 
+                        // Settings - Navigates to setting
                         InformationItem(
                             icon = ImageVector.vectorResource(id = R.drawable.setting),
                             title = "Setting",
@@ -84,6 +93,7 @@ fun ProfileScreen(navController: NavController) {
 
                         Spacer(modifier = Modifier.height(8.dp))
 
+                        // Payment History - Could be navigated to in future
                         InformationItem(
                             icon = ImageVector.vectorResource(id = R.drawable.history),
                             title = "Payment history",
@@ -93,6 +103,7 @@ fun ProfileScreen(navController: NavController) {
 
                         Spacer(modifier = Modifier.height(8.dp))
 
+                        // Favourite List - Could be navigated to in future
                         InformationItem(
                             icon = ImageVector.vectorResource(id = R.drawable.favorite),
                             title = "My Favourite list",
@@ -111,6 +122,7 @@ fun ProfileScreen(navController: NavController) {
         }
     )
 }
+
 
 
 @Composable
@@ -149,5 +161,6 @@ fun UserProfileHeader(userName: String) {
 @Preview(showBackground = true)
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(navController = rememberNavController())
+    val navController = rememberNavController()
+    ProfileScreen(navController = navController)
 }

@@ -1,42 +1,28 @@
 package com.example.speedotransfer.ui.theme
 
-import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.example.speedotransfer.R
 
-// Set of Material typography styles to start with
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
+val InterFontFamily = FontFamily(
+    Font(R.font.inter_variablefont_opsz_wght, FontWeight.Normal),
+    Font(R.font.inter_italic_variablefont_opsz_wght, FontWeight.Normal, FontStyle.Italic)
 )
 
-val Inter = FontFamily(
-    Font(R.font.inter_18pt_bold, FontWeight.Bold),
-    Font(R.font.inter_24pt_bold, FontWeight.Bold),
-    Font(R.font.inter_18pt_light, FontWeight.Light),
+val customTypography = androidx.compose.material.Typography(
+    defaultFontFamily = InterFontFamily
 )
+
+@Composable
+fun YourAppTheme(
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        typography = customTypography,
+        content = content
+    )
+}
