@@ -1,4 +1,4 @@
-package com.example.speedotransfer.pages
+package com.example.speedotransfer.ui.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
