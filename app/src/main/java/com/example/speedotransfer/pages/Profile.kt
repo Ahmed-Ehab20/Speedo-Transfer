@@ -1,4 +1,4 @@
-package com.example.speedotransfer.screens
+package com.example.speedotransfer.pages
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

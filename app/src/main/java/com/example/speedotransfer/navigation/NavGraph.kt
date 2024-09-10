@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.speedotransfer.screens.ChangePasswordScreen
-import com.example.speedotransfer.screens.EditProfileScreen
-import com.example.speedotransfer.screens.ProfileScreen
-import com.example.speedotransfer.screens.ProfileInformationScreen
-import com.example.speedotransfer.screens.SettingsScreen
+import com.example.speedotransfer.pages.ChangePasswordScreen
+import com.example.speedotransfer.pages.EditProfileScreen
+import com.example.speedotransfer.pages.ProfileScreen
+import com.example.speedotransfer.pages.ProfileInformationScreen
+import com.example.speedotransfer.pages.SettingsScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {

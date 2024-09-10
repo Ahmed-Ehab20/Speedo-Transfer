@@ -1,4 +1,5 @@
-package com.example.speedotransfer.screens
+package com.example.speedotransfer.pages
+
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,7 +22,13 @@ import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
 @Composable
-fun EditProfileScreen(navController: NavController) {
+fun ChangePasswordScreen(navController: NavController) {
+    var currentPasswordVisible by remember { mutableStateOf(false) }
+    var newPasswordVisible by remember { mutableStateOf(false) }
+
+    var currentPassword by remember { mutableStateOf("") }
+    var newPassword by remember { mutableStateOf("") }
+
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
@@ -29,8 +38,8 @@ fun EditProfileScreen(navController: NavController) {
     Scaffold(
         topBar = {
             SpeedoTitleCard(
-                title = "Edit Profile",
-                navController = navController
+                title = "Change Password",
+                navController = navController // Pass navController to enable back navigation
             )
         },
         content = { paddingValues ->
@@ -45,72 +54,54 @@ fun EditProfileScreen(navController: NavController) {
                         .fillMaxSize()
                         .padding(horizontal = 16.dp, vertical = 24.dp)
                 ) {
-
                     Spacer(modifier = Modifier.height(24.dp))
 
                     OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        label = { Text("Full Name") },
-                        placeholder = { Text("Enter Cardholder Name") },
-                        colors = TextFieldDefaults.colors(
-                            focusedTextColor = Color.Black,
-                            unfocusedTextColor = Color.Black,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White)
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        label = { Text("Email") },
-                        placeholder = { Text("Enter Email") },
-                        colors = TextFieldDefaults.colors(
-                            focusedTextColor = Color.Black,
-                            unfocusedTextColor = Color.Black,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White)
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedTextField(
-                        value = "Egypt",
-                        onValueChange = {},
-                        label = { Text("Country") },
-                        readOnly = true,
-                        colors = TextFieldDefaults.colors(
-                            focusedTextColor = Color.Black,
-                            unfocusedTextColor = Color.Black,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White)
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedTextField(
-                        value = "12/02/2000",
-                        onValueChange = {},
-                        label = { Text("Date Of Birth") },
+                        value = currentPassword,
+                        onValueChange = { currentPassword = it },
+                        label = { Text("Current Password") },
+                        placeholder = { Text("Enter your current password") },
+                        visualTransformation = if (currentPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.calendar),
-                                contentDescription = "Calendar"
-                            )
+                            IconButton(onClick = {
+                                currentPasswordVisible = !currentPasswordVisible
+                            }) {
+                                Icon(
+                                    imageVector = if (currentPasswordVisible) ImageVector.vectorResource(
+                                        id = R.drawable.visibility_on
+                                    ) else ImageVector.vectorResource(id = R.drawable.visibility_off),
+                                    contentDescription = if (currentPasswordVisible) "Hide Password" else "Show Password"
+                                )
+                            }
+                        },
+                        colors = TextFieldDefaults.colors(
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    OutlinedTextField(
+                        value = newPassword,
+                        onValueChange = { newPassword = it },
+                        label = { Text("New Password") },
+                        placeholder = { Text("Enter your new password") },
+                        visualTransformation = if (newPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(onClick = { newPasswordVisible = !newPasswordVisible }) {
+                                Icon(
+                                    imageVector = if (newPasswordVisible) ImageVector.vectorResource(
+                                        id = R.drawable.visibility_on
+                                    ) else ImageVector.vectorResource(id = R.drawable.visibility_off),
+                                    contentDescription = if (newPasswordVisible) "Hide Password" else "Show Password"
+                                )
+                            }
                         },
                         colors = TextFieldDefaults.colors(
                             focusedTextColor = Color.Black,
@@ -139,6 +130,6 @@ fun EditProfileScreen(navController: NavController) {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun EditProfileScreenPreview() {
-    EditProfileScreen(rememberNavController())
+fun ChangePasswordScreenPreview() {
+    ChangePasswordScreen(rememberNavController())
 }

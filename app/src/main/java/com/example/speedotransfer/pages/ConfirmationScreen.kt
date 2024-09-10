@@ -1,4 +1,4 @@
-package com.example.speedotransfer.screens
+package com.example.speedotransfer.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -245,7 +245,6 @@ fun ConfirmationScreen(
                             .offset(y = 60.dp) 
                     )
                 }
-
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
