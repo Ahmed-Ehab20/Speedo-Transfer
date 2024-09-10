@@ -50,75 +50,133 @@ import com.example.speedotransfer.ui.theme.YellowGradientStart
 import java.util.Locale
 
 @Composable
-fun HomePage(navController: NavController,name: String, balance: String, currency: String,recentTransactions:List<Transaction> = emptyList(), modifier: Modifier = Modifier) {
-    var selectedItem=0
+fun HomePage(
+    navController: NavController,
+    name: String,
+    balance: String,
+    currency: String,
+    recentTransactions: List<Transaction> = emptyList(),
+    modifier: Modifier = Modifier
+) {
+    var selectedItem = 0
 
-    Scaffold(content={paddingValues-> Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)).padding( paddingValues),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-                .padding(top = 16.dp)
-                .fillMaxWidth(0.9f)
-        ) {
-            Surface(
-                shape = CircleShape,
-                color = Gray40,
-                modifier = Modifier.size(48.dp)
+    Scaffold(
+        content = { paddingValues ->
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.linearGradient(
+                            0.0f to YellowGradientStart,
+                            1.0f to PinkGradientEnd
+                        )
+                    )
+                    .padding(paddingValues),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Text(
-                        text = extractInitials(name),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.W600,
-                        color = Gray100
+                Row(
+                    verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                        .padding(top = 16.dp)
+                        .fillMaxWidth(0.9f)
+                ) {
+                    Surface(
+                        shape = CircleShape,
+                        color = Gray40,
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Text(
+                                text = extractInitials(name),
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.W600,
+                                color = Gray100
+                            )
+                        }
+                    }
+                    Column(modifier = Modifier.padding(start = 8.dp)) {
+                        Text(
+                            text = "Welcome back,",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W400,
+                            color = Primary300
+                        )
+                        Text(text = name, fontWeight = FontWeight.W500, color = Gray900)
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Image(
+                        painter = painterResource(id = R.drawable.bell),
+                        contentDescription = "Notification Bell",
+                        Modifier.clickable { navController.navigate(Route.NOTIFICATIONS) }
                     )
                 }
-            }
-            Column(modifier = Modifier.padding(start = 8.dp)) {
-                Text(
-                    text = "Welcome back,",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.W400,
-                    color = Primary300
-                )
-                Text(text = name, fontWeight = FontWeight.W500, color = Gray900)
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Image(
-                painter = painterResource(id = R.drawable.bell),
-                contentDescription = "Notification Bell",
-                Modifier.clickable { navController.navigate(Route.NOTIFICATIONS) }
-            )
-        }
-        Surface(color = Primary300, shape = RoundedCornerShape(8.dp),modifier=Modifier.padding(vertical = 16.dp)) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .padding(horizontal = 13.dp, vertical = 24.dp)
-            ) {
-                Text(text = "Current Balance", fontSize = 16.sp, fontWeight = FontWeight.W500,color= Color.White)
-                Text(text = formatNumberWithCommas(balance) + currency , fontSize = 28.sp, fontWeight = FontWeight.W600, color = Color.White,modifier=Modifier.padding(top=8.dp))
-            }
-        }
-        Row (modifier=Modifier.fillMaxWidth(0.9f)){
-            Text(text = "Recent transactions", fontSize = 16.sp, fontWeight = FontWeight.W500, color = Gray900)
-            Spacer(modifier = Modifier.weight(1f))
-            Text(text = "View all", fontSize = 16.sp, fontWeight = FontWeight.W500, color = Gray200,modifier=Modifier.clickable { navController.navigate(Route.TRANSACTIONS) })
-        }
-        Surface(color = Color.White, shape = RoundedCornerShape(8.dp),modifier= Modifier
-            .fillMaxWidth(0.9f)
-            .padding(vertical = 8.dp)) {
-            LazyColumn {
-                items(recentTransactions){
-                    SpeedoTransaction(name = it.name, amount = it.amount, date = it.date, type = it.type, cardDetails = it.cardDetails,currency=it.currency,modifier=Modifier.padding(8.dp).clickable { navController.navigate(Route.VIEW_TRANSACTION) })
+                Surface(
+                    color = Primary300,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.padding(vertical = 16.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(0.9f)
+                            .padding(horizontal = 13.dp, vertical = 24.dp)
+                    ) {
+                        Text(
+                            text = "Current Balance",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.W500,
+                            color = Color.White
+                        )
+                        Text(
+                            text = formatNumberWithCommas(balance) + currency,
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.W600,
+                            color = Color.White,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                    }
+                }
+                Row(modifier = Modifier.fillMaxWidth(0.9f)) {
+                    Text(
+                        text = "Recent transactions",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W500,
+                        color = Gray900
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = "View all",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W500,
+                        color = Gray200,
+                        modifier = Modifier.clickable { navController.navigate(Route.TRANSACTIONS) })
+                }
+                Surface(
+                    color = Color.White, shape = RoundedCornerShape(8.dp), modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .padding(vertical = 8.dp)
+                ) {
+                    LazyColumn {
+                        items(recentTransactions) {
+                            SpeedoTransaction(
+                                name = it.name,
+                                amount = it.amount,
+                                date = it.date,
+                                type = it.type,
+                                cardDetails = it.cardDetails,
+                                currency = it.currency,
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .clickable { navController.navigate(Route.VIEW_TRANSACTION) })
+                        }
+                    }
                 }
             }
-        }
-    }}, bottomBar = { BottomNavigationBar(navController,selectedItem = selectedItem, onItemSelected = { index -> selectedItem = index }) })
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                navController,
+                selectedItem = selectedItem,
+                onItemSelected = { index -> selectedItem = index })
+        })
 
 
 }

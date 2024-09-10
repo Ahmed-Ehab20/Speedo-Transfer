@@ -1,16 +1,9 @@
-// ProfileInformationScreen.kt
 package com.example.speedotransfer.ui.pages
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -19,10 +12,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.speedotransfer.model.ProfileInformationViewModel
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
@@ -34,13 +27,10 @@ fun ProfileInformationScreen(navController: NavController) {
         endY = Float.POSITIVE_INFINITY
     )
 
-    // Collect profile information from the ViewModel
+    val viewModel: ProfileInformationViewModel = viewModel()
     val profileInfo by viewModel.profileInfo.collectAsState()
 
     Scaffold(
-        topBar = {
-            SpeedoTitleCard(title = "Profile Information", navController = navController)
-        },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
