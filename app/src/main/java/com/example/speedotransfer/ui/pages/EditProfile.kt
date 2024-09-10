@@ -27,12 +27,6 @@ fun EditProfileScreen(navController: NavController) {
     )
 
     Scaffold(
-        topBar = {
-            SpeedoTitleCard(
-                title = "Edit Profile",
-                navController = navController
-            )
-        },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -43,9 +37,12 @@ fun EditProfileScreen(navController: NavController) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 24.dp)
+                        .padding(horizontal = 16.dp)
                 ) {
-
+                    SpeedoTitleCard(
+                        title = "Edit Profile",
+                        navController = navController
+                    )
                     Spacer(modifier = Modifier.height(24.dp))
 
                     OutlinedTextField(

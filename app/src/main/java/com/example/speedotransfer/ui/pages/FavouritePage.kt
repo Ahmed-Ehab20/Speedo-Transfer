@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -38,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.speedotransfer.model.Favourite
 import com.example.speedotransfer.ui.elements.SpeedoFavourite
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
@@ -52,20 +54,20 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouritePage(favourites: List<Favourite>, modifier: Modifier = Modifier) {
+fun FavouritePage(navController: NavController, favourites: List<Favourite>, modifier: Modifier = Modifier) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     var cardHolderName by remember { mutableStateOf("") }
     var cardNumber by remember { mutableStateOf("") }
-    Column(
+    Scaffold(content={innerPadding-> Column(
         horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
             .fillMaxSize()
             .background(
                 Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)
-            )
+            ).padding(innerPadding)
     ) {
-        SpeedoTitleCard(title = "Favourite")
+        SpeedoTitleCard(title = "Favourite",navController)
         Text(
             text = "Your favourite list",
             fontSize = 20.sp,
@@ -83,77 +85,78 @@ fun FavouritePage(favourites: List<Favourite>, modifier: Modifier = Modifier) {
             }
         }
     }
-    if (showBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { showBottomSheet = false },
-            sheetState = sheetState,
-            shape = RoundedCornerShape(
-                topStart = 50.dp,
-                topEnd = 50.dp,
-                bottomStart = 0.dp,
-                bottomEnd = 0.dp
-            ),
-            windowInsets = WindowInsets.waterfall,
-            containerColor = Color.White
+        if (showBottomSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { showBottomSheet = false },
+                sheetState = sheetState,
+                shape = RoundedCornerShape(
+                    topStart = 50.dp,
+                    topEnd = 50.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 0.dp
+                ),
+                windowInsets = WindowInsets.waterfall,
+                containerColor = Color.White
 
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize()
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth(0.9f)
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Row {
-                        Icon(
-                            painter = painterResource(id = R.drawable.edit),
-                            contentDescription = "Edit",
-                            tint = Primary300
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxWidth(0.9f)
+                    ) {
+                        Row {
+                            Icon(
+                                painter = painterResource(id = R.drawable.edit),
+                                contentDescription = "Edit",
+                                tint = Primary300
+                            )
+                            Text(
+                                text = "Edit",
+                                fontSize = 20.sp,
+                                color = Gray700,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
+                        SpeedoTextField(
+                            title = "Recipient Name",
+                            label = "Enter Cardholder Name",
+                            textValue = cardHolderName,
+                            onTextChange = { cardHolderName = it },
+                            modifier = Modifier.padding(bottom = 8.dp, top = 16.dp)
                         )
-                        Text(
-                            text = "Edit",
-                            fontSize = 20.sp,
-                            color = Gray700,
-                            modifier = Modifier.padding(start = 8.dp)
+                        SpeedoTextField(
+                            title = "Recipient Account",
+                            label = "Enter Card Number",
+                            textValue = cardNumber,
+                            onTextChange = {   if (it.length <= 16) {
+                                cardNumber = it.filter { char -> char.isDigit() }
+                            } },
+                            modifier = Modifier.padding(bottom = 32.dp),
+                            type= KeyboardType.Decimal
                         )
-                    }
-                    SpeedoTextField(
-                        title = "Recipient Name",
-                        label = "Enter Cardholder Name",
-                        textValue = cardHolderName,
-                        onTextChange = { cardHolderName = it },
-                        modifier = Modifier.padding(bottom = 8.dp, top = 16.dp)
-                    )
-                    SpeedoTextField(
-                        title = "Recipient Account",
-                        label = "Enter Card Number",
-                        textValue = cardNumber,
-                        onTextChange = {   if (it.length <= 16) {
-                            cardNumber = it.filter { char -> char.isDigit() }
-                        } },
-                        modifier = Modifier.padding(bottom = 32.dp),
-                        type= KeyboardType.Decimal
-                    )
-                    SpeedoButton(
-                        label = "Save",
-                        modifier = Modifier.padding(bottom = 135.dp),
-                        onClick = {
-                            scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                if (!sheetState.isVisible) {
-                                    showBottomSheet = false
+                        SpeedoButton(
+                            label = "Save",
+                            modifier = Modifier.padding(bottom = 135.dp),
+                            onClick = {
+                                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                    if (!sheetState.isVisible) {
+                                        showBottomSheet = false
+                                    }
                                 }
-                            }
-                        })
-                    Spacer(modifier = Modifier
-                        .height(135.dp)
-                        .fillMaxWidth())
+                            })
+                        Spacer(modifier = Modifier
+                            .height(135.dp)
+                            .fillMaxWidth())
 
+                    }
                 }
-            }
 
-        }
-    }
+            }
+        }})
+
 }
 fun formatCardNumber(cardNumber: String): String {
     return cardNumber.chunked(4).joinToString(" ")
@@ -162,8 +165,5 @@ fun formatCardNumber(cardNumber: String): String {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun FavouritePagePreview() {
-    val f1 = Favourite("Asmaa Dosuky", "Account xxxx7890")
-    val f2 = Favourite("Asmaa Dosuky", "Account xxxx7890")
-    val favourites = listOf(f1, f2)
-    FavouritePage(favourites)
+
 }

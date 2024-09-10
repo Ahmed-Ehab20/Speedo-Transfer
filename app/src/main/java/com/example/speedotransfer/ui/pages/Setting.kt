@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.InformationItem
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
@@ -27,24 +28,22 @@ fun SettingsScreen(navController: NavController) {
     )
 
     Scaffold(
-        topBar = {
-            SpeedoTitleCard(
-                title = "Settings",
-                navController = navController
-            )
-        },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = gradientBrush)
-                    .padding(paddingValues)
+                    .background(brush = gradientBrush).padding(paddingValues)
+
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 24.dp)
+                        .padding(horizontal = 16.dp)
                 ) {
+                    SpeedoTitleCard(
+                        title = "Settings",
+                        navController = navController
+                    )
                     Spacer(modifier = Modifier.height(28.dp))
 
                     InformationItem(
@@ -53,7 +52,7 @@ fun SettingsScreen(navController: NavController) {
                         subtitle = "Change your password",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { navController.navigate("change_password") }
+                            .clickable { navController.navigate(Route.CHANGE_PASSWORD) }
                     )
 
                     // Navigate to Edit Profile screen
@@ -63,7 +62,7 @@ fun SettingsScreen(navController: NavController) {
                         subtitle = "Change your information",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { navController.navigate("edit_profile") }
+                            .clickable { navController.navigate(Route.EDIT_PROFILE) }
                     )
                 }
             }

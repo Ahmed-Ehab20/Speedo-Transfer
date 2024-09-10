@@ -3,6 +3,8 @@ package com.example.speedotransfer.ui.pages
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,7 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.navigation.NavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.pages.Stepper
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoButton
@@ -24,6 +28,7 @@ import com.example.speedotransfer.ui.theme.*
 
 @Composable
 fun TransferSuccessPage(
+    navController: NavController,
     amount: String,
     currency: String,
     fromName: String,
@@ -41,113 +46,117 @@ fun TransferSuccessPage(
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
+                navController,
                 selectedItem = 1,
                 onItemSelected = {}
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(gradientBrush)
-                .padding(innerPadding)
-                .padding(12.dp)
-        ) {
-            // Title
-            SpeedoTitleCard(title = "Transfer", navController = null)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Stepper with 3 steps (Amount, Confirmation, Payment)
-            Stepper(currentStep = 3)
-
-            // Centered checkmark
+        Box(modifier = Modifier.verticalScroll(rememberScrollState())){
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxSize()
+                    .background(gradientBrush)
+                    .padding(innerPadding)
+                    .padding(12.dp)
             ) {
-                // Success check mark image
-                Image(
-                    painter = painterResource(id = R.drawable.red_check),
-                    contentDescription = "Success",
-                    modifier = Modifier.size(80.dp)  // Adjust size of the check mark as needed
-                )
+                // Title
+                SpeedoTitleCard(title = "Transfer", navController = navController)
 
-                // Success message
-                Text(
-                    text = "Your Transfer has been successful",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 12.dp),
-                )
-            }
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(24.dp))
+                // Stepper with 3 steps (Amount, Confirmation, Payment)
+                Stepper(currentStep = 3)
 
-            // From & To card information
-            TransactionCard(fromName, fromAccount, toName, toAccount)
+                // Centered checkmark
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // Success check mark image
+                    Image(
+                        painter = painterResource(id = R.drawable.red_check),
+                        contentDescription = "Success",
+                        modifier = Modifier.size(80.dp)  // Adjust size of the check mark as needed
+                    )
+
+                    // Success message
+                    Text(
+                        text = "Your Transfer has been successful",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(top = 12.dp),
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // From & To card information
+                TransactionCard(fromName, fromAccount, toName, toAccount)
 
 
-            // Transfer amount section (NEW SECTION)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Transfer amount",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.Black
-                )
-                Text(
-                    text = "$amount $currency",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.Gray
-                )
-            }
-
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(0.9f),
-                thickness = 1.dp,
-                color = Color.Gray.copy(alpha = 0.5f)
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Buttons in a column
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // "Back to Home" Button using SpeedoButton
-                SpeedoButton(
-                    label = "Back to Home",
-                    onClick = { /* Navigate to Home Screen */ },
-                    backgroundColor = Primary300,
-                    textColor = Color.White,
+                // Transfer amount section (NEW SECTION)
+                Row(
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Transfer amount",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "$amount $currency",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = Color.Gray
+                    )
+                }
+
+                HorizontalDivider(
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    thickness = 1.dp,
+                    color = Color.Gray.copy(alpha = 0.5f)
                 )
 
-                // "Add to Favorite" Button using SpeedoButton with Transparent Background
-                SpeedoButton(
-                    label = "Add to Favorite",
-                    onClick = { /* Add to Favorite Logic */ },
-                    backgroundColor = Color.Transparent,
-                    textColor = Primary300,
-                    borderColor = Primary300,
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .padding(vertical = 8.dp)
-                )
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Buttons in a column
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // "Back to Home" Button using SpeedoButton
+                    SpeedoButton(
+                        label = "Back to Home",
+                        onClick = { navController.navigate(Route.HOME) },
+                        backgroundColor = Primary300,
+                        textColor = Color.White,
+                        modifier = Modifier
+                            .fillMaxWidth(0.9f)
+                    )
+
+                    // "Add to Favorite" Button using SpeedoButton with Transparent Background
+                    SpeedoButton(
+                        label = "Add to Favorite",
+                        onClick = { /* Add to Favorite Logic */ },
+                        backgroundColor = Color.Transparent,
+                        textColor = Primary300,
+                        borderColor = Primary300,
+                        modifier = Modifier
+                            .fillMaxWidth(0.9f)
+                            .padding(vertical = 8.dp)
+                    )
+                }
             }
         }
+
     }
 }
 
@@ -236,12 +245,5 @@ fun TransactionCard(fromName: String, fromAccount: String, toName: String, toAcc
 @Preview(showBackground = true)
 @Composable
 fun TransferSuccessPagePreview() {
-    TransferSuccessPage(
-        amount = "1000",
-        currency = "EGP",
-        fromName = "Asmaa Dosuky",
-        toName = "Jonathon Smith",
-        fromAccount = "Account xxxx7890",
-        toAccount = "Account xxxx7890"
-    )
+//
 }

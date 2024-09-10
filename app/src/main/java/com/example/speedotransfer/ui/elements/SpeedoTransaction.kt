@@ -48,7 +48,7 @@ fun SpeedoTransaction(
 ) {
     Column(modifier = modifier) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(bottom=8.dp),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.mastercard),
@@ -59,9 +59,7 @@ fun SpeedoTransaction(
             )
 
             Column(
-                verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .height(61.dp)
                     .fillMaxWidth(0.6f)
             ) {
                 Text(
@@ -89,7 +87,7 @@ fun SpeedoTransaction(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            Spacer(modifier = modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = formatNumberWithCommas(amount) + currency,
                 color = Primary300,
@@ -103,7 +101,7 @@ fun SpeedoTransaction(
             )
         }
         HorizontalDivider(
-            modifier = Modifier.padding(top = 8.dp),
+            modifier = Modifier,
             color = Gray40
         )
     }

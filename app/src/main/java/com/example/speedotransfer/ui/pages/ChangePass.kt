@@ -36,12 +36,6 @@ fun ChangePasswordScreen(navController: NavController) {
     )
 
     Scaffold(
-        topBar = {
-            SpeedoTitleCard(
-                title = "Change Password",
-                navController = navController // Pass navController to enable back navigation
-            )
-        },
         content = { paddingValues ->
             Box(
                 modifier = Modifier
@@ -52,8 +46,12 @@ fun ChangePasswordScreen(navController: NavController) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 24.dp)
+                        .padding(horizontal = 16.dp)
                 ) {
+                    SpeedoTitleCard(
+                        title = "Change Password",
+                        navController = navController
+                    )
                     Spacer(modifier = Modifier.height(24.dp))
 
                     OutlinedTextField(

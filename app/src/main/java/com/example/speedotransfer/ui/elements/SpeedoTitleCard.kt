@@ -23,8 +23,7 @@ fun SpeedoTitleCard(
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp),
+            .fillMaxWidth().padding(top=16.dp).fillMaxWidth(0.9f),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(

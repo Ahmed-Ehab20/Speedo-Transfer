@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
@@ -80,7 +81,7 @@ fun Stepper(currentStep: Int) {
 }
 
 @Composable
-fun TransferScreen(navController: NavController? = null) {
+fun TransferScreen(navController: NavController) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
@@ -90,116 +91,120 @@ fun TransferScreen(navController: NavController? = null) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
+                navController,
                 selectedItem = 1,
                 onItemSelected = { /* Handle item selection */ }
             )
+        },
+        content={ innerPadding ->
+            Column(modifier = Modifier.fillMaxSize().background(gradientBrush), horizontalAlignment = Alignment.CenterHorizontally){
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(0.93f).fillMaxHeight()
+                    .padding(innerPadding)
+            ) {
+
+                    SpeedoTitleCard(title = "Transfer", navController = navController)
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Stepper(currentStep = 1)
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "How much are you sending?",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "Amount",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    var amount by remember { mutableStateOf("") }
+                    OutlinedTextField(
+                        value = amount,
+                        onValueChange = { amount = it },
+                        label = { Text("Amount") },
+                        placeholder = { Text("Enter amount") },
+                        colors = TextFieldDefaults.colors(
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        ),
+                        textStyle = androidx.compose.ui.text.TextStyle(
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(80.dp)
+                            .background(Color.White)
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Text(
+                        text = "Recipient Information",
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    var recipientName by remember { mutableStateOf("") }
+                    OutlinedTextField(
+                        value = recipientName,
+                        onValueChange = { recipientName = it },
+                        label = { Text("Recipient Name") },
+                        placeholder = { Text("Enter Recipient Name") },
+                        colors = TextFieldDefaults.colors(
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Gray,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    var recipientAccount by remember { mutableStateOf("") }
+                    OutlinedTextField(
+                        value = recipientAccount,
+                        onValueChange = { recipientAccount = it },
+                        label = { Text("Recipient Account") },
+                        placeholder = { Text("Enter Recipient Account Number") },
+                        colors = TextFieldDefaults.colors(
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White)
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    SpeedoButton(
+                        label = "Continue",
+                        onClick = { navController.navigate(Route.TRANSFER_CONFIRMATION) }
+                    )
+                }
+
+            }
         }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .background(gradientBrush)
-                .padding(16.dp)
-        ) {
-            SpeedoTitleCard(title = "Transfer", navController = navController)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Stepper(currentStep = 1)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "How much are you sending?",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Amount",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            var amount by remember { mutableStateOf("") }
-            OutlinedTextField(
-                value = amount,
-                onValueChange = { amount = it },
-                label = { Text("Amount") },
-                placeholder = { Text("Enter amount") },
-                colors = TextFieldDefaults.colors(
-                    focusedTextColor = Color.Black,
-                    unfocusedTextColor = Color.Black,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                textStyle = androidx.compose.ui.text.TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-                    .background(Color.White)
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Text(
-                text = "Recipient Information",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            var recipientName by remember { mutableStateOf("") }
-            OutlinedTextField(
-                value = recipientName,
-                onValueChange = { recipientName = it },
-                label = { Text("Recipient Name") },
-                placeholder = { Text("Enter Recipient Name") },
-                colors = TextFieldDefaults.colors(
-                    focusedTextColor = Color.Black,
-                    unfocusedTextColor = Color.Gray,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            var recipientAccount by remember { mutableStateOf("") }
-            OutlinedTextField(
-                value = recipientAccount,
-                onValueChange = { recipientAccount = it },
-                label = { Text("Recipient Account") },
-                placeholder = { Text("Enter Recipient Account Number") },
-                colors = TextFieldDefaults.colors(
-                    focusedTextColor = Color.Black,
-                    unfocusedTextColor = Color.Black,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            SpeedoButton(
-                label = "Continue",
-                onClick = { /* Handle continue action */ }
-            )
-        }
-    }
+    )
 }
 
 
@@ -207,5 +212,5 @@ fun TransferScreen(navController: NavController? = null) {
 @Preview(showBackground = true)
 @Composable
 fun TransferScreenPreview() {
-    TransferScreen()
+//    TransferScreen()
 }

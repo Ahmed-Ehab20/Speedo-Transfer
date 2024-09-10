@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.model.ProfileViewModel
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.InformationItem
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
@@ -41,13 +42,12 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = gradientBrush)
-                    .padding(paddingValues)
+                    .background(brush = gradientBrush).padding(paddingValues)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 24.dp)
+                        .padding(horizontal = 16.dp)
                 ) {
                     SpeedoTitleCard(title = "Profile", navController = navController)
 
@@ -73,7 +73,7 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-                                    navController.navigate("profile_info")
+                                    navController.navigate(Route.PROFILE_INFO)
                                 }
                         )
 
@@ -87,7 +87,7 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-                                    navController.navigate("setting")
+                                    navController.navigate(Route.SETTINGS)
                                 }
                         )
 
@@ -98,7 +98,7 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
                             icon = ImageVector.vectorResource(id = R.drawable.history),
                             title = "Payment history",
                             subtitle = "View your transactions",
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth().clickable { navController.navigate(Route.TRANSACTIONS)  }
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -108,7 +108,7 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
                             icon = ImageVector.vectorResource(id = R.drawable.favorite),
                             title = "My Favourite list",
                             subtitle = "View your favourites",
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth().clickable { navController.navigate( Route.FAVOURITES) }
                         )
                     }
                 }
@@ -116,13 +116,13 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
         },
         bottomBar = {
             BottomNavigationBar(
+                navController = navController,
                 selectedItem = selectedIndex,
                 onItemSelected = { index -> selectedIndex = index }
             )
         }
     )
 }
-
 
 
 @Composable
