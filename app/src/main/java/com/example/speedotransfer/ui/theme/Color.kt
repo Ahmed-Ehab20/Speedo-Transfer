@@ -50,3 +50,8 @@ val Secondary400 = Color(0xFF9F7B15)
 val Secondary500 = Color(0xFF8A6912)
 
 val Danger300 = Color(0xFFFF002E)
+
+val SuccessText= Color(0xFF118A30)
+val SuccessBackground =Color(0xFFEAF3EC)
+
+val FailBackground =Color(0xFFFFEFEF)

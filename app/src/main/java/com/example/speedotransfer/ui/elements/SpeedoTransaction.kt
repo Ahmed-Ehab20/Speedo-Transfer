@@ -48,7 +48,7 @@ fun SpeedoTransaction(
 ) {
     Column(modifier = modifier) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(bottom=8.dp),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.mastercard),
@@ -59,10 +59,8 @@ fun SpeedoTransaction(
             )
 
             Column(
-                verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .height(61.dp)
-                    .fillMaxWidth(0.65f)
+                    .fillMaxWidth(0.6f)
             ) {
                 Text(
                     text = name,
@@ -89,7 +87,7 @@ fun SpeedoTransaction(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            Spacer(modifier = modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = formatNumberWithCommas(amount) + currency,
                 color = Primary300,
@@ -97,12 +95,13 @@ fun SpeedoTransaction(
                     .padding(start = 8.dp),
                 fontWeight = FontWeight.W500,
                 maxLines = 1,
+                fontSize = 16.sp,
                 overflow = TextOverflow.Ellipsis,
 
             )
         }
         HorizontalDivider(
-            modifier = Modifier.padding(top = 8.dp),
+            modifier = Modifier,
             color = Gray40
         )
     }
@@ -114,7 +113,7 @@ fun SpeedoTransaction(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun SpeedoTransactionPreview() {
-SpeedoTransaction("Ahmed Mohamed Mohammed","50000","Today 11:00","Received","Visa . Mater Card . 1234",modifier=Modifier.fillMaxWidth(0.8f))
+SpeedoTransaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234",modifier=Modifier.fillMaxWidth(0.8f))
 }
 
 fun formatNumberWithCommas(numberString: String): String {

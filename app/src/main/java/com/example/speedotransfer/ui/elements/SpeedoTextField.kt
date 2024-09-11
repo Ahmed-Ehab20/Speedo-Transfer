@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -42,7 +43,7 @@ import com.example.speedotransfer.ui.theme.Gray700
 
 @Composable
 fun SpeedoTextField(
-    title: String, label: String, icon: Int=R.drawable.ic_launcher_background,
+    title: String, label: String, icon: Int?=null,
     textValue: String, onTextChange: (String) -> Unit,
     isPassword: Boolean = false,
     modifier: Modifier = Modifier,
@@ -88,16 +89,17 @@ fun SpeedoTextField(
                         }
 
                     } else {
-                        Icon(
-                            painter = painterResource(id = icon),
-                            contentDescription = title,
-                            modifier = Modifier.size(24.dp),
-                        )
+                        if(icon!=null)
+                            Icon(
+                                painter = painterResource(id = icon),
+                                contentDescription = title,
+                                modifier = Modifier.size(24.dp),
+                            )
                     }
                 }
             },
             placeholder = { Text(text = label, color = Gray70, fontSize = 14.sp) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(2.dp)),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done, // Adjust as needed
                 keyboardType = type
@@ -124,7 +126,7 @@ private fun SpeedoTextFieldPreview() {
     var textValue by remember { mutableStateOf("") }
     Column (horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,modifier=Modifier.fillMaxSize()){
         SpeedoTextField(title = "Title", label = "Label",
-            icon = R.drawable.user, textValue = textValue, isPassword = true, onTextChange = {textValue=it},modifier=Modifier.fillMaxWidth(0.9f), type = KeyboardType.Email)
+            textValue = textValue, onTextChange = {textValue=it},modifier=Modifier.fillMaxWidth(0.9f), type = KeyboardType.Email)
         SpeedoTextField(title = "Title", label = "Label",
             icon = R.drawable.user, textValue = textValue, isPassword = true, onTextChange = {textValue=it},modifier=Modifier.fillMaxWidth(0.9f), errorMessage = "test")
     }

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SpeedoTransfer" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.SpeedoTransfer" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/background</item>
+        <item name="android:windowSplashScreenBackground">#521220</item>
+
+</style>
+
 </resources>
