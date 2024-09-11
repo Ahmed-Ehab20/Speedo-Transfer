@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.speedotransfer.network.datamodel.Favourite
 import com.example.speedotransfer.network.datamodel.Notification
-import com.example.speedotransfer.network.datamodel.Transaction
 import com.example.speedotransfer.ui.pages.ChangePasswordScreen
 import com.example.speedotransfer.ui.pages.ConfirmationScreen
 import com.example.speedotransfer.ui.pages.EditProfileScreen
@@ -50,80 +49,7 @@ object Route {
 fun NavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "splash") {
         composable(Route.HOME) {
-            val t1 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t2 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t3 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t4 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t5 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t6 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t7 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t8 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val transactions = listOf(t1, t2, t3, t4, t5, t6, t7, t8)
-            HomePage(navController, transactions)
+            HomePage(navController)
         }
         composable(Route.NOTIFICATIONS) {
             val n1 = Notification(
@@ -145,80 +71,7 @@ fun NavGraph(navController: NavHostController) {
             NotificationPage(navController, notifications)
         }
         composable(Route.TRANSACTIONS) {
-            val t1 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t2 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = false,
-                isSuccessful = true
-            )
-            val t3 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = false,
-                isSuccessful = false
-            )
-            val t4 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t5 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = false,
-                isSuccessful = false
-            )
-            val t6 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = false,
-                isSuccessful = false
-            )
-            val t7 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = true,
-                isSuccessful = true
-            )
-            val t8 = Transaction(
-                "Ahmed Mohamed",
-                "50000",
-                "12/30/24 11:00",
-                "Received",
-                "Visa . Mater Card . 1234",
-                isCard = false,
-                isSuccessful = true
-            )
-            val transactions = listOf(t1, t2, t3, t4, t5, t6, t7, t8)
-            LastTransactionsPage(navController, transactions)
+            LastTransactionsPage(navController)
         }
         composable(Route.VIEW_TRANSACTION) {
             ViewTransactionPage(
