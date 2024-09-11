@@ -17,11 +17,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.ui.theme.Primary300
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavHostController, isOnboardingCompleted: Boolean) {
-    val backgroundColor = Color(0xFF871E35)
+    val backgroundColor = Primary300
 
     LaunchedEffect(Unit) {
         // Delay to show splash screen for a bit
