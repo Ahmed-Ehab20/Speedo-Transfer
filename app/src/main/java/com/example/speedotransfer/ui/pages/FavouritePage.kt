@@ -1,5 +1,6 @@
 package com.example.speedotransfer.ui.pages
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,33 +39,47 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.network.datamodel.Favourite
 import com.example.speedotransfer.ui.elements.SpeedoFavourite
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.YellowGradientStart
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.BalanceViewModel
+import com.example.speedotransfer.network.datamodel.FavouriteRequest
+import com.example.speedotransfer.network.datamodel.FavouritesViewModel
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTextField
 import com.example.speedotransfer.ui.theme.Gray700
 import com.example.speedotransfer.ui.theme.Primary300
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouritePage(navController: NavController, favourites: List<Favourite>, modifier: Modifier = Modifier) {
+fun FavouritePage(navController: NavController, modifier: Modifier = Modifier,favouritesViewModel: FavouritesViewModel= viewModel(),balanceViewModel: BalanceViewModel= viewModel()) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     var cardHolderName by remember { mutableStateOf("") }
     var cardNumber by remember { mutableStateOf("") }
+    val id by balanceViewModel.id.collectAsState()
+    val favourites by favouritesViewModel.favourites.collectAsState()
+    var selectedFavourite by remember{ mutableStateOf("") }
+    LaunchedEffect(id) {
+        if(id!=null)
+            favouritesViewModel.fetchFavourites(id!!)
+    }
     Scaffold(content={innerPadding-> Column(
         horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
             .fillMaxSize()
             .background(
                 Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)
-            ).padding(innerPadding)
+            )
+            .padding(innerPadding)
     ) {
         SpeedoTitleCard(title = "Favourite",navController)
         Text(
@@ -76,9 +93,10 @@ fun FavouritePage(navController: NavController, favourites: List<Favourite>, mod
         )
         LazyColumn {
             items(favourites) {
-                SpeedoFavourite(name = it.name, account = it.account, modifier = Modifier
+                SpeedoFavourite(name = it.recipientName, account = it.recipientAccountNumber, modifier = Modifier
                     .fillMaxWidth(0.9f)
-                    .padding(bottom = 16.dp), onUpdateClick = { showBottomSheet = true })
+                    .padding(bottom = 16.dp), onUpdateClick = { selectedFavourite=it.id
+                    showBottomSheet = true }, onDeleteClick = {favouritesViewModel.deleteFavourite(id!!,it.id)})
             }
         }
     }
@@ -143,6 +161,9 @@ fun FavouritePage(navController: NavController, favourites: List<Favourite>, mod
                                         showBottomSheet = false
                                     }
                                 }
+                                favouritesViewModel.updateFavourite(id!!,selectedFavourite,
+                                    FavouriteRequest(cardHolderName,cardNumber)
+                                )
                             })
                         Spacer(modifier = Modifier
                             .height(135.dp)
@@ -162,5 +183,5 @@ fun formatCardNumber(cardNumber: String): String {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun FavouritePagePreview() {
-
+    FavouritePage(navController = rememberNavController())
 }

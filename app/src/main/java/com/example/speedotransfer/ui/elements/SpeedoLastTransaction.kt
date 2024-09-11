@@ -90,7 +90,7 @@ fun SpeedoLastTransaction(
                         color = Gray700,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
-                        , modifier = Modifier.padding(top=4.dp)
+
                     )
                     Text(
                         text = "$date - $type",
@@ -99,7 +99,7 @@ fun SpeedoLastTransaction(
                         color = Gray100,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
-                        , modifier = Modifier.padding(top=4.dp)
+
                     )
                     Text(
                         text = formatNumberWithCommas(amount) + currency,
@@ -118,12 +118,12 @@ fun SpeedoLastTransaction(
                     if (isSuccessful)
                     Card (colors = CardDefaults.cardColors(contentColor = SuccessText, containerColor = SuccessBackground), shape = RoundedCornerShape(5.35.dp), modifier = Modifier.padding(top=11.dp)){
 
-                        Text(text = "Successful",modifier=Modifier.padding(vertical = 2.67.dp,horizontal=10.7.dp), fontSize = 9.36.sp)
+                        Text(text = "Successful",modifier=Modifier.padding(horizontal=10.7.dp), fontSize = 9.36.sp)
                     }
                     else
                         Card (colors = CardDefaults.cardColors(contentColor = Danger300, containerColor = FailBackground), shape = RoundedCornerShape(5.35.dp), modifier = Modifier.padding(top=11.dp)){
 
-                            Text(text = "Failed",modifier=Modifier.padding(vertical = 2.67.dp,horizontal=10.7.dp), fontSize = 9.36.sp)
+                            Text(text = "Failed",modifier=Modifier.padding(horizontal=10.7.dp), fontSize = 9.36.sp)
                         }
                 }
             }

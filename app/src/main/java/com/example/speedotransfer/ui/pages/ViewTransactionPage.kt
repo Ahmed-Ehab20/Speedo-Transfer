@@ -61,7 +61,7 @@ fun ViewTransactionPage(
     val currency by balanceViewModel.currency.collectAsState()
     val fromAccount by balanceViewModel.accountNumber.collectAsState()
     val transactions by transactionsViewModel.transactions.collectAsState()
-    val filteredTransaction = transactions.filter { it.transactionId == 1 }
+    val filteredTransaction = transactions.filter { it.transactionId == id.toInt() }
     val amount = filteredTransaction.firstOrNull()?.amount
     val toName = filteredTransaction.firstOrNull()?.recipientName
     val isRecieved= filteredTransaction.firstOrNull()?.status=="SUCCESSFUL"

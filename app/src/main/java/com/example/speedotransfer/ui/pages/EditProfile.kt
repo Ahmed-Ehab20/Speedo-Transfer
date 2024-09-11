@@ -73,7 +73,7 @@ fun EditProfileScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White)
+
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -91,7 +91,7 @@ fun EditProfileScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White)
+
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -109,7 +109,7 @@ fun EditProfileScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White)
+
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -132,7 +132,7 @@ fun EditProfileScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White)
+
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
