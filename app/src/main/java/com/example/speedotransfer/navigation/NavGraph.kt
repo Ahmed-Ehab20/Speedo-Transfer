@@ -1,6 +1,7 @@
 package com.example.speedotransfer.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -56,6 +57,7 @@ object Route {
 fun NavGraph(navController: NavHostController) {
     val context = LocalContext.current
     val isOnboardingCompleted = remember { PreferenceHelper.isOnboardingCompleted(context) }
+    val showAlert = remember { mutableStateOf(false) }
 
     NavHost(navController = navController, startDestination = Route.SPLASH) {
         composable(Route.SPLASH) {
