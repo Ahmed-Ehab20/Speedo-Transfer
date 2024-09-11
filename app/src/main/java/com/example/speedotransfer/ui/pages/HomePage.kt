@@ -39,8 +39,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.model.BalanceViewModel
-import com.example.speedotransfer.network.datamodel.Transaction
 import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.network.datamodel.TransactionsViewModel
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoTransaction
 import com.example.speedotransfer.ui.elements.formatNumberWithCommas
@@ -51,20 +51,23 @@ import com.example.speedotransfer.ui.theme.Gray900
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.ui.theme.YellowGradientStart
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @Composable
 fun HomePage(
     navController: NavController,
-    recentTransactions: List<Transaction> = emptyList(),
     modifier: Modifier = Modifier,
-    viewModel: BalanceViewModel = viewModel()
+    BalanceViewModel: BalanceViewModel = viewModel(),
+    TransactionsViewModel: TransactionsViewModel = viewModel()
 ) {
     var selectedItem = 0
-    val balance by viewModel.balance.collectAsState()
-    val currency by viewModel.currency.collectAsState()
-    val accountNumber by viewModel.accountNumber.collectAsState()
-    val name by viewModel.name.collectAsState()
+    val balance by BalanceViewModel.balance.collectAsState()
+    val currency by BalanceViewModel.currency.collectAsState()
+    val accountNumber by BalanceViewModel.accountNumber.collectAsState()
+    val name by BalanceViewModel.name.collectAsState()
+    val recentTransactions by TransactionsViewModel.transactions.collectAsState()
     Scaffold(
         content = { paddingValues ->
             Column(
@@ -162,12 +165,12 @@ fun HomePage(
                     LazyColumn {
                         items(recentTransactions) {
                             SpeedoTransaction(
-                                name = it.name,
-                                amount = it.amount,
-                                date = it.date,
-                                type = it.type,
-                                cardDetails = it.cardDetails,
-                                currency = it.currency,
+                                name = name!!,
+                                amount = it.amount.toString(),
+                                date = formatDateTime(it.transactionDate),
+                                type = "Recieved",
+                                cardDetails =  "Visa . Mater Card . "+it.accountNumber.takeLast(4),
+                                currency = currency!!,
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .clickable { navController.navigate(Route.VIEW_TRANSACTION) })
@@ -199,4 +202,16 @@ fun extractInitials(fullName: String): String {
     val lastNameInitial =
         names.lastOrNull()?.firstOrNull()?.toString()?.uppercase(Locale.ROOT) ?: ""
     return firstNameInitial + lastNameInitial
+}
+
+fun formatDateTime(dateString: String): String {
+    // Parse the input date string
+    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    val zonedDateTime = ZonedDateTime.parse(dateString, inputFormatter)
+
+    // Define the desired output format
+    val outputFormatter = DateTimeFormatter.ofPattern("MM/dd/yy HH:mm")
+
+    // Format the date
+    return zonedDateTime.format(outputFormatter)
 }
