@@ -2,34 +2,24 @@ package com.example.speedotransfer.network.helpers
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
-object PreferencesHelper {
+object PreferenceHelper {
 
-    private const val PREFERENCES_NAME = "speedo_transfer_prefs"
+    private const val PREFS_NAME = "app_prefs"
+    private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
 
-    // Keys for your preferences
-    private const val KEY_USER_TOKEN = "user_token"
-
-    private fun getPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
+    private fun getSharedPreferences(context: Context): SharedPreferences {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    // Function to save user token
-    fun saveUserToken(context: Context, token: String) {
-        val editor = getPreferences(context).edit()
-        editor.putString(KEY_USER_TOKEN, token)
-        editor.apply() // or use commit() if you need synchronous saving
+    fun setOnboardingCompleted(context: Context, completed: Boolean) {
+        getSharedPreferences(context).edit {
+            putBoolean(KEY_ONBOARDING_COMPLETED, completed)
+        }
     }
 
-    // Function to get user token
-    fun getUserToken(context: Context): String? {
-        return getPreferences(context).getString(KEY_USER_TOKEN, null)
-    }
-
-    // Function to clear all preferences
-    fun clearPreferences(context: Context) {
-        val editor = getPreferences(context).edit()
-        editor.clear()
-        editor.apply()
+    fun isOnboardingCompleted(context: Context): Boolean {
+        return getSharedPreferences(context).getBoolean(KEY_ONBOARDING_COMPLETED, false)
     }
 }

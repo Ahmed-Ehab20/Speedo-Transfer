@@ -1,23 +1,14 @@
 package com.example.speedotransfer.ui.pages
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -34,10 +25,16 @@ import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.ui.theme.Primary75
 import com.example.speedotransfer.ui.theme.YellowGradientStart
+import com.example.speedotransfer.network.helpers.PreferenceHelper
 
 @Composable
-fun OnBoardingPage(modifier: Modifier = Modifier) {
+fun OnBoardingPage(
+    modifier: Modifier = Modifier,
+    context: Context,
+    onFinished: () -> Unit
+) {
     var index by remember { mutableStateOf(0) }
+    var onboardingCompleted by remember { mutableStateOf(PreferenceHelper.isOnboardingCompleted(context)) }
     val images = listOf(R.drawable.onboarding_1, R.drawable.onboarding_2, R.drawable.onboarding_3)
     val titles = listOf("Amount", "Confirmation", "Payment")
     val texts = listOf(
@@ -45,15 +42,21 @@ fun OnBoardingPage(modifier: Modifier = Modifier) {
         "Transfer funds instantly to friends and family worldwide, strong shield protecting a money.",
         "Enjoy peace of mind with our secure platform Transfer funds instantly to friends."
     )
+
+    // Check if onboarding is completed
+    if (onboardingCompleted) {
+        onFinished()
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd))
-            .padding(top = 78.dp), horizontalAlignment = Alignment.CenterHorizontally
+            .padding(top = 78.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         TextButton(
-            onClick = { },
+            onClick = { onFinished() }, // Skip the onboarding
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(bottom = 15.dp)
@@ -79,25 +82,19 @@ fun OnBoardingPage(modifier: Modifier = Modifier) {
                 modifier = modifier
                     .padding(end = 8.dp)
                     .size(16.dp)
-            ) {
-
-            }
+            ) {}
             Surface(
                 color = if (index == 1) Primary300 else Primary75,
                 shape = CircleShape,
                 modifier = modifier
                     .padding(end = 8.dp)
                     .size(16.dp)
-            ) {
-
-            }
+            ) {}
             Surface(
                 color = if (index == 2) Primary300 else Primary75,
                 shape = CircleShape,
                 modifier = modifier.size(16.dp)
-            ) {
-
-            }
+            ) {}
         }
         Text(
             text = titles[index],
@@ -116,7 +113,16 @@ fun OnBoardingPage(modifier: Modifier = Modifier) {
         )
         SpeedoButton(
             label = "Next",
-            onClick = { if (index < 2) index++ else /*TODO*/ index },
+            onClick = {
+                if (index < 2) {
+                    index++
+                } else {
+                    // Mark onboarding as completed
+                    PreferenceHelper.setOnboardingCompleted(context, true)
+                    onboardingCompleted = true
+                    onFinished()
+                }
+            },
             modifier = Modifier.fillMaxWidth(0.9f)
         )
     }
@@ -125,5 +131,5 @@ fun OnBoardingPage(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun OnBoardingPagePreview() {
-    OnBoardingPage()
+    // OnBoardingPage(context = LocalContext.current, onFinished = {})
 }
