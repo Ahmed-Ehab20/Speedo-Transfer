@@ -41,10 +41,12 @@ object Route {
     const val VIEW_TRANSACTION = "view_transaction"
     const val TRANSFER_SUCCESS = "transfer_success"
     const val TRANSFER_SCREEN = "transfer_screen"
-    const val TRANSFER_CONFIRMATION="transfer_confirmation"
+    const val TRANSFER_CONFIRMATION = "transfer_confirmation"
     const val MORE = "more"
-    const val FAVOURITES="favourite"
+    const val FAVOURITES = "favourite"
+    const val SIGN_UP_COUNTRY_AND_DATE = "SignUpCountryAndDate"
 }
+
 
 @Composable
 fun NavGraph(navController: NavHostController) {

@@ -108,7 +108,7 @@ fun SignInScreen(navController: NavController) {
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 
                     if (message == "login Successful"){
-                        navController.navigate(Route.SPLASH)
+                        navController.navigate(Route.HOME)
                     }
                 }
 
@@ -148,5 +148,5 @@ fun SignInScreen(navController: NavController) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-//    SignInScreen()
+    //SignInScreen()
 }
