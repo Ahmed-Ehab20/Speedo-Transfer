@@ -25,5 +25,6 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(AuthAPI::class.java)
+
     }
 }

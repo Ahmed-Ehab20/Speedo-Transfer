@@ -1,22 +1,20 @@
 package com.example.speedotransfer.network.retrofit
 
-
-import com.example.speedotransfer.network.datamodel.UpdateUserRequest
+import com.example.speedotransfer.network.datamodel.UpdatePassword
 import com.example.speedotransfer.network.datamodel.UpdateUserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-fun updateUser(
+fun updatePassword(
     userId: Int,
-    username: String,
-    email: String,
-    country: String,
+    currentPassword: String,
+    newPassword: String,
     resultMessage: (String) -> Unit
 ) {
-    val updateRequest = UpdateUserRequest(username, email, country)
+    val updatePassword = UpdatePassword(currentPassword, newPassword)
 
-    RetrofitInstance.api.updateUserById(userId, updateRequest)
+    RetrofitInstance.api.updatePassword(userId, updatePassword)
         .enqueue(object : Callback<UpdateUserResponse> {
             override fun onResponse(
                 call: Call<UpdateUserResponse>,
@@ -27,7 +25,7 @@ fun updateUser(
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Unknown error"
                     val errorMessage = parseErrorMessage(errorBody)
-                    resultMessage("update failed")                }
+                    resultMessage("update failed: $errorMessage")                }
             }
 
             override fun onFailure(call: Call<UpdateUserResponse>, t: Throwable) {

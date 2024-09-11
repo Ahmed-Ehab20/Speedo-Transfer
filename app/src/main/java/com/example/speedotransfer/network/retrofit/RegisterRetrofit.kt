@@ -14,7 +14,7 @@ fun register(
     password: String,
     confirmPassword: String,
     dateOfBirth: String,
-    onResult: (String) -> Unit
+    onResult: (String,String?) -> Unit
 ) {
     val registerRequest = RegisterRequest(username, email, country, password, confirmPassword, dateOfBirth)
 
@@ -22,20 +22,21 @@ fun register(
         override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
             if (response.isSuccessful) {
                 val registerResponse = response.body()
+                val status = registerResponse?.status
                 if (registerResponse?.status == "ACCEPTED") {
-                    onResult("Registration successful")
+                    onResult("Registration successful",status)
                 } else {
-                    onResult("Registration failed: ${registerResponse?.message ?: "Unknown error"}")
+                    onResult("Registration failed: ${registerResponse?.message ?: "Unknown error"},",status)
                 }
             } else {
                 val errorBody = response.errorBody()?.string() ?: "Unknown error"
                 val errorMessage = parseErrorMessage(errorBody)
-                onResult("Registration failed: $errorMessage")
+                onResult("Registration failed: $errorMessage","")
             }
         }
 
         override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-            onResult("Registration failed: ${t.message ?: "Unknown error"}")
+            onResult("Registration failed: ${t.message ?: "Unknown error"}","")
         }
     })
 }

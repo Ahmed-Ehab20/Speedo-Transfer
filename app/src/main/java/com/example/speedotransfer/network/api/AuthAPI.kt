@@ -4,6 +4,7 @@ import com.example.speedotransfer.network.datamodel.LoginRequest
 import com.example.speedotransfer.network.datamodel.LoginResponse
 import com.example.speedotransfer.network.datamodel.RegisterRequest
 import com.example.speedotransfer.network.datamodel.RegisterResponse
+import com.example.speedotransfer.network.datamodel.UpdatePassword
 import com.example.speedotransfer.network.datamodel.UpdateUserRequest
 import com.example.speedotransfer.network.datamodel.UpdateUserResponse
 
@@ -24,6 +25,12 @@ interface AuthAPI {
     fun updateUserById(
         @Path("id") userId: Int,
         @Body updateUserRequest: UpdateUserRequest
+    ): Call<UpdateUserResponse>
+
+    @PUT("users/{id}/changepassword")
+    fun updatePassword(
+        @Path("id") userId: Int,
+        @Body updateUserRequest: UpdatePassword
     ): Call<UpdateUserResponse>
 
 
