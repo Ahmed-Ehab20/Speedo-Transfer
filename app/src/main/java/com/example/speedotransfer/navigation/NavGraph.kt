@@ -1,6 +1,9 @@
 package com.example.speedotransfer.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -8,6 +11,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.speedotransfer.network.datamodel.Favourite
 import com.example.speedotransfer.network.datamodel.Notification
+import com.example.speedotransfer.network.datamodel.Transaction
+import com.example.speedotransfer.network.helpers.PreferenceHelper
+import com.example.speedotransfer.ui.pages.*
 import com.example.speedotransfer.ui.pages.ChangePasswordScreen
 import com.example.speedotransfer.ui.pages.ConfirmationScreen
 import com.example.speedotransfer.ui.pages.EditProfileScreen
@@ -28,6 +34,7 @@ import com.example.speedotransfer.ui.pages.TransferSuccessPage
 import com.example.speedotransfer.ui.pages.ViewTransactionPage
 
 object Route {
+    const val ONBOARDING = "onboarding"
     const val SPLASH = "splash"
     const val SIGN_IN = "sign_in"
     const val SIGN_UP = "sign_up"
@@ -44,31 +51,56 @@ object Route {
     const val TRANSFER_SCREEN = "transfer_screen"
     const val TRANSFER_CONFIRMATION="transfer_confirmation"
     const val MORE = "more"
-    const val FAVOURITES="favourite"
+    const val FAVOURITES = "favourite"
+    const val MY_CARDS = "my_cards"
 }
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "splash") {
+    val context = LocalContext.current
+    val isOnboardingCompleted = remember { PreferenceHelper.isOnboardingCompleted(context) }
+    val showAlert = remember { mutableStateOf(false) }
+
+    NavHost(navController = navController, startDestination = Route.SPLASH) {
+        composable(Route.SPLASH) {
+            SplashScreen(
+                navController = navController,
+                isOnboardingCompleted = isOnboardingCompleted
+            )
+        }
+        composable(Route.ONBOARDING) {
+            OnBoardingPage(
+                context = context,
+                navigateToSignIn = {
+                    navController.navigate(Route.SIGN_IN) {
+                        popUpTo(Route.ONBOARDING) { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable(Route.SIGN_IN) { SignInScreen(navController) }
+        composable(Route.SIGN_UP) { SignUp(navController) }
+        composable("SignUpCountryAndDate/{fullName}/{email}/{password}/{confirmPassword}") { backStackEntry ->
+            val fullName = backStackEntry.arguments?.getString("fullName")
+            val email = backStackEntry.arguments?.getString("email")
+            val password = backStackEntry.arguments?.getString("password")
+            val confirmPassword = backStackEntry.arguments?.getString("confirmPassword")
+
+            SignUpCountryAndDate(
+                navController = navController,
+                fullName = fullName,
+                email = email,
+                password = password,
+                confirmPassword = confirmPassword
+            )
+        }
         composable(Route.HOME) {
             HomePage(navController)
         }
         composable(Route.NOTIFICATIONS) {
-            val n1 = Notification(
-                "Receive Transaction",
-                "You have received 1000 USD from Asmaa Dosuky 1234 xxx",
-                "12 Jul 2024 09:00 PM"
-            )
-            val n2 = Notification(
-                "Receive Transaction",
-                "You have received 1000 USD from Asmaa Dosuky 1234 xxx",
-                "12 Jul 2024 09:00 PM"
-            )
-            val n3 = Notification(
-                "Receive Transaction",
-                "You have received 1000 USD from Asmaa Dosuky 1234 xxx",
-                "12 Jul 2024 09:00 PM"
-            )
+            val n1 = Notification("Receive Transaction", "You have received 1000 USD from Asmaa Dosuky 1234 xxx", "12 Jul 2024 09:00 PM")
+            val n2 = Notification("Receive Transaction", "You have received 1000 USD from Asmaa Dosuky 1234 xxx", "12 Jul 2024 09:00 PM")
+            val n3 = Notification("Receive Transaction", "You have received 1000 USD from Asmaa Dosuky 1234 xxx", "12 Jul 2024 09:00 PM")
             val notifications = listOf(n1, n2, n3)
             NotificationPage(navController, notifications)
         }
@@ -144,38 +176,6 @@ fun NavGraph(navController: NavHostController) {
         composable(Route.SETTINGS) { SettingsScreen(navController) }
         composable(Route.CHANGE_PASSWORD) { ChangePasswordScreen(navController) }
         composable(Route.EDIT_PROFILE) { EditProfileScreen(navController) }
-
-
-//        composable("edit_profile/{userId}") { backStackEntry ->
-//            val userId = backStackEntry.arguments?.getString("userId")?.toIntOrNull()
-//            if (userId != null) {
-//                EditProfileScreen(navController = navController, userId = userId)
-//            } else {
-//            }
-//        }
-
-
-        composable(Route.SPLASH) { SplashScreen(navController = navController) }
-        composable(Route.SIGN_IN) { SignInScreen(navController = navController) }
-        composable(Route.SIGN_UP) { SignUp(navController = navController) }
-//        composable("SignUpCountryAndDate") { SignUpCountryAndDate(navController = navController) }
-
-        composable("SignUpCountryAndDate/{fullName}/{email}/{password}/{confirmPassword}") { backStackEntry ->
-            val fullName = backStackEntry.arguments?.getString("fullName")
-            val email = backStackEntry.arguments?.getString("email")
-            val password = backStackEntry.arguments?.getString("password")
-            val confirmPassword = backStackEntry.arguments?.getString("confirmPassword")
-
-            SignUpCountryAndDate(
-                navController = navController,
-                fullName = fullName,
-                email = email,
-                password = password,
-                confirmPassword = confirmPassword
-            )
-
-
-
-        }
+        composable(Route.MY_CARDS) { MyCardsScreen(navController) }
     }
 }

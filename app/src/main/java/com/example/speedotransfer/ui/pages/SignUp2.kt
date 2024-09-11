@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.ViewModel.SignUpViewModel
 import com.example.speedotransfer.navigation.Route
@@ -72,7 +73,6 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-
 fun SignUpCountryAndDate(
     modifier: Modifier = Modifier,
     navController: NavHostController,
@@ -81,14 +81,6 @@ fun SignUpCountryAndDate(
     password: String?,
     confirmPassword: String?
 ) {
-//    val viewModel: SignUpViewModel = viewModel()
-
-//    val fullName by viewModel.fullName
-//    val email by viewModel.email
-//    val password by viewModel.password
-//    val confirmPassword by viewModel.confirmPassword
-
-
     var textValue by remember { mutableStateOf("") }
     var selectedCountry by remember { mutableStateOf<CountryItem?>(null) }
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -101,12 +93,9 @@ fun SignUpCountryAndDate(
     // State to track if the dialog should be shown
     var showDialog by remember { mutableStateOf(false) }
 
-
     val isButtonEnabled = textValue.isNotEmpty() && selectedDate.isNotEmpty()
 
-
     var message by remember { mutableStateOf("") }
-
 
     val countries = listOf(
         CountryItem("Egypt", R.drawable.usa),
@@ -115,13 +104,14 @@ fun SignUpCountryAndDate(
         CountryItem("Germany", R.drawable.usa)
     )
 
-
+    val gradientBrush = Brush.verticalGradient(
+        colors = listOf(Color(0xFFFFFFFF), Color(0xFFFFEAEE)),
+        startY = 0f,
+        endY = Float.POSITIVE_INFINITY
+    )
 
     BottomSheetScaffold(
-
         modifier = Modifier.background(color = Color.Transparent),
-
-
         scaffoldState = scaffoldState,
         sheetPeekHeight = 0.dp,
         sheetContent = {
@@ -130,7 +120,6 @@ fun SignUpCountryAndDate(
                     .fillMaxWidth()
                     .height(360.dp)
             ) {
-
                 items(countries) { country ->
                     Row(
                         modifier = Modifier
@@ -164,30 +153,14 @@ fun SignUpCountryAndDate(
                     }
                 }
             }
-        },
-//        modifier = Modifier.pointerInput(Unit) {
-//            detectTapGestures {
-//                if (scaffoldState.bottomSheetState.isVisible) {
-//                    scope.launch {
-//                        // todo
-//                       // scaffoldState.bottomSheetState.hide()
-//                    }
-//                }
-//            }
-//        }
+        }
     ) {
         Column(
             modifier = modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
-                .background(
-                    Brush.linearGradient(
-                        0.0f to YellowGradientStart,
-                        1.0f to PinkGradientEnd
-                    )
-
-                ),
+                .background(gradientBrush), // Use gradientBrush here
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -213,7 +186,7 @@ fun SignUpCountryAndDate(
             }
 
             Text(
-                text = "Speedo Transfer ",
+                text = "Speedo Transfer",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W600,
                 lineHeight = 29.sp
@@ -223,10 +196,7 @@ fun SignUpCountryAndDate(
                 text = "Welcome to Banque Misr!",
                 modifier = modifier
                     .padding(top = 66.dp)
-//                    .width(330.dp)
                     .height(36.dp),
-//                    .align(Alignment.End),
-//                Alignment = Alignment.Center,
                 fontWeight = FontWeight.W600,
                 fontSize = 24.sp
             )
@@ -236,7 +206,7 @@ fun SignUpCountryAndDate(
                 modifier = modifier.padding(top = 16.dp),
                 fontWeight = FontWeight.W400,
                 fontSize = 16.sp,
-                color = colorResource(id = R.color.G700)
+                color = Gray700
             )
 
             Text(
@@ -286,9 +256,6 @@ fun SignUpCountryAndDate(
                 )
             )
 
-
-
-
             if (showDialog) {
                 android.app.DatePickerDialog(
                     context,
@@ -308,7 +275,7 @@ fun SignUpCountryAndDate(
             }
 
             Text(
-                text = "Date Of Brith",
+                text = "Date Of Birth",
                 fontSize = 16.sp,
                 lineHeight = 24.sp,
                 fontWeight = FontWeight.W400,
@@ -323,7 +290,7 @@ fun SignUpCountryAndDate(
             OutlinedTextField(
                 value = selectedDate,
                 onValueChange = { },
-                placeholder = { Text("DD/MM/YYY") },
+                placeholder = { Text("DD/MM/YYYY") },
                 shape = RoundedCornerShape(6.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
@@ -334,7 +301,6 @@ fun SignUpCountryAndDate(
                     .clickable {
                         showDialog = true // Trigger the dialog to show
                     },
-
                 readOnly = true, // Make the field read-only
                 trailingIcon = {
                     Icon(
@@ -351,19 +317,11 @@ fun SignUpCountryAndDate(
                     color = Color.Gray,
                     fontWeight = FontWeight.W400,
                     lineHeight = 21.sp
-
                 )
             )
 
-
-
-
-
             SpeedoButton(
                 label = "Continue", onClick = {
-
-
-//
                     register(
                         "$fullName",
                         "$email",
@@ -378,25 +336,13 @@ fun SignUpCountryAndDate(
                         if (status == "ACCEPTED"){
                             navController.navigate(Route.SIGN_IN)
                         }
-
                     }
-
-//
-//                    // Call your API here with these values
-//                    register(viewModel.fullName , viewModel.email, "selectedCountry", viewModel.password, viewModel.confirmPassword, selectedDate) { responseMessage ->
-//                        // Handle API response
-//                        Toast.makeText(context, responseMessage, Toast.LENGTH_LONG).show()
-//                    }
-
-
                 }, modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .padding(top = 32.dp), enabled = isButtonEnabled
             )
 
-
             Row(modifier = modifier.padding(all = 16.dp)) {
-
                 Text(
                     text = "Already have an account? ",
                     fontSize = 16.sp,
@@ -410,25 +356,23 @@ fun SignUpCountryAndDate(
                     color = Primary300,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500
-
                 )
-
             }
-
-
         }
-
-
     }
     Log.d("Navigation", "Navigating to SignUpCountryAndDate with: fullName=$fullName, email=$email, password=$password, confirmPassword=$confirmPassword")
-
 }
-
 
 data class CountryItem(val name: String, val flagRes: Int)
 
 @Preview(showSystemUi = true)
 @Composable
 fun SignUpCountryAndDatePreview() {
-//    SignUpCountryAndDate()
+    SignUpCountryAndDate(
+        navController = rememberNavController(),
+        fullName = "John Doe",
+        email = "john.doe@example.com",
+        password = "password123",
+        confirmPassword = "password123"
+    )
 }

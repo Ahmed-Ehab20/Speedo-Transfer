@@ -1,11 +1,7 @@
 package com.example.speedotransfer.ui.pages
 
-import android.graphics.fonts.Font
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,39 +10,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.ViewModel.SignUpViewModel
 import com.example.speedotransfer.navigation.Route
-import com.example.speedotransfer.network.retrofit.login
-import com.example.speedotransfer.network.retrofit.register
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTextField
-import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.Primary300
-import com.example.speedotransfer.ui.theme.YellowGradientStart
-
 
 
 fun isEmailValid(email: String): Boolean {
@@ -54,9 +39,8 @@ fun isEmailValid(email: String): Boolean {
 }
 
 
-
 @Composable
-fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
+fun SignUp(navController: NavHostController, modifier: Modifier = Modifier) {
 
     val viewModel: SignUpViewModel = viewModel()
 
@@ -64,8 +48,6 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
     var email by viewModel.email
     var password by viewModel.password
     var confirmPassword by viewModel.confirmPassword
-
-
 
 
 //    val fullName by remember { mutableStateOf(viewModel.fullName) }
@@ -77,9 +59,6 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
 //    var confirmPassword by rememberSaveable { mutableStateOf("") }
 
 
-
-
-
     val isButtonEnabled =
         fullName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() &&
                 confirmPassword.isNotEmpty() && password.length >= 6 &&
@@ -87,7 +66,11 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
                 !fullName.matches(".*\\d.*".toRegex())
 
 
-
+    val gradientBrush = Brush.verticalGradient(
+        colors = listOf(Color(0xFFFFFFFF), Color(0xFFFFEAEE)),
+        startY = 0f,
+        endY = Float.POSITIVE_INFINITY
+    )
 
 
 
@@ -95,23 +78,24 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
         modifier = modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(
-                Brush.linearGradient(
-                    0.0f to YellowGradientStart,
-                    1.0f to PinkGradientEnd
-                )
-            )
-            .verticalScroll(rememberScrollState()), // Enable vertical scrolling
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ){
+            .background(gradientBrush)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Text(
-            text = "Sign Up", modifier = modifier.padding(top = 8.dp, bottom = 55.dp),
-            fontSize = 20.sp, fontWeight = FontWeight.W500,  lineHeight = 30.sp
+            text = "Sign Up",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Normal,
+            color = Color.Black,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 32.dp)
         )
         Text(
             text = "Speedo Transfer ",
-            modifier = modifier.padding(bottom = 41.dp),
+            modifier = modifier
+                .padding(bottom = 41.dp)
+                .padding(top = 80.dp),
             fontWeight = FontWeight.W500,
             fontSize = 30.sp
         )
@@ -123,17 +107,12 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
             icon = R.drawable.user,
             textValue = fullName,
             isPassword = false,
-            onTextChange = {viewModel.fullName.value = it},
+            onTextChange = { viewModel.fullName.value = it },
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(bottom = 8.dp),
 
-        )
-
-        
-        
-        
-        
+            )
 
         SpeedoTextField(
             title = "Email",
@@ -178,8 +157,7 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
                 navController.navigate("SignUpCountryAndDate/$fullName/$email/$password/$confirmPassword")
 
 
-
-                }, modifier = Modifier
+            }, modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(top = 32.dp),
             enabled = isButtonEnabled
@@ -193,7 +171,7 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
                 lineHeight = 20.sp
             )
             Text(
-                text = " Sign In",
+                text = "Sign In",
                 modifier = Modifier.clickable { navController.navigate(Route.SIGN_IN) },
                 textDecoration = TextDecoration.Underline,
                 color = Primary300,
@@ -202,15 +180,15 @@ fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
             )
 
         }
-        Log.d("Navigation", "Navigating to SignUp with: fullName=$fullName, email=$email, password=$password, confirmPassword=$confirmPassword")
-
     }
-
-
 }
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SignUpPreview() {
-//    SignUp()
+    val navController = rememberNavController()
+    SignUp(
+        navController = navController,
+        modifier = Modifier,
+    )
 }
