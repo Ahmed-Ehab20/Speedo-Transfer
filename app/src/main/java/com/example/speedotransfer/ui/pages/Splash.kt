@@ -13,17 +13,31 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(navController: NavHostController, isOnboardingCompleted: Boolean) {
     val backgroundColor = Color(0xFF871E35)
 
     LaunchedEffect(Unit) {
+        // Delay to show splash screen for a bit
         delay(500L)
-        navController.navigate("sign_in")
+
+        if (isOnboardingCompleted) {
+            navController.navigate(Route.SIGN_IN) {
+                // Clear splash from the back stack
+                popUpTo(Route.SPLASH) { inclusive = true }
+            }
+        } else {
+            navController.navigate(Route.ONBOARDING) {
+                // Clear splash from the back stack
+                popUpTo(Route.SPLASH) { inclusive = true }
+            }
+        }
     }
 
     Box(
@@ -40,9 +54,10 @@ fun SplashScreen(navController: NavController) {
     }
 }
 
+
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SplashScreenPreview() {
-    SplashScreen(rememberNavController())
+    //SplashScreen(rememberNavController())
 
 }

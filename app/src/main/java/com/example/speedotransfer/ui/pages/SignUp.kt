@@ -56,7 +56,7 @@ fun isEmailValid(email: String): Boolean {
 
 
 @Composable
-fun SignUp(modifier: Modifier = Modifier,navController: NavHostController) {
+fun SignUp(navController: NavHostController,modifier: Modifier = Modifier) {
 
     val viewModel: SignUpViewModel = viewModel()
 

@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,7 +32,7 @@ import com.example.speedotransfer.network.helpers.PreferenceHelper
 fun OnBoardingPage(
     modifier: Modifier = Modifier,
     context: Context,
-    onFinished: () -> Unit
+    navigateToSignIn: () -> Unit // Renamed callback for clarity
 ) {
     var index by remember { mutableStateOf(0) }
     var onboardingCompleted by remember { mutableStateOf(PreferenceHelper.isOnboardingCompleted(context)) }
@@ -45,7 +46,9 @@ fun OnBoardingPage(
 
     // Check if onboarding is completed
     if (onboardingCompleted) {
-        onFinished()
+        LaunchedEffect(Unit) {
+            navigateToSignIn()
+        }
     }
 
     Column(
@@ -56,7 +59,7 @@ fun OnBoardingPage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextButton(
-            onClick = { onFinished() }, // Skip the onboarding
+            onClick = { navigateToSignIn() }, // Skip the onboarding
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(bottom = 15.dp)
@@ -120,7 +123,7 @@ fun OnBoardingPage(
                     // Mark onboarding as completed
                     PreferenceHelper.setOnboardingCompleted(context, true)
                     onboardingCompleted = true
-                    onFinished()
+                    navigateToSignIn() // Navigate to Sign In screen
                 }
             },
             modifier = Modifier.fillMaxWidth(0.9f)
@@ -131,5 +134,9 @@ fun OnBoardingPage(
 @Preview
 @Composable
 private fun OnBoardingPagePreview() {
-    // OnBoardingPage(context = LocalContext.current, onFinished = {})
+    // Replace with a mock context or preview-specific implementation
+    OnBoardingPage(
+        context = LocalContext.current,
+        navigateToSignIn = {}
+    )
 }
