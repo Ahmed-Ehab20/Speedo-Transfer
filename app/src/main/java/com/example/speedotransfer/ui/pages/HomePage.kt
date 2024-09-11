@@ -39,7 +39,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.model.BalanceViewModel
-import com.example.speedotransfer.model.Transaction
 import com.example.speedotransfer.network.datamodel.Transaction
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
