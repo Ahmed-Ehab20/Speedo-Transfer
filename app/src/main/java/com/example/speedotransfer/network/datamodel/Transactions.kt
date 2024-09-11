@@ -2,7 +2,7 @@ package com.example.speedotransfer.network.datamodel
 
 
 data class Transactions(
-    val transactions: List<Transaction>
+    val content: List<Transaction>
 )
 
 

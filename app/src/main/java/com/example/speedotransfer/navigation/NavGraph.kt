@@ -73,18 +73,11 @@ fun NavGraph(navController: NavHostController) {
         composable(Route.TRANSACTIONS) {
             LastTransactionsPage(navController)
         }
-        composable(Route.VIEW_TRANSACTION) {
+        composable("${Route.VIEW_TRANSACTION}/{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id") ?: ""
             ViewTransactionPage(
-                navController,
-                amount = "1000",
-                currency = "USD",
-                isRecieved = true,
-                fromName = "Asmaa Dosuky",
-                toName = "Jonathon Smith",
-                fromAccount = "Account xxxx7890",
-                toAccount = "Account xxxx7890",
-                referenceNumber = "123456789876",
-                date = "20 Jul 2024 7:50 PM"
+                navController = navController,
+                id = id // Pass the id parameter here
             )
         }
         composable(Route.MORE) {
