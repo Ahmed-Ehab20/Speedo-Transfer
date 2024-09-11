@@ -56,10 +56,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-        fun getToken(): String? {
-            val sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-            val token = sharedPreferences.getString("token", "")
-            return token
-        }
 
-}

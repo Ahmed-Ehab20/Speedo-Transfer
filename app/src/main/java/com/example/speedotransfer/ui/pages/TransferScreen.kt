@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -43,8 +45,10 @@ import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoFavourite
 import com.example.speedotransfer.ui.elements.SpeedoTextField
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
+import com.example.speedotransfer.ui.theme.Gray100
 import com.example.speedotransfer.ui.theme.Gray700
 import com.example.speedotransfer.ui.theme.Primary300
+import com.example.speedotransfer.ui.theme.Primary50
 import kotlinx.coroutines.launch
 
 @Composable
@@ -104,7 +108,11 @@ fun Stepper(currentStep: Int) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TransferScreen(navController: NavController,balanceViewModel: BalanceViewModel=viewModel(),favouritesViewModel: FavouritesViewModel=viewModel()) {
+fun TransferScreen(
+    navController: NavController,
+    balanceViewModel: BalanceViewModel = viewModel(),
+    favouritesViewModel: FavouritesViewModel = viewModel()
+) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
@@ -117,7 +125,7 @@ fun TransferScreen(navController: NavController,balanceViewModel: BalanceViewMod
     var recipientName by remember { mutableStateOf("") }
     var recipientAccount by remember { mutableStateOf("") }
     LaunchedEffect(id) {
-        if(id!=null){
+        if (id != null) {
             favouritesViewModel.fetchFavourites(id.toString())
         }
     }
@@ -129,16 +137,18 @@ fun TransferScreen(navController: NavController,balanceViewModel: BalanceViewMod
                 onItemSelected = { /* Handle item selection */ }
             )
         },
-        content={ innerPadding ->
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .background(gradientBrush), horizontalAlignment = Alignment.CenterHorizontally){
+        content = { innerPadding ->
             Column(
                 modifier = Modifier
-                    .fillMaxWidth(0.93f)
-                    .fillMaxHeight()
-                    .padding(innerPadding)
+                    .fillMaxSize()
+                    .background(gradientBrush), horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(0.93f)
+                        .fillMaxHeight()
+                        .padding(innerPadding)
+                ) {
 
                     SpeedoTitleCard(title = "Transfer", navController = navController)
 
@@ -188,16 +198,29 @@ fun TransferScreen(navController: NavController,balanceViewModel: BalanceViewMod
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    Row(verticalAlignment = Alignment.CenterVertically,modifier=Modifier.padding(bottom=8.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    ) {
                         Text(
                             text = "Recipient Information",
                             fontSize = 16.sp,
                         )
                         Spacer(modifier = Modifier.weight(1f))
-                        TextButton(onClick = { showBottomSheet=true}) {
-                            Icon(painter = painterResource(id =R.drawable.favorite), contentDescription = "favourite",modifier=Modifier.size(20.dp), tint = Primary300)
-                            Text(text = "Favourite",color= Primary300)
-                            Icon(painter = painterResource(id =R.drawable.ic_arrow_right), contentDescription = "Next",modifier=Modifier.size(16.dp), tint = Primary300 )
+                        TextButton(onClick = { showBottomSheet = true }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.favorite),
+                                contentDescription = "favourite",
+                                modifier = Modifier.size(20.dp),
+                                tint = Primary300
+                            )
+                            Text(text = "Favourite", color = Primary300)
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_arrow_right),
+                                contentDescription = "Next",
+                                modifier = Modifier.size(16.dp),
+                                tint = Primary300
+                            )
                         }
                     }
 
@@ -239,7 +262,8 @@ fun TransferScreen(navController: NavController,balanceViewModel: BalanceViewMod
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
-                    val isButtonEnabled = amount.isNotBlank() && recipientName.isNotBlank() && recipientAccount.isNotBlank()
+                    val isButtonEnabled =
+                        amount.isNotBlank() && recipientName.isNotBlank() && recipientAccount.isNotBlank()
                     SpeedoButton(
                         label = "Continue",
                         enabled = isButtonEnabled,
@@ -264,33 +288,74 @@ fun TransferScreen(navController: NavController,balanceViewModel: BalanceViewMod
 
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Row(modifier= Modifier
-                            .fillMaxWidth()
-                            .padding(top = 32.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                            Icon(painter = painterResource(id = R.drawable.favorite), contentDescription = "Favourite", tint = Primary300)
-                            Text(text = "Favourite List",color= Primary300)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 32.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.favorite),
+                                contentDescription = "Favourite",
+                                tint = Primary300
+                            )
+                            Text(text = "Favourite List", color = Primary300)
                         }
-                        LazyColumn(modifier=Modifier.padding(top=16.dp,bottom=40.dp)) {
-                            items(favourites){
-                                SpeedoFavourite(name = it.recipientName, account = it.recipientAccountNumber, iconsShown = false,modifier=Modifier.fillMaxWidth(0.9f).clickable { recipientName=it.recipientName
-                                recipientAccount=it.recipientAccountNumber
-                                    showBottomSheet=false}.padding(bottom=16.dp)
+                        LazyColumn(modifier = Modifier.padding(top = 16.dp, bottom = 40.dp)) {
+                            items(favourites) {
+                                SpeedoFavourite(
+                                    name = it.recipientName,
+                                    account = it.recipientAccountNumber,
+                                    iconsShown = false,
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.9f)
+                                        .clickable {
+                                            recipientName = it.recipientName
+                                            recipientAccount = it.recipientAccountNumber
+                                            showBottomSheet = false
+                                        }
+                                        .padding(bottom = 16.dp)
                                 )
                             }
                         }
                     }
 
-                    }
-
                 }
+
             }
+        }
     )
 }
 
-
-
-@Preview(showBackground = true)
 @Composable
-fun TransferScreenPreview() {
-   TransferScreen(rememberNavController())
+fun FavoriteCard(
+    fromName: String,
+    fromAccount: String,
+    onCardClick: (String, String) -> Unit // Add a click handler
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .clickable { onCardClick(fromName, fromAccount) }, // Handle click
+        colors = CardDefaults.cardColors(containerColor = Primary50)
+    ) {
+        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Image(painter = painterResource(id = R.drawable.bank), contentDescription = "Bank")
+            Column(modifier = Modifier.padding(start = 32.dp)) {
+                Text(
+                    text = fromName,
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.W600
+                )
+                Text(
+                    text = fromAccount,
+                    fontSize = 16.sp,
+                    color = Gray100,
+                    fontWeight = FontWeight.W400
+                )
+            }
+        }
+    }
 }
