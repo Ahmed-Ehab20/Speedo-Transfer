@@ -13,7 +13,7 @@ fun login(
     context: Context,
     email: String,
     password: String,
-    onResult: (String, Int?, String?) -> Unit // تعديل هنا لتقبل معلمتين و status
+    onResult: (String, Int?, String?) -> Unit
 ) {
     val loginRequest = LoginRequest(email, password)
 

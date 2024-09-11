@@ -1,6 +1,7 @@
 package com.example.speedotransfer.ui.pages
 
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -18,6 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.network.datamodel.UserPreferences
+import com.example.speedotransfer.network.retrofit.updatePassword
+import com.example.speedotransfer.network.retrofit.updateUser
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
@@ -28,6 +34,10 @@ fun ChangePasswordScreen(navController: NavController) {
 
     var currentPassword by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
+    var resultMessage by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val userPreferences = UserPreferences(context)
+    val userId by userPreferences.userIdFlow.collectAsState(initial = null)
 
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
@@ -117,6 +127,19 @@ fun ChangePasswordScreen(navController: NavController) {
                     SpeedoButton(
                         label = "Save",
                         onClick = {
+                            userId?.let { id ->
+                                updatePassword(id, currentPassword, newPassword) { message ->
+                                    resultMessage = message
+                                    Toast.makeText(context, resultMessage, Toast.LENGTH_LONG).show()
+                                    if (message == "Update successful"){
+                                        navController.navigate(Route.SIGN_IN)
+                                    }
+
+                                }
+                            } ?: run {
+                                Toast.makeText(context, "User ID not found", Toast.LENGTH_LONG).show()
+                            }
+
                         },
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )

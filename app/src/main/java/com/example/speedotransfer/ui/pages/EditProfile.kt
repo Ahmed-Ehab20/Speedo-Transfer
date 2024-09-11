@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.network.datamodel.UpdateUserRequest
 import com.example.speedotransfer.network.datamodel.UserPreferences
 import com.example.speedotransfer.network.retrofit.updateUser
@@ -144,6 +145,12 @@ fun EditProfileScreen(navController: NavController) {
                                 updateUser(id, fullName, email, country) { message ->
                                     resultMessage = message
                                     Toast.makeText(context, resultMessage, Toast.LENGTH_LONG).show()
+                                    if (message == "update failed"){
+
+                                    }else{
+                                        navController.navigate(Route.SIGN_IN)
+
+                                    }
                                 }
                             } ?: run {
                                 Toast.makeText(context, "User ID not found", Toast.LENGTH_LONG).show()
