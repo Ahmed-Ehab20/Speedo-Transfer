@@ -30,9 +30,6 @@ class ProfileInfoViewModel() : ViewModel() {
         viewModelScope.launch {
             try {
                 val info = UsersAPIService.balanceAPI.getProfileInformation()
-
-                val response = RetrofitInstance.api.getProfileInformation()
-                UsersAPIService.balanceAPI.getProfileInformation()
                 _profileInfo.update { ProfileInfo(info.name,info.email,info.country,info.accounts) }
             } catch (e: Exception) {
                 // Handle error appropriately
