@@ -1,6 +1,7 @@
 package com.example.speedotransfer.ui.pages
 
 import android.graphics.Paint.Align
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,8 +28,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
@@ -162,18 +165,45 @@ fun HomePage(
                         .fillMaxWidth(0.9f)
                         .padding(vertical = 8.dp)
                 ) {
-                    LazyColumn {
-                        items(recentTransactions) {
-                            SpeedoTransaction(
-                                name = name!!,
-                                amount = it.amount.toString(),
-                                date = formatDateTime(it.transactionDate),
-                                type = "Recieved",
-                                cardDetails =  "Visa . Mater Card . "+it.accountNumber.takeLast(4),
-                                currency = currency!!,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .clickable { navController.navigate(Route.VIEW_TRANSACTION) })
+                    if(recentTransactions!=null&&recentTransactions.isNotEmpty()) {
+                        LazyColumn {
+                            items(recentTransactions) {
+                                SpeedoTransaction(
+                                    name = name!!,
+                                    amount = it.amount.toString(),
+                                    date = formatDateTime(it.transactionDate),
+                                    type = "Recieved",
+                                    cardDetails = "Visa . Mater Card . " + it.accountNumber.takeLast(
+                                        4
+                                    ),
+                                    currency = currency!!,
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                        .clickable { navController.navigate(Route.VIEW_TRANSACTION) })
+                            }
+                        }
+                    }
+                    else {
+                        // Display a message when no transactions are available
+                        Surface(
+                            color = Color.White,
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier
+                                .fillMaxWidth(0.9f)
+                                .padding(vertical = 8.dp)
+                                .background(Color.White).clip(RoundedCornerShape(8.dp))
+                        ) {
+                            Box(
+                                modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "No recent transactions",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.W400,
+                                    color = Gray900
+                                )
+                            }
                         }
                     }
                 }

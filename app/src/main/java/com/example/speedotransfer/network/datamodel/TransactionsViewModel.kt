@@ -24,7 +24,7 @@ class TransactionsViewModel : ViewModel() {
                 _transactions.update { TransactionsAPIService.TransactionsAPI.getTransactions().transactions }
             }
             catch (e: Exception){
-                Log.e("Error fetching balance", e.toString())
+                Log.e("Error fetching Transactions", e.toString())
             }
         }
     }
