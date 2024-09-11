@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,9 +34,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.BalanceViewModel
+import com.example.speedotransfer.network.datamodel.TransactionsViewModel
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.theme.Gray100
 import com.example.speedotransfer.ui.theme.Gray700
@@ -45,26 +51,33 @@ import com.example.speedotransfer.ui.theme.YellowGradientStart
 @Composable
 fun ViewTransactionPage(
     navController: NavController,
-    amount: String,
-    currency: String,
-    isRecieved: Boolean,
-    fromName: String,
-    toName: String,
-    fromAccount: String,
-    toAccount: String,
-    referenceNumber: String,
-    date: String,
-    modifier: Modifier = Modifier
+    id: String,
+    modifier: Modifier = Modifier,
+    transactionsViewModel: TransactionsViewModel = viewModel(),
+    balanceViewModel: BalanceViewModel=viewModel()
 ) {
     var selectedItem by remember { mutableStateOf(2) }
+    val fromName by balanceViewModel.name.collectAsState()
+    val currency by balanceViewModel.currency.collectAsState()
+    val fromAccount by balanceViewModel.accountNumber.collectAsState()
+    val transactions by transactionsViewModel.transactions.collectAsState()
+    val filteredTransaction = transactions.filter { it.transactionId == 1 }
+    val amount = filteredTransaction.firstOrNull()?.amount
+    val toName = filteredTransaction.firstOrNull()?.recipientName
+    val isRecieved= filteredTransaction.firstOrNull()?.status=="SUCCESSFUL"
+    val toAccount= filteredTransaction.firstOrNull()?.accountNumber
+    val referenceNumber= filteredTransaction.firstOrNull()?.transactionId
+    val date = filteredTransaction.firstOrNull()?.transactionDate
+
     Scaffold(content={innerPadding->Column(
         modifier = modifier
             .fillMaxSize()
             .background(
                 Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)
-            ).padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally
+            )
+            .padding(innerPadding)
+            .verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Log.d("trace2", innerPadding.toString())
         SpeedoTitleCard(title = "Successful Transactions",navController)
         Image(
             painter = painterResource(id = R.drawable.success),
@@ -73,7 +86,7 @@ fun ViewTransactionPage(
         )
         Text(
             text = AnnotatedString.Builder().apply {
-                append(amount)
+                append(amount.toString())
                 withStyle(style = SpanStyle(color = Primary300)) {
                     append(" $currency")
                 }
@@ -118,13 +131,13 @@ fun ViewTransactionPage(
                             fontWeight = FontWeight.W500
                         )
                         Text(
-                            text = fromName,
+                            text = fromName?:"",
                             modifier = Modifier.padding(bottom = 8.dp),
                             fontSize = 20.sp,
                             fontWeight = FontWeight.W600
                         )
                         Text(
-                            text = fromAccount,
+                            text = fromAccount?:"",
                             fontSize = 16.sp,
                             color = Gray100,
                             fontWeight = FontWeight.W400
@@ -163,13 +176,13 @@ fun ViewTransactionPage(
                             fontWeight = FontWeight.W500
                         )
                         Text(
-                            text = toName,
+                            text = toName?:"",
                             modifier = Modifier.padding(bottom = 8.dp),
                             fontSize = 20.sp,
                             fontWeight = FontWeight.W600
                         )
                         Text(
-                            text = toAccount,
+                            text = toAccount?:"",
                             fontSize = 16.sp,
                             color = Gray100,
                             fontWeight = FontWeight.W400
@@ -197,7 +210,7 @@ fun ViewTransactionPage(
                         color = Gray700
                     )
                     Text(
-                        text = referenceNumber,
+                        text = referenceNumber.toString(),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W400,
                         color = Gray100
@@ -214,7 +227,7 @@ fun ViewTransactionPage(
                         color = Gray700
                     )
                     Text(
-                        text = date,
+                        text =if (date==null) "" else formatDateTime( date),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W400,
                         color = Gray100
@@ -228,7 +241,7 @@ fun ViewTransactionPage(
 
 }
 
-@Preview
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun ViewTransactionPagePreview() {
 

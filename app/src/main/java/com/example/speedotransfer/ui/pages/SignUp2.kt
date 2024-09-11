@@ -371,11 +371,11 @@ fun SignUpCountryAndDate(
                         "$password",
                         "$confirmPassword",
                         "2024-09-09"
-                    ) { responseMessage ->
+                    ) { responseMessage , status ->
                         message = responseMessage
                         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 
-                        if (message == "register Successful"){
+                        if (status == "ACCEPTED"){
                             navController.navigate(Route.SIGN_IN)
                         }
 
