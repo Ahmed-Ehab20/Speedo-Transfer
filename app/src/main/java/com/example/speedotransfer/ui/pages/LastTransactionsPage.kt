@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.model.BalanceViewModel
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.network.api.TransactionsAPIService
@@ -61,7 +62,7 @@ fun LastTransactionsPage(navController: NavController, modifier: Modifier = Modi
 
                 items(transactions) {
                     SpeedoLastTransaction(
-                        name = name!!,
+                        name = it.recipientName!!,
                         amount = it.amount.toString(),
                         date = formatDateTime(it.transactionDate),
                         type = "Recieved",
@@ -85,10 +86,13 @@ fun LastTransactionsPage(navController: NavController, modifier: Modifier = Modi
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .padding(vertical = 8.dp)
-                    .background(Color.White).clip(RoundedCornerShape(8.dp))
+                    .background(Color.White)
+                    .clip(RoundedCornerShape(8.dp))
             ) {
                 Box(
-                    modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(8.dp)),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -107,5 +111,5 @@ fun LastTransactionsPage(navController: NavController, modifier: Modifier = Modi
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun LastTransactionsPagePreview() {
-
+    LastTransactionsPage(navController = rememberNavController())
 }

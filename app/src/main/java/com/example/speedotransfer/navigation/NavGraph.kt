@@ -2,8 +2,10 @@ package com.example.speedotransfer.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.speedotransfer.network.datamodel.Favourite
 import com.example.speedotransfer.network.datamodel.Notification
 import com.example.speedotransfer.ui.pages.ChangePasswordScreen
@@ -86,33 +88,56 @@ fun NavGraph(navController: NavHostController) {
         composable(Route.TRANSFER_SCREEN) {
             TransferScreen(navController)
         }
-        composable(Route.TRANSFER_SUCCESS) {
+        composable(
+            "transfer_success/{amount}/{recipientName}/{recipientAccount}/{senderAccount}/{senderName}/{currency}/{id}",
+            arguments = listOf(
+                navArgument("amount") { type = NavType.StringType },
+                navArgument("recipientName") { type = NavType.StringType },
+                navArgument("recipientAccount") { type = NavType.StringType },
+                navArgument("senderAccount") { type = NavType.StringType },
+                navArgument("senderName") { type = NavType.StringType },
+                navArgument("currency") { type = NavType.StringType }
+                ,navArgument("id") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val amount = backStackEntry.arguments?.getString("amount") ?: ""
+            val recipientName = backStackEntry.arguments?.getString("recipientName") ?: ""
+            val recipientAccount = backStackEntry.arguments?.getString("recipientAccount") ?: ""
+            val senderAccount = backStackEntry.arguments?.getString("senderAccount") ?: ""
+            val senderName = backStackEntry.arguments?.getString("senderName") ?: ""
+            val currency = backStackEntry.arguments?.getString("currency") ?: ""
+            val id = backStackEntry.arguments?.getString("id") ?: ""
             TransferSuccessPage(
-                navController,
-                amount = "1000",
-                currency = "EGP",
-                fromName = "Asmaa Dosuky",
-                toName = "Jonathon Smith",
-                fromAccount = "Account xxxx7890",
-                toAccount = "Account xxxx7890"
+                navController = navController,
+                amount = amount,
+                currency = currency,
+                fromName = senderName ,
+                toName = recipientName,
+                fromAccount = senderAccount ,
+                toAccount =recipientAccount,
+                id = id
             )
         }
-        composable(Route.TRANSFER_CONFIRMATION){
+        composable(
+            "transfer_confirmation/{amount}/{recipientName}/{recipientAccount}",
+            arguments = listOf(
+                navArgument("amount") { type = NavType.StringType },
+                navArgument("recipientName") { type = NavType.StringType },
+                navArgument("recipientAccount") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val amount = backStackEntry.arguments?.getString("amount") ?: ""
+            val recipientName = backStackEntry.arguments?.getString("recipientName") ?: ""
+            val recipientAccount = backStackEntry.arguments?.getString("recipientAccount") ?: ""
             ConfirmationScreen(
-                navController,
-                amount = "1000",
-                fromName = "Asmaa Dosuky",
-                recipientName = "Jonathon Smith",
-                fromAccount = "Account xxxx7890",
-                recipientAccount = "Account xxxx7890"
+                navController = navController,
+                amount = amount,
+                recipientName = recipientName,
+                recipientAccount = recipientAccount
             )
         }
         composable(Route.FAVOURITES){
-            val f1 = Favourite("Asmaa Dosuky", "Account xxxx7890")
-            val f2 = Favourite("Asmaa Dosuky", "Account xxxx7890")
-            val favourites = listOf(f1, f2)
-
-            FavouritePage(navController,favourites)
+            FavouritePage(navController)
         }
         composable(Route.PROFILE) { ProfileScreen(navController) }
         composable(Route.PROFILE_INFO) { ProfileInformationScreen(navController) }

@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -98,7 +99,7 @@ fun SpeedoTextField(
                 }
             },
             placeholder = { Text(text = label, color = Gray70, fontSize = 14.sp) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(2.dp)),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done, // Adjust as needed
                 keyboardType = type
