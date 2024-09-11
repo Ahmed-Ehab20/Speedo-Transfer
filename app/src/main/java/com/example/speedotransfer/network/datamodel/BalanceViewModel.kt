@@ -20,6 +20,8 @@ class BalanceViewModel : ViewModel() {
     val name: StateFlow<String?> = _name
     private val _accountNumber = MutableStateFlow<String?>("123456789")
     val accountNumber: StateFlow<String?> = _accountNumber
+    private val _id= MutableStateFlow<String?>("0")
+    val id: StateFlow<String?> = _id
 
     init {
         getBalance()
@@ -32,6 +34,7 @@ class BalanceViewModel : ViewModel() {
                 _currency.update { api.accounts.firstOrNull()?.currency }
                 _name.update { api.accountName }
                 _accountNumber.update { api.accounts.firstOrNull()?.accountNumber }
+                _id.update{api.id}
             } catch (e: Exception) {
                 Log.e("Error fetching balance", e.toString())
             }

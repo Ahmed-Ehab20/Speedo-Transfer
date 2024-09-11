@@ -1,5 +1,6 @@
 package com.example.speedotransfer.ui.pages
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,15 +12,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.network.datamodel.FavouriteRequest
+import com.example.speedotransfer.network.datamodel.FavouritesViewModel
+import com.example.speedotransfer.network.datamodel.TransferViewModel
 import com.example.speedotransfer.ui.pages.Stepper
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoButton
@@ -35,13 +41,16 @@ fun TransferSuccessPage(
     toName: String,
     fromAccount: String,
     toAccount: String,
-    modifier: Modifier = Modifier
+    id:String,
+    modifier: Modifier = Modifier,
+    favouritesViewModel: FavouritesViewModel= viewModel()
 ) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(YellowGradientStart, PinkGradientEnd),
         startY = 0f,
         endY = Float.POSITIVE_INFINITY
     )
+    val context= LocalContext.current
 
     Scaffold(
         bottomBar = {
@@ -145,7 +154,10 @@ fun TransferSuccessPage(
                     // "Add to Favorite" Button using SpeedoButton with Transparent Background
                     SpeedoButton(
                         label = "Add to Favorite",
-                        onClick = { /* Add to Favorite Logic */ },
+                        onClick = { favouritesViewModel.addFavourite(userId =id, FavouriteRequest(recipientName = toName, recipientAccountNumber = toAccount)
+                        )
+                                  Toast.makeText(context,"favourite added",Toast.LENGTH_SHORT).show()
+                                  navController.navigate(Route.TRANSFER_SCREEN)},
                         backgroundColor = Color.Transparent,
                         textColor = Primary300,
                         borderColor = Primary300,

@@ -13,7 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.speedotransfer.network.datamodel.ProfileInformationViewModel
+import com.example.speedotransfer.ViewModel.ProfileInfoViewModel
+//import com.example.speedotransfer.ViewModel.ProfileInformationViewModel
+//import com.example.speedotransfer.network.datamodel.ProfileInformationViewModel
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
@@ -27,9 +29,11 @@ fun ProfileInformationScreen(navController: NavController) {
         endY = Float.POSITIVE_INFINITY
     )
 
-    val viewModel: ProfileInformationViewModel = viewModel()
-    val profileInfo by viewModel.profileInfo.collectAsState()
+//    val viewModel: ProfileInformationViewModel = viewModel()
+//    val profileInfo by viewModel.profileInfo.collectAsState()
 
+    val viewModel: ProfileInfoViewModel = viewModel()
+    val profileInfo by viewModel.profileInfo.collectAsState()
     Scaffold(
         content = { paddingValues ->
             Box(
@@ -47,12 +51,15 @@ fun ProfileInformationScreen(navController: NavController) {
 
                     Spacer(modifier = Modifier.height(28.dp))
 
-                    // Dynamically show the profile information
-                    ProfileInfoItem(label = "Full Name", value = profileInfo.fullName)
+                    ProfileInfoItem(label = "Full Name", value = profileInfo.name)
                     ProfileInfoItem(label = "Email", value = profileInfo.email)
-                    ProfileInfoItem(label = "Date Of Birth", value = profileInfo.dateOfBirth)
+                    ProfileInfoItem(label = "Date Of Birth", value = "10/2/2005")
                     ProfileInfoItem(label = "Country", value = profileInfo.country)
-                    ProfileInfoItem(label = "Bank Account", value = profileInfo.bankAccount)
+                    if(profileInfo.accounts.firstOrNull() !=null){
+                        ProfileInfoItem(label = "Bank Account", value = profileInfo.accounts.firstOrNull()!!.accountNumber)
+                    }
+                    // Dynamically show the profile information
+
                 }
             }
         }, bottomBar = { BottomNavigationBar(navController,selectedItem = selectedItem, onItemSelected = { index -> selectedItem = index }) }
@@ -61,7 +68,9 @@ fun ProfileInformationScreen(navController: NavController) {
 
 @Composable
 fun ProfileInfoItem(label: String, value: String) {
-    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp)) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 12.dp)) {
         Text(
             text = label,
             fontSize = 16.sp,

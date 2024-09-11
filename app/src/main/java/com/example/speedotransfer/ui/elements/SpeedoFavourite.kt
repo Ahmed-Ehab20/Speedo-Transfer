@@ -25,7 +25,7 @@ import com.example.speedotransfer.ui.theme.Gray900
 import com.example.speedotransfer.ui.theme.Primary50
 
 @Composable
-fun SpeedoFavourite(name: String,account:String,onUpdateClick:()->Unit={},onDeleteClick:()->Unit={},modifier: Modifier = Modifier) {
+fun SpeedoFavourite(name: String,account:String,onUpdateClick:()->Unit={},onDeleteClick:()->Unit={},iconsShown:Boolean=true,modifier: Modifier = Modifier) {
     Surface(modifier=modifier, color = Primary50, shape = RoundedCornerShape(8.dp)) {
         Row (verticalAlignment = Alignment.CenterVertically,modifier=Modifier.padding(16.dp)){
             Image(painter = painterResource(id = R.drawable.bank), contentDescription = "Bank Icon")
@@ -34,8 +34,16 @@ fun SpeedoFavourite(name: String,account:String,onUpdateClick:()->Unit={},onDele
                 Text(text = account ,fontSize=16.sp, fontWeight = FontWeight.W400,color= Gray100)
             }
             Spacer(modifier = Modifier.weight(1f))
-            Image(painter = painterResource(id = R.drawable.edit), contentDescription = "Edit",modifier=Modifier.padding(end=16.dp).clickable { onUpdateClick() })
-            Image(painter = painterResource(id = R.drawable.delete), contentDescription = "Delete",modifier=Modifier.padding(start=16.dp).clickable { onDeleteClick() })
+            if(iconsShown) {
+                Image(
+                    painter = painterResource(id = R.drawable.edit),
+                    contentDescription = "Edit",
+                    modifier = Modifier.padding(end = 16.dp).clickable { onUpdateClick() })
+                Image(
+                    painter = painterResource(id = R.drawable.delete),
+                    contentDescription = "Delete",
+                    modifier = Modifier.padding(start = 16.dp).clickable { onDeleteClick() })
+            }
         }
     }
 }

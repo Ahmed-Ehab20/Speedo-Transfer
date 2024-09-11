@@ -16,5 +16,6 @@ data class UserAccountsResponse(
     @SerializedName("accounts")
     val accounts: List<AccountBalanceInfo>,
     @SerializedName("name")
-    val accountName: String
+    val accountName: String,
+    val id:String
 )

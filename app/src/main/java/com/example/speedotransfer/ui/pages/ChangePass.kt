@@ -90,7 +90,7 @@ fun ChangePasswordScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White)
+
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -119,7 +119,7 @@ fun ChangePasswordScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White)
+
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))

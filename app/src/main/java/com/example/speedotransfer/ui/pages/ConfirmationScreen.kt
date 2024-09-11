@@ -1,5 +1,7 @@
-package com.example.speedotransfer.ui.pages
+package com.example. speedotransfer.ui.pages
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -12,19 +14,27 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.BalanceViewModel
 import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.network.datamodel.TransferRequest
+import com.example.speedotransfer.network.datamodel.TransferViewModel
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
@@ -36,17 +46,34 @@ import com.example.speedotransfer.ui.theme.Primary50
 fun ConfirmationScreen(
     navController: NavController,
     amount: String,
-    fromName: String = "Asmaa Desouky",
-    fromAccount: String = "xxxx1234",
     recipientName: String,
-    recipientAccount: String
+    recipientAccount: String,
+    balanceViewModel: BalanceViewModel= viewModel(),
+    transferViewModel: TransferViewModel =viewModel(),
 ) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
         endY = Float.POSITIVE_INFINITY
     )
+    val fromName by balanceViewModel.name.collectAsState()
+    val fromAccount by balanceViewModel.accountNumber.collectAsState()
+    val currency by balanceViewModel.currency.collectAsState()
+    val response by transferViewModel.transferStatus.collectAsState()
+    val id by balanceViewModel.id.collectAsState()
+    val context = LocalContext.current
+    LaunchedEffect(response) {
+        if(response!=null) {
+            Log.d("trace", response.toString())
+            Toast.makeText(context, response?.message, Toast.LENGTH_SHORT).show()
 
+            if (response?.success == true) {
+                navController.navigate("${Route.TRANSFER_SUCCESS}/$amount/$recipientName/$recipientAccount/$fromAccount/$fromName/$currency/$id")
+            } else {
+                navController.navigate(Route.TRANSFER_SCREEN)
+            }
+        }
+    }
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
@@ -60,8 +87,9 @@ fun ConfirmationScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(gradientBrush)
-                .padding(16.dp)
-                .padding(innerPadding).verticalScroll(rememberScrollState())
+                .padding(8.dp)
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
         ) {
             Column(
                 modifier = Modifier
@@ -146,13 +174,13 @@ fun ConfirmationScreen(
                                 fontWeight = FontWeight.W500
                             )
                             Text(
-                                text = fromName,
+                                text = fromName?:"",
                                 modifier = Modifier.padding(bottom = 8.dp),
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.W600
                             )
                             Text(
-                                text = fromAccount,
+                                text = fromAccount?:"",
                                 fontSize = 16.sp,
                                 color = Gray100,
                                 fontWeight = FontWeight.W400
@@ -233,7 +261,9 @@ fun ConfirmationScreen(
                 ) {
                     SpeedoButton(
                         label = "Confirm",
-                        onClick = { navController.navigate(Route.TRANSFER_SUCCESS) },
+                        onClick = {
+                            transferViewModel.transferMoney(transferRequest = TransferRequest(senderId = id?:"",recipientName=recipientName,recipientAccountNumber=recipientAccount,amount = amount.toDouble()))
+},
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
 

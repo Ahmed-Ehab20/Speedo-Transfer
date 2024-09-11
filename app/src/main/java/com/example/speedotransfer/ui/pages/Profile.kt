@@ -17,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.BalanceViewModel
 import com.example.speedotransfer.network.datamodel.ProfileViewModel
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
@@ -27,7 +29,7 @@ import com.example.speedotransfer.ui.elements.InformationItem
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
 @Composable
-fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun ProfileScreen(navController: NavController,balanceViewModel: BalanceViewModel=viewModel()) {
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
@@ -35,14 +37,15 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
     )
 
     var selectedIndex by remember { mutableIntStateOf(4) }
-    val username by viewModel.username.collectAsState()
+    val username by balanceViewModel.name.collectAsState()
 
     Scaffold(
         content = { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = gradientBrush).padding(paddingValues)
+                    .background(brush = gradientBrush)
+                    .padding(paddingValues)
             ) {
                 Column(
                     modifier = Modifier
@@ -98,7 +101,9 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
                             icon = ImageVector.vectorResource(id = R.drawable.history),
                             title = "Payment history",
                             subtitle = "View your transactions",
-                            modifier = Modifier.fillMaxWidth().clickable { navController.navigate(Route.TRANSACTIONS)  }
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { navController.navigate(Route.TRANSACTIONS) }
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -108,7 +113,9 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
                             icon = ImageVector.vectorResource(id = R.drawable.favorite),
                             title = "My Favourite list",
                             subtitle = "View your favourites",
-                            modifier = Modifier.fillMaxWidth().clickable { navController.navigate( Route.FAVOURITES) }
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { navController.navigate(Route.FAVOURITES) }
                         )
                     }
                 }
@@ -127,7 +134,6 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = an
 
 @Composable
 fun UserProfileHeader(userName: String) {
-    val initials = userName.split(" ").joinToString("") { it.first().toString() }.take(2)
 
     Row(
         modifier = Modifier
@@ -142,7 +148,7 @@ fun UserProfileHeader(userName: String) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = initials,
+                text = extractInitials(userName),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
