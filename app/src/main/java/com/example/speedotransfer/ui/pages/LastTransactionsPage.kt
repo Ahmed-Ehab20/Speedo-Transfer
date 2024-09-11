@@ -32,44 +32,147 @@ import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.YellowGradientStart
 
 @Composable
-fun LastTransactionsPage(navController: NavController, transactions:List<Transaction> = emptyList(), modifier: Modifier = Modifier) {
-    var selectedItem by remember { mutableStateOf(4) }
-    Scaffold(content = {paddingValues -> Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Brush.linearGradient(0.0f to YellowGradientStart, 1.0f to PinkGradientEnd)).padding(paddingValues), horizontalAlignment = Alignment.CenterHorizontally) {
-        SpeedoTitleCard(title = "Transactions",navController,modifier=Modifier.fillMaxWidth(0.9f))
-        Text(text = "Your Last Transactions", fontSize = 20.sp, fontWeight = FontWeight.W600,modifier=Modifier.padding(top=32.25.dp))
-        LazyColumn (modifier= Modifier
-            .fillMaxWidth(0.9f)
-            .padding(top = 16.dp)){
-            items(transactions){
-                SpeedoLastTransaction(
-                    name = it.name,
-                    amount = it.amount,
-                    date = it.date,
-                    type = it.type,
-                    cardDetails = it.cardDetails,
-                    isSuccessful = it.isSuccessful,
-                    isCard = it.isCard,
-                    modifier=Modifier.padding(bottom=16.dp).clickable { navController.navigate(Route.VIEW_TRANSACTION) }
-                )
-            }
-        }
-    } }, bottomBar = { BottomNavigationBar(navController,selectedItem = selectedItem, onItemSelected = { index -> selectedItem = index }) })
+fun LastTransactionsPage(
+    navController: NavController,
+    transactions: List<Transaction> = emptyList(),
+    modifier: Modifier = Modifier
+) {
+    // Set the selectedItem index to 2 to highlight the "Transactions" tab
+    var selectedItem by remember { mutableStateOf(2) }
 
+    Scaffold(
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.linearGradient(
+                            0.0f to YellowGradientStart,
+                            1.0f to PinkGradientEnd
+                        )
+                    )
+                    .padding(paddingValues), horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                SpeedoTitleCard(
+                    title = "Transactions",
+                    navController,
+                    modifier = Modifier.fillMaxWidth(0.9f)
+                )
+                Text(
+                    text = "Your Last Transactions",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.W600,
+                    modifier = Modifier.padding(top = 32.25.dp)
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .padding(top = 16.dp)
+                ) {
+                    items(transactions) {
+                        SpeedoLastTransaction(
+                            name = it.name,
+                            amount = it.amount,
+                            date = it.date,
+                            type = it.type,
+                            cardDetails = it.cardDetails,
+                            isSuccessful = it.isSuccessful,
+                            isCard = it.isCard,
+                            modifier = Modifier
+                                .padding(bottom = 16.dp)
+                                .clickable { navController.navigate(Route.VIEW_TRANSACTION) }
+                        )
+                    }
+                }
+            }
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                navController = navController,
+                selectedItem = selectedItem,
+                onItemSelected = { index -> selectedItem = index }
+            )
+        }
+    )
 }
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun LastTransactionsPagePreview() {
-    val t1 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t2 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = false, isSuccessful = true)
-    val t3 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = false, isSuccessful = false)
-    val t4 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t5 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = false, isSuccessful = false)
-    val t6 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = false, isSuccessful = false)
-    val t7 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = true, isSuccessful = true)
-    val t8 = Transaction("Ahmed Mohamed","50000","12/30/24 11:00","Received","Visa . Mater Card . 1234", isCard = false, isSuccessful = true)
-    val transactions= listOf(t1,t2,t3,t4,t5,t6,t7,t8)
+    val t1 = Transaction(
+        "Ahmed Mohamed",
+        "50000",
+        "12/30/24 11:00",
+        "Received",
+        "Visa . Mater Card . 1234",
+        isCard = true,
+        isSuccessful = true
+    )
+    val t2 = Transaction(
+        "Ahmed Mohamed",
+        "50000",
+        "12/30/24 11:00",
+        "Received",
+        "Visa . Mater Card . 1234",
+        isCard = false,
+        isSuccessful = true
+    )
+    val t3 = Transaction(
+        "Ahmed Mohamed",
+        "50000",
+        "12/30/24 11:00",
+        "Received",
+        "Visa . Mater Card . 1234",
+        isCard = false,
+        isSuccessful = false
+    )
+    val t4 = Transaction(
+        "Ahmed Mohamed",
+        "50000",
+        "12/30/24 11:00",
+        "Received",
+        "Visa . Mater Card . 1234",
+        isCard = true,
+        isSuccessful = true
+    )
+    val t5 = Transaction(
+        "Ahmed Mohamed",
+        "50000",
+        "12/30/24 11:00",
+        "Received",
+        "Visa . Mater Card . 1234",
+        isCard = false,
+        isSuccessful = false
+    )
+    val t6 = Transaction(
+        "Ahmed Mohamed",
+        "50000",
+        "12/30/24 11:00",
+        "Received",
+        "Visa . Mater Card . 1234",
+        isCard = false,
+        isSuccessful = false
+    )
+    val t7 = Transaction(
+        "Ahmed Mohamed",
+        "50000",
+        "12/30/24 11:00",
+        "Received",
+        "Visa . Mater Card . 1234",
+        isCard = true,
+        isSuccessful = true
+    )
+    val t8 = Transaction(
+        "Ahmed Mohamed",
+        "50000",
+        "12/30/24 11:00",
+        "Received",
+        "Visa . Mater Card . 1234",
+        isCard = false,
+        isSuccessful = true
+    )
+    val transactions = listOf(t1, t2, t3, t4, t5, t6, t7, t8)
 
+    // Example usage with NavController
+    // BottomNavigationBar(navController = NavController(LocalContext.current), selectedItem = 2, onItemSelected = {})
 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.pages.Stepper
@@ -241,9 +242,17 @@ fun TransactionCard(fromName: String, fromAccount: String, toName: String, toAcc
     }
 }
 
-// Preview function
 @Preview(showBackground = true)
 @Composable
 fun TransferSuccessPagePreview() {
-//
+    val mockNavController = rememberNavController()
+    TransferSuccessPage(
+        navController = mockNavController,
+        amount = "500",
+        currency = "USD",
+        fromName = "John Doe",
+        toName = "Jane Smith",
+        fromAccount = "123456789",
+        toAccount = "987654321"
+    )
 }

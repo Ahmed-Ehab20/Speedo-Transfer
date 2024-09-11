@@ -19,16 +19,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import com.example.speedotransfer.R
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.Primary300
 
 data class NavItem(val label: String, val iconRes: Int)
 
 @Composable
-fun BottomNavigationBar(navController: NavController,selectedItem: Int, onItemSelected: (Int) -> Unit) {
+fun BottomNavigationBar(navController: NavController, selectedItem: Int, onItemSelected: (Int) -> Unit) {
     val navItems = listOf(
         NavItem("Home", R.drawable.home),
         NavItem("Transfer", R.drawable.transfer),
@@ -36,7 +37,7 @@ fun BottomNavigationBar(navController: NavController,selectedItem: Int, onItemSe
         NavItem("My cards", R.drawable.cards),
         NavItem("More", R.drawable.more)
     )
-    val navLocations= listOf(
+    val navLocations = listOf(
         Route.HOME,
         Route.TRANSFER_SCREEN,
         Route.TRANSACTIONS,
@@ -47,7 +48,7 @@ fun BottomNavigationBar(navController: NavController,selectedItem: Int, onItemSe
     Surface(
         color = Color.White,
         elevation = 8.dp,
-        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+        shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         modifier = Modifier.height(80.dp)
     ) {
         BottomNavigation(
@@ -56,14 +57,19 @@ fun BottomNavigationBar(navController: NavController,selectedItem: Int, onItemSe
             modifier = Modifier.height(80.dp)
         ) {
             navItems.forEachIndexed { index, navItem ->
-                val itemWeight = if (navItem.label == "Transactions") 1.5f else if (navItem.label == "My cards" || navItem.label == "Transfer") 1.3f else 0.9f
+                val itemWeight = when (navItem.label) {
+                    "Transactions" -> 1.5f
+                    "My cards", "Transfer" -> 1.3f
+                    else -> 0.9f
+                }
 
                 BottomNavigationItem(
                     icon = {
                         Icon(
                             painter = painterResource(id = navItem.iconRes),
                             contentDescription = navItem.label,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
+                            tint = if (selectedItem == index) Primary300 else Color.Gray // Apply tint for selected state
                         )
                     },
                     label = {
@@ -71,12 +77,15 @@ fun BottomNavigationBar(navController: NavController,selectedItem: Int, onItemSe
                             text = navItem.label,
                             fontSize = 12.sp,
                             maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
+                            color = if (selectedItem == index) Primary300 else Color.Gray // Apply color for selected state
                         )
                     },
                     selected = selectedItem == index,
-                    onClick = { onItemSelected(index)
-                        navController.navigate(navLocations[index]) },
+                    onClick = {
+                        onItemSelected(index)
+                        navController.navigate(navLocations[index])
+                    },
                     selectedContentColor = Primary300,
                     unselectedContentColor = Color.Gray,
                     modifier = Modifier.weight(itemWeight)
@@ -91,8 +100,10 @@ fun BottomNavigationBar(navController: NavController,selectedItem: Int, onItemSe
 fun BottomNavigationBarPreview() {
     var selectedIndex by remember { mutableStateOf(0) }
 
-//    BottomNavigationBar(
-//        selectedItem = selectedIndex,
-//        onItemSelected = { index -> selectedIndex = index }
-//    )
+    // Uncomment and adjust as needed
+    BottomNavigationBar(
+        navController = NavController(LocalContext.current),
+        selectedItem = selectedIndex,
+        onItemSelected = { index -> selectedIndex = index }
+    )
 }

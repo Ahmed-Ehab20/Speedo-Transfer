@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.R
 import com.example.speedotransfer.network.retrofit.login
@@ -148,5 +149,9 @@ fun SignInScreen(navController: NavController) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-    //SignInScreen()
+
+    val navController = rememberNavController()
+    SignInScreen(
+        navController = navController
+    )
 }
