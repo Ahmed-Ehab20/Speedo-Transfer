@@ -21,7 +21,7 @@ class TransactionsViewModel : ViewModel() {
     private fun getTransactions() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _transactions.update { TransactionsAPIService.TransactionsAPI.getTransactions().transactions }
+                _transactions.update { TransactionsAPIService.TransactionsAPI.getTransactions().content }
             }
             catch (e: Exception){
                 Log.e("Error fetching Transactions", e.toString())

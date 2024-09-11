@@ -54,6 +54,7 @@ import com.example.speedotransfer.ui.theme.Gray900
 import com.example.speedotransfer.ui.theme.PinkGradientEnd
 import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.ui.theme.YellowGradientStart
+import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -71,6 +72,7 @@ fun HomePage(
     val accountNumber by BalanceViewModel.accountNumber.collectAsState()
     val name by BalanceViewModel.name.collectAsState()
     val recentTransactions by TransactionsViewModel.transactions.collectAsState()
+    Log.d("recentTransactions", "$recentTransactions")
     Scaffold(
         content = { paddingValues ->
             Column(
@@ -169,7 +171,7 @@ fun HomePage(
                         LazyColumn {
                             items(recentTransactions) {
                                 SpeedoTransaction(
-                                    name = name!!,
+                                    name = it.recipientName,
                                     amount = it.amount.toString(),
                                     date = formatDateTime(it.transactionDate),
                                     type = "Recieved",
@@ -179,7 +181,7 @@ fun HomePage(
                                     currency = currency!!,
                                     modifier = Modifier
                                         .padding(8.dp)
-                                        .clickable { navController.navigate(Route.VIEW_TRANSACTION) })
+                                        .clickable { navController.navigate("${Route.VIEW_TRANSACTION}/${it.transactionId}") })
                             }
                         }
                     }
@@ -236,8 +238,9 @@ fun extractInitials(fullName: String): String {
 
 fun formatDateTime(dateString: String): String {
     // Parse the input date string
-    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")
-    val zonedDateTime = ZonedDateTime.parse(dateString, inputFormatter)
+    val truncatedString = dateString.substring(0, 19)
+    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+    val zonedDateTime = LocalDateTime.parse(truncatedString, inputFormatter)
 
     // Define the desired output format
     val outputFormatter = DateTimeFormatter.ofPattern("MM/dd/yy HH:mm")

@@ -54,10 +54,8 @@ fun SpeedoLastTransaction(
     isSuccessful:Boolean,
     isCard:Boolean,
     modifier: Modifier = Modifier,
-
 ) {
     Card(modifier=modifier, colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(8.dp), elevation = CardDefaults.cardElevation(4.dp) ) {
-        //TODO Need to implement the clickable card, need to ask mentor if the arrow button should be clickable or the whole card
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp, horizontal = 8.dp)) {
