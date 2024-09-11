@@ -273,6 +273,17 @@ fun NavGraph(navController: NavHostController) {
         composable(Route.SETTINGS) { SettingsScreen(navController) }
         composable(Route.CHANGE_PASSWORD) { ChangePasswordScreen(navController) }
         composable(Route.EDIT_PROFILE) { EditProfileScreen(navController) }
+
+
+//        composable("edit_profile/{userId}") { backStackEntry ->
+//            val userId = backStackEntry.arguments?.getString("userId")?.toIntOrNull()
+//            if (userId != null) {
+//                EditProfileScreen(navController = navController, userId = userId)
+//            } else {
+//            }
+//        }
+
+
         composable(Route.SPLASH) { SplashScreen(navController = navController) }
         composable(Route.SIGN_IN) { SignInScreen(navController = navController) }
         composable(Route.SIGN_UP) { SignUp(navController = navController) }

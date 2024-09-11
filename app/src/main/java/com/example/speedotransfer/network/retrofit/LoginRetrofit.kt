@@ -9,7 +9,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-fun login(context: Context,email: String, password: String, onResult: (String) -> Unit) {
+fun login(
+    context: Context,
+    email: String,
+    password: String,
+    onResult: (String, Int?, String?) -> Unit // تعديل هنا لتقبل معلمتين و status
+) {
     val loginRequest = LoginRequest(email, password)
 
     RetrofitInstance.api.login(loginRequest).enqueue(object : Callback<LoginResponse> {
@@ -17,23 +22,27 @@ fun login(context: Context,email: String, password: String, onResult: (String) -
             if (response.isSuccessful) {
                 val loginResponse = response.body()
                 saveToSharedPreferences(context, "token", loginResponse?.token.toString())
-                if (loginResponse?.status == "ACCEPTED") {
-                    onResult("login Successful")
+
+                val message = loginResponse?.message ?: "Unknown error"
+                val userId = loginResponse?.id
+                val status = loginResponse?.status
+
+                if (status == "ACCEPTED") {
+                    onResult(message, userId, status)
                 } else {
-                    onResult("Login failed: ${loginResponse?.message}")
+                    onResult("Login failed: $message", null, status)
                 }
             } else {
-                onResult("Login failed: Unknown error")
+                onResult("Login failed: Unknown error", null, null)
             }
         }
 
         override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-            onResult("Login failed: ${t.message}")
+            onResult("Login failed: ${t.message}", null, null)
         }
-    }
-
-    )
+    })
 }
+
 fun saveToSharedPreferences(context: Context, key: String, value: String) {
     val sharedPreferences: SharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
     val editor = sharedPreferences.edit()

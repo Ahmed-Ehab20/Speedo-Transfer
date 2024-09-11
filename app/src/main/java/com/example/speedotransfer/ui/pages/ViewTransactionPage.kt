@@ -228,7 +228,7 @@ fun ViewTransactionPage(
 
 }
 
-@Preview
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun ViewTransactionPagePreview() {
 

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.speedotransfer"
-        minSdk = 29
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -93,6 +93,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")
 
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
 
 
 

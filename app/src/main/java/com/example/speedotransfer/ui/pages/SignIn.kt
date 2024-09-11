@@ -26,8 +26,10 @@ import com.example.speedotransfer.ui.theme.Primary300
 import com.example.speedotransfer.R
 import com.example.speedotransfer.network.retrofit.login
 import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.network.datamodel.UserPreferences
 import com.example.speedotransfer.ui.elements.SpeedoTextField
 import com.example.speedotransfer.ui.elements.SpeedoButton
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignInScreen(navController: NavController) {
@@ -38,6 +40,8 @@ fun SignInScreen(navController: NavController) {
     val context = LocalContext.current
 
 
+    val userPreferences = UserPreferences(context)
+    val scope = rememberCoroutineScope()
 
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFFFFF), Color(0xFFFFEAEE)),
@@ -79,7 +83,7 @@ fun SignInScreen(navController: NavController) {
         SpeedoTextField(
             title = "Email",
             label = "Enter your email address",
-            icon = R.drawable.ic_email,
+            icon = R.drawable.email,
             textValue = email,
             onTextChange = { email = it },
             isPassword = false,
@@ -103,14 +107,20 @@ fun SignInScreen(navController: NavController) {
         SpeedoButton(
             label = "Sign in",
             onClick = {
-                login(context,email, password) { responseMessage ->
+                login(context, email, password) { responseMessage, userId, status ->
                     message = responseMessage
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 
-                    if (message == "login Successful"){
+                    if (status == "ACCEPTED" && userId != null) {
+                        // Save userId
+                        scope.launch {
+                            userPreferences.saveUserId(userId.toInt())
+                        }
+                        // Navigate to EditProfileScreen and pass userId
                         navController.navigate(Route.HOME)
                     }
                 }
+
 
             },
             modifier = Modifier.fillMaxWidth()
