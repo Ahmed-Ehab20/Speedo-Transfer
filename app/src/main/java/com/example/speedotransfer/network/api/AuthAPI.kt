@@ -21,6 +21,7 @@ interface AuthAPI {
     @POST("/auth/register")
     fun register(@Body registerRequest: RegisterRequest): Call<RegisterResponse>
 
+
     @PUT("users/{id}")
     fun updateUserById(
         @Path("id") userId: Int,
@@ -33,5 +34,6 @@ interface AuthAPI {
         @Body updateUserRequest: UpdatePassword
     ): Call<UpdateUserResponse>
 
-
 }
+
+//
