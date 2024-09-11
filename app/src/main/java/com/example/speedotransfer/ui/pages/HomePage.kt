@@ -56,7 +56,6 @@ import java.util.Locale
 @Composable
 fun HomePage(
     navController: NavController,
-    name: String,
     recentTransactions: List<Transaction> = emptyList(),
     modifier: Modifier = Modifier,
     viewModel: BalanceViewModel = viewModel()
@@ -64,6 +63,8 @@ fun HomePage(
     var selectedItem = 0
     val balance by viewModel.balance.collectAsState()
     val currency by viewModel.currency.collectAsState()
+    val accountNumber by viewModel.accountNumber.collectAsState()
+    val name by viewModel.name.collectAsState()
     Scaffold(
         content = { paddingValues ->
             Column(
@@ -90,7 +91,7 @@ fun HomePage(
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Text(
-                                text = extractInitials(name),
+                                text = extractInitials(name!!),
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.W600,
                                 color = Gray100
@@ -104,7 +105,7 @@ fun HomePage(
                             fontWeight = FontWeight.W400,
                             color = Primary300
                         )
-                        Text(text = name, fontWeight = FontWeight.W500, color = Gray900)
+                        Text(text = name!!, fontWeight = FontWeight.W500, color = Gray900)
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Image(

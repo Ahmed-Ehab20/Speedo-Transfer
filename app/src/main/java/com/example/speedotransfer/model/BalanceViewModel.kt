@@ -11,10 +11,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class BalanceViewModel : ViewModel() {
-    private val _balance = MutableStateFlow<Double?>(2000.0)
+    private val _balance = MutableStateFlow<Double?>(0.0)
     val balance: StateFlow<Double?> = _balance
     private val _currency = MutableStateFlow<String?>("EGP")
     val currency: StateFlow<String?> = _currency
+    private val _name = MutableStateFlow<String?>("")
+    val name: StateFlow<String?> = _name
+    private val _accountNumber = MutableStateFlow<String?>("123456789")
+    val accountNumber: StateFlow<String?> = _accountNumber
 
     init {
         getBalance()
@@ -25,6 +29,8 @@ class BalanceViewModel : ViewModel() {
                 val api = BalanceAPIService.balanceAPI.getBalance()
                 _balance.update { api.accounts.firstOrNull()?.balance }
                 _currency.update { api.accounts.firstOrNull()?.currency }
+                _name.update { api.accountName }
+                _accountNumber.update { api.accounts.firstOrNull()?.accountNumber }
             } catch (e: Exception) {
                 Log.e("Error fetching balance", e.toString())
             }

@@ -125,7 +125,7 @@ fun NavGraph(navController: NavHostController) {
                 isSuccessful = true
             )
             val transactions = listOf(t1, t2, t3, t4, t5, t6, t7, t8)
-            HomePage(navController, "Asmaa Dosuky", transactions)
+            HomePage(navController, transactions)
         }
         composable(Route.NOTIFICATIONS) {
             val n1 = Notification(
