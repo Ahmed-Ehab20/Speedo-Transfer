@@ -69,7 +69,7 @@ fun MorePage(navController: NavController, modifier: Modifier = Modifier) {
                         )
                     )
                     .padding(innerPadding)
-                    .padding(top = 51.809525.dp),
+                    .padding(top = 16.dp), // Reduced top padding
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SpeedoTitleCard(

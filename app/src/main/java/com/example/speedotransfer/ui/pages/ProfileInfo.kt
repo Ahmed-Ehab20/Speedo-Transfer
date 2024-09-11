@@ -20,7 +20,7 @@ import com.example.speedotransfer.ui.elements.SpeedoTitleCard
 
 @Composable
 fun ProfileInformationScreen(navController: NavController) {
-    var selectedItem by remember { mutableStateOf(3) }
+    var selectedItem by remember { mutableStateOf(4) }  // Change to 4 for the "More" tab
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(Color(0xFFFFF7E7), Color(0xFFFAE7E8)),
         startY = 0f,
@@ -55,7 +55,14 @@ fun ProfileInformationScreen(navController: NavController) {
                     ProfileInfoItem(label = "Bank Account", value = profileInfo.bankAccount)
                 }
             }
-        }, bottomBar = { BottomNavigationBar(navController,selectedItem = selectedItem, onItemSelected = { index -> selectedItem = index }) }
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                navController = navController,
+                selectedItem = selectedItem,
+                onItemSelected = { index -> selectedItem = index }
+            )
+        }
     )
 }
 
