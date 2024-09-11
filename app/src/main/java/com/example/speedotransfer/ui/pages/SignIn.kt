@@ -103,7 +103,7 @@ fun SignInScreen(navController: NavController) {
         SpeedoButton(
             label = "Sign in",
             onClick = {
-                login(email, password) { responseMessage ->
+                login(context,email, password) { responseMessage ->
                     message = responseMessage
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 

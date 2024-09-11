@@ -1,6 +1,7 @@
 package com.example.speedotransfer.model
 
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.speedotransfer.api.BalanceAPIService
