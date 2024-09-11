@@ -7,6 +7,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -21,7 +22,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
-import com.example.speedotransfer.ui.pages.Stepper
 import com.example.speedotransfer.ui.elements.BottomNavigationBar
 import com.example.speedotransfer.ui.elements.SpeedoButton
 import com.example.speedotransfer.ui.elements.SpeedoTitleCard
@@ -53,7 +53,7 @@ fun TransferSuccessPage(
             )
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.verticalScroll(rememberScrollState())){
+        Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -97,11 +97,10 @@ fun TransferSuccessPage(
                 // From & To card information
                 TransactionCard(fromName, fromAccount, toName, toAccount)
 
-
-                // Transfer amount section (NEW SECTION)
+                // Transfer amount section
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(0.9f)
+                        .fillMaxWidth(1f)
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -120,11 +119,16 @@ fun TransferSuccessPage(
                     )
                 }
 
-                HorizontalDivider(
-                    modifier = Modifier.fillMaxWidth(0.9f),
-                    thickness = 1.dp,
-                    color = Color.Gray.copy(alpha = 0.5f)
-                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Divider with specific width and padding
+                Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    Divider(
+                        modifier = Modifier.fillMaxWidth(),
+                        thickness = 1.dp,
+                        color = Color.Gray.copy(alpha = 0.5f)
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -157,7 +161,6 @@ fun TransferSuccessPage(
                 }
             }
         }
-
     }
 }
 
